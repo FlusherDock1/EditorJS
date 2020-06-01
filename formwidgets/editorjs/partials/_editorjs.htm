@@ -6,12 +6,15 @@
 
 <?php else: ?>
 
+    <div
+        data-control="editor"
+        id="<?= $this->getId('input') ?>_editor">
+    </div>
+
     <input
-        type="text"
-        id="<?= $this->getId('input') ?>"
+        type="hidden"
         name="<?= $name ?>"
-        value="<?= $value ?>"
-        class="form-control"
-        autocomplete="off" />
+        id="<?= $this->getId('input') ?>"
+        value="<?= $value ?>">
 
 <?php endif ?>

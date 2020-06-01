@@ -43,8 +43,10 @@ class EditorJS extends FormWidgetBase
      */
     public function loadAssets()
     {
-        $this->addCss('css/editorjs.css', 'ReaZzon.Editor');
-        $this->addJs('js/editorjs.js', 'ReaZzon.Editor');
+        $this->addCss('css/editor.css', 'ReaZzon.Editor');
+        $this->addJs('js/vendor.js', 'ReaZzon.Editor');
+        $this->addJs('js/tools/link.js', 'ReaZzon.Editor');
+        $this->addJs('js/editor.js', 'ReaZzon.Editor');
     }
 
     /**
