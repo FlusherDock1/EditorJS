@@ -10,7 +10,4 @@ Route::group(['prefix' => 'editorjs'], function (){
 
     });
 
-    Route::get('save', function (){
-        return \ReaZzon\Editor\Classes\EditorSave::save();
-    });
 });

@@ -11,12 +11,11 @@
         data-control="editor"
         id="<?= $this->getId('input') ?>"
         data-placeholder="<?= $placeholder ?>">
+        <textarea
+            type="hidden"
+            style="display: none"
+            name="<?= $name ?>"
+            id="<?= $this->getId('input') ?>_input"><?= $value ?></textarea>
     </div>
-
-    <input
-        type="hidden"
-        name="<?= $name ?>"
-        id="<?= $this->getId('input') ?>_input"
-        value="<?= $value ?>" />
 
 <?php endif ?>

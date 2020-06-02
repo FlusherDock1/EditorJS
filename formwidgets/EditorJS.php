@@ -52,6 +52,12 @@ class EditorJS extends FormWidgetBase
         $this->addCss('css/editor.css', 'ReaZzon.Editor');
         $this->addJs('js/vendor.js', 'ReaZzon.Editor');
         $this->addJs('js/tools/link.js', 'ReaZzon.Editor');
+        $this->addJs('js/tools/list.js', 'ReaZzon.Editor');
+        $this->addJs('js/tools/header.js', 'ReaZzon.Editor');
+        $this->addJs('js/tools/code.js', 'ReaZzon.Editor');
+        $this->addJs('js/tools/table.js', 'ReaZzon.Editor');
+        $this->addJs('js/tools/checklist.js', 'ReaZzon.Editor');
+        $this->addJs('js/tools/marker.js', 'ReaZzon.Editor');
         $this->addJs('js/editor.js', 'ReaZzon.Editor');
     }
 

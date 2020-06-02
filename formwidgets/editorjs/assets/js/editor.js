@@ -2,7 +2,7 @@
  * Rich text editor with blocks form field control (WYSIWYG)
  *
  * Data attributes:
- * - data-control="editor" - enables the rich editor plugin
+ * - data-control="editor" - enables the editorjs plugin
  *
  * JavaScript API:
  * $('input').editor()
@@ -21,7 +21,10 @@
         this.options = options
         this.$el = $(element)
         this.$form = this.$el.closest('form')
-        this.$input = this.$form.find('#' + this.$el.attr('id') + '_input')
+        this.$textarea = this.$el.find('>textarea:first')
+        this.$editor = null
+        this.prevented = false
+        this.saving = false
 
         $.oc.foundation.controlUtils.markDisposable(element)
 
@@ -34,46 +37,79 @@
     Editor.prototype.constructor = Editor
 
     Editor.prototype.init = function () {
-
-        this.editor = new EditorJS({
-            holder: this.$el.attr('id'),
-            tools: {
-                // header: Header,
-                // list: List,
-                linkTool: {
-                    class: LinkTool,
-                    config: {
-                        endpoint: '/editorjs/linkTool',
-                    }
-                },
-                paragraph: {
-                    config: {
-                        placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...'
-                    }
-                }
-            }
-        });
-        this.initProxy()
-    }
-
-    Editor.prototype.initProxy = function () {
+        this.initEditorJS();
         this.$form.on('oc.beforeRequest', this.proxy(this.onFormBeforeRequest))
     }
 
     /*
      * Instantly synchronizes HTML content.
      */
-    Editor.prototype.onFormBeforeRequest = function (ev) {
-        this.$input.val(this.getHtml());
+    Editor.prototype.onFormBeforeRequest = function (e) {
+
+        if (!this.$editor) {
+            return
+        }
+
+        if (this.prevented === false){
+            this.prevented = true;
+            e.preventDefault();
+        }
+
+        if (this.prevented === true && this.saving === false) {
+            this.$editor.save().then((outputData) => {
+                this.$textarea.val(JSON.stringify(outputData))
+                this.saving = true;
+                this.$form.request('onSave',{
+                    data: {
+                        redirect: 0,
+                    }
+                });
+            }).catch((error) => {
+                console.log('Saving failed: ', error)
+            });
+        }
     }
 
-    Editor.prototype.getHtml = function () {
-        $.ajax({
-            url: '/editorjs/save',
-            beforeSend: function( xhr ) {
-                xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
-            }
-        })
+
+    Editor.prototype.initEditorJS = function (){
+        this.$editor = new EditorJS({
+            holder: this.$el.attr('id'),
+            placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...',
+            tools: {
+                header: {
+                    class: Header,
+                    shortcut: 'CMD+SHIFT+H',
+                },
+                Marker: {
+                    class: Marker,
+                    shortcut: 'CMD+SHIFT+M',
+                },
+                linkTool: {
+                    class: LinkTool,
+                    config: {
+                        endpoint: '/editorjs/plugins/linkTool',
+                    }
+                },
+                list: {
+                    class: List,
+                    inlineToolbar: true,
+                },
+                checklist: {
+                    class: Checklist,
+                    inlineToolbar: true,
+                },
+                table: {
+                    class: Table,
+                    inlineToolbar: true,
+                    config: {
+                        rows: 2,
+                        cols: 3,
+                    },
+                },
+                code: CodeTool,
+            },
+            data: JSON.parse(this.$textarea.val())
+        });
     }
 
     // Editor PLUGIN DEFINITION
