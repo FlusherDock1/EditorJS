@@ -41,9 +41,50 @@
         this.$form.on('oc.beforeRequest', this.proxy(this.onFormBeforeRequest))
     }
 
+    Editor.prototype.initEditorJS = function (){
+        this.$editor = new EditorJS({
+            holder: this.$el.attr('id'),
+            placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...',
+            tools: {
+                header: {
+                    class: Header,
+                    shortcut: 'CMD+SHIFT+H',
+                },
+                Marker: {
+                    class: Marker,
+                    shortcut: 'CMD+SHIFT+M',
+                },
+                linkTool: {
+                    class: LinkTool,
+                    config: {
+                        endpoint: '/editorjs/plugins/linktool',
+                    }
+                },
+                list: {
+                    class: List,
+                    inlineToolbar: true,
+                },
+                checklist: {
+                    class: Checklist,
+                    inlineToolbar: true,
+                },
+                table: {
+                    class: Table,
+                    inlineToolbar: true,
+                    config: {
+                        rows: 2,
+                        cols: 3,
+                    },
+                },
+                code: CodeTool,
+            },
+            data: JSON.parse(this.$textarea.val())
+        });
+    }
+
     /*
-     * Instantly synchronizes HTML content.
-     */
+ * Instantly synchronizes HTML content.
+ */
     Editor.prototype.onFormBeforeRequest = function (e) {
 
         if (!this.$editor) {
@@ -68,48 +109,6 @@
                 console.log('Saving failed: ', error)
             });
         }
-    }
-
-
-    Editor.prototype.initEditorJS = function (){
-        this.$editor = new EditorJS({
-            holder: this.$el.attr('id'),
-            placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...',
-            tools: {
-                header: {
-                    class: Header,
-                    shortcut: 'CMD+SHIFT+H',
-                },
-                Marker: {
-                    class: Marker,
-                    shortcut: 'CMD+SHIFT+M',
-                },
-                linkTool: {
-                    class: LinkTool,
-                    config: {
-                        endpoint: '/editorjs/plugins/linkTool',
-                    }
-                },
-                list: {
-                    class: List,
-                    inlineToolbar: true,
-                },
-                checklist: {
-                    class: Checklist,
-                    inlineToolbar: true,
-                },
-                table: {
-                    class: Table,
-                    inlineToolbar: true,
-                    config: {
-                        rows: 2,
-                        cols: 3,
-                    },
-                },
-                code: CodeTool,
-            },
-            data: JSON.parse(this.$textarea.val())
-        });
     }
 
     // Editor PLUGIN DEFINITION

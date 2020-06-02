@@ -4,8 +4,8 @@ Route::group(['prefix' => 'editorjs'], function (){
 
     Route::group(['prefix' => 'plugins'], function (){
 
-        Route::any('{plugin}', function ($code){
-            return \ReaZzon\Editor\Classes\PluginsManager::instance()->getPluginResponse($code);
+        Route::any('linktool', function ($code){
+            return (new ReaZzon\Editor\Classes\Plugins\LinkTool\Plugin)->createResponse($code);
         });
 
     });
