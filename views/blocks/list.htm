@@ -1,0 +1,9 @@
+<div class="editor-js-block">
+    {{ style == 'unordered' ? '<ul>' : '<ol>' }}
+    {% for item in items %}
+        <li>
+            {{ item }}
+        </li>
+    {% endfor %}
+    {{ style == 'unordered' ? '</ul>' : '</ol>' }}
+</div>
