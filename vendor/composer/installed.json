@@ -1,0 +1,94 @@
+[
+    {
+        "name": "codex-team/editor.js",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/editor-js/editorjs-php.git",
+            "reference": "21f355a7c2be2800a99e6e8a470941fa33a96cc4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/editor-js/editorjs-php/zipball/21f355a7c2be2800a99e6e8a470941fa33a96cc4",
+            "reference": "21f355a7c2be2800a99e6e8a470941fa33a96cc4",
+            "shasum": ""
+        },
+        "require": {
+            "ezyang/htmlpurifier": "^4.8",
+            "php": ">=5.6"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "^2.13",
+            "phpunit/phpunit": "5.4.*"
+        },
+        "time": "2019-08-05T07:15:01+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "EditorJS\\": "EditorJS"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "CodeX Team",
+                "email": "team@ifmo.su"
+            }
+        ],
+        "description": "PHP backend implementation for the Editor.js"
+    },
+    {
+        "name": "ezyang/htmlpurifier",
+        "version": "v4.12.0",
+        "version_normalized": "4.12.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ezyang/htmlpurifier.git",
+            "reference": "a617e55bc62a87eec73bd456d146d134ad716f03"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/a617e55bc62a87eec73bd456d146d134ad716f03",
+            "reference": "a617e55bc62a87eec73bd456d146d134ad716f03",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "require-dev": {
+            "simpletest/simpletest": "dev-master#72de02a7b80c6bb8864ef9bf66d41d2f58f826bd"
+        },
+        "time": "2019-10-28T03:44:26+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "HTMLPurifier": "library/"
+            },
+            "files": [
+                "library/HTMLPurifier.composer.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Edward Z. Yang",
+                "email": "admin@htmlpurifier.org",
+                "homepage": "http://ezyang.com"
+            }
+        ],
+        "description": "Standards compliant HTML filter written in PHP",
+        "homepage": "http://htmlpurifier.org/",
+        "keywords": [
+            "html"
+        ]
+    }
+]

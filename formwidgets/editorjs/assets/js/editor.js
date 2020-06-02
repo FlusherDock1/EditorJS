@@ -21,6 +21,7 @@
         this.options = options
         this.$el = $(element)
         this.$form = this.$el.closest('form')
+        this.$input = this.$form.find('#' + this.$el.attr('id') + '_input')
 
         $.oc.foundation.controlUtils.markDisposable(element)
 
@@ -34,15 +35,20 @@
 
     Editor.prototype.init = function () {
 
-        const editor = new EditorJS({
+        this.editor = new EditorJS({
             holder: this.$el.attr('id'),
             tools: {
                 // header: Header,
                 // list: List,
-                link: LinkTool,
+                linkTool: {
+                    class: LinkTool,
+                    config: {
+                        endpoint: '/editorjs/linkTool',
+                    }
+                },
                 paragraph: {
                     config: {
-                        placeholder: 'Tell your story...'
+                        placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...'
                     }
                 }
             }
@@ -58,7 +64,16 @@
      * Instantly synchronizes HTML content.
      */
     Editor.prototype.onFormBeforeRequest = function (ev) {
-        this.$el.val(Laraberg.getContent())
+        this.$input.val(this.getHtml());
+    }
+
+    Editor.prototype.getHtml = function () {
+        $.ajax({
+            url: '/editorjs/save',
+            beforeSend: function( xhr ) {
+                xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
+            }
+        })
     }
 
     // Editor PLUGIN DEFINITION

@@ -12,6 +12,8 @@ class EditorJS extends FormWidgetBase
      */
     protected $defaultAlias = 'reazzon_editor_editor_js';
 
+    public $placeholder;
+
     /**
      * @inheritDoc
      */
@@ -24,6 +26,9 @@ class EditorJS extends FormWidgetBase
      */
     public function render()
     {
+        $this->fillFromConfig([
+            'placeholder',
+        ]);
         $this->prepareVars();
         return $this->makePartial('editorjs');
     }
@@ -33,6 +38,7 @@ class EditorJS extends FormWidgetBase
      */
     public function prepareVars()
     {
+        $this->vars['placeholder'] = $this->placeholder;
         $this->vars['name'] = $this->formField->getName();
         $this->vars['value'] = $this->getLoadValue();
         $this->vars['model'] = $this->model;

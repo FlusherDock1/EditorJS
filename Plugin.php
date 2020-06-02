@@ -34,4 +34,11 @@ class Plugin extends PluginBase
             'ReaZzon\Editor\FormWidgets\EditorJS' => 'editorjs',
         ];
     }
+
+    public function registerEditorJSPlugins()
+    {
+        return [
+            'ReaZzon\Editor\Classes\Plugins\LinkTool\Plugin' => 'linkTool'
+        ];
+    }
 }

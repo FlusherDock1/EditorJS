@@ -3,3 +3,9 @@
  *
  * You can delete this file if you want
  */
+.editorjs-wrapper{
+    background-color: #ffffff;
+    border: 1px solid #d1d6d9;
+    border-radius: 3px;
+    padding: 20px 0;
+}

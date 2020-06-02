@@ -7,14 +7,16 @@
 <?php else: ?>
 
     <div
+        class="editorjs-wrapper"
         data-control="editor"
-        id="<?= $this->getId('input') ?>_editor">
+        id="<?= $this->getId('input') ?>"
+        data-placeholder="<?= $placeholder ?>">
     </div>
 
     <input
         type="hidden"
         name="<?= $name ?>"
-        id="<?= $this->getId('input') ?>"
-        value="<?= $value ?>">
+        id="<?= $this->getId('input') ?>_input"
+        value="<?= $value ?>" />
 
 <?php endif ?>
