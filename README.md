@@ -62,7 +62,7 @@ To implement Editor to your Model, you must prepare column in database that is s
 return $this->convertJsonToHtml($this->YourColumnName);
 ```
 5. Render your field `{{ model.YourColumnName_html|raw }}`
-6. Add editor styles to your page by `'<link href="/plugins/reazzon/editor/assets/css/editorjs.css" rel="stylesheet">'`
+6. Add editor styles to your page by `<link href="/plugins/reazzon/editor/assets/css/editorjs.css" rel="stylesheet">`
 
 Example of model:
 ```
