@@ -7,6 +7,7 @@ Meet the new Editor. The most advanced "WYSWYG" (if you can say so) editor ever.
 - It is a block-styled editor
 - It returns clean data output in JSON
 - Designed to be extendable and pluggable with a simple API
+- Native OctoberCMS events support for convenient extending of custom blocks
 
 **Blocks supported at the moment:**
 - Paragraph
@@ -16,11 +17,14 @@ Meet the new Editor. The most advanced "WYSWYG" (if you can say so) editor ever.
 - Link (Opengraph)
 - Table
 - Code
+- Raw
+- Embed
+- Delimiter
 
 **Blocks coming in near future:**
 - Image
-- Embed
-- Raw
+- ~~Embed~~ (Added in 1.1.0) Just paste link to youtube to test it.
+- ~~Raw~~ (Added in 1.1.0)
 
 **Integrations will be added in next updates:**
 - RainLab.Blog
@@ -93,7 +97,32 @@ Example of rendering:
 {{ post.content_html|raw }}
 ```
 
+## Extending
+
+You can create any new block as you like by reading official documentation that you can find here [Editor.Js docs](https://editorjs.io/api)
+
+After creating new JS script with new block type Class, you can go through steps below to extend EditorJS formwidget:
+1. In `boot()` method of your plugin add two event listeners:
+    1. ```
+       // Adding additional JS to page where editorjs presented
+       \Event::listen('reazzon.editor.extend_editor_scripts', function (){
+           return '/plugins/reazzon/testcontent/assets/js/raw.js';
+       });
+       
+       // Adding new block to EditorJS config 
+       \Event::listen('reazzon.editor.extend_editor_tools_config', function (){
+           return [
+               'raw' => [
+                   'class' => 'RawTool'
+               ],
+           ];
+       });
+       ```
+2. Done.
+
+Now you can even publish your editorjs extender plugin to marketplace, so everyone can use your block! 
+
 ---
 
 Editor.js developed by CodeX Club of web-development.
-Adapted for OctoberCMS by Nick Khaetsky. [https://reazzon.ru](reazzon.ru)
+Adapted for OctoberCMS by Nick Khaetsky. [reazzon.ru](https://reazzon.ru)

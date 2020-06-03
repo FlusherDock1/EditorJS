@@ -1,6 +1,50 @@
 <?php
 
 return [
+    'toolSettings' => [
+        'header' => [
+            'class' => 'Header',
+            'shortcut' => 'CMD+SHIFT+H',
+        ],
+        'Marker' => [
+            'class' => 'Marker',
+            'shortcut' => 'CMD+SHIFT+M',
+        ],
+        'linkTool' => [
+            'class' => 'LinkTool',
+            'config' => [
+                'endpoint' => '/editorjs/plugins/linktool',
+            ]
+        ],
+        'list' => [
+            'class' => 'List',
+            'inlineToolbar' => true,
+        ],
+        'checklist' => [
+            'class' => 'Checklist',
+            'inlineToolbar' => true,
+        ],
+        'table' => [
+            'class' => 'Table',
+            'inlineToolbar' => true,
+            'config' => [
+                'rows' => 2,
+                'cols' => 3,
+            ],
+        ],
+        'code' => [
+            'class' => 'CodeTool',
+        ],
+        'embed' => [
+            'class' => 'Embed',
+        ],
+        'raw' => [
+            'class' => 'RawTool'
+        ],
+        'delimiter' => [
+            'class' => 'Delimiter'
+        ],
+    ],
     'validationSettings' => [
         'tools' => [
             'header' => [

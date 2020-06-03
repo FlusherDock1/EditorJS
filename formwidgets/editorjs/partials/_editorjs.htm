@@ -6,11 +6,18 @@
 
 <?php else: ?>
 
+    <?php if (!empty($scripts)) : ?>
+        <?php foreach($scripts as $script) : ?>
+            <script src="<?= $script ?>"></script>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
     <div
         class="editorjs-wrapper"
         data-control="editor"
         id="<?= $this->getId('input') ?>"
-        data-placeholder="<?= $placeholder ?>">
+        data-placeholder="<?= $placeholder ?>"
+        data-settings="<?= $toolSettings ?>">
         <textarea
             type="hidden"
             style="display: none"

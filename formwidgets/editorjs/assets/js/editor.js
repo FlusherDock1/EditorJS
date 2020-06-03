@@ -20,12 +20,13 @@
     var Editor = function (element, options) {
         this.options = options
         this.parameters = null
+        this.prevented = false
+        this.saving = false
         this.$el = $(element)
         this.$form = this.$el.closest('form')
         this.$textarea = this.$el.find('>textarea:first')
         this.$editor = null
-        this.prevented = false
-        this.saving = false
+        this.toolSettings = this.$el.data('settings')
 
         $.oc.foundation.controlUtils.markDisposable(element)
 
@@ -44,42 +45,14 @@
 
     Editor.prototype.initEditorJS = function (){
 
+        for (let [key, value] of Object.entries(this.toolSettings)) {
+            value.class = window[value.class];
+        }
+
         this.parameters = {
             holder: this.$el.attr('id'),
-                placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...',
-            tools: {
-                header: {
-                class: Header,
-                        shortcut: 'CMD+SHIFT+H',
-                },
-                Marker: {
-                class: Marker,
-                        shortcut: 'CMD+SHIFT+M',
-                },
-                linkTool: {
-                class: LinkTool,
-                        config: {
-                        endpoint: '/editorjs/plugins/linktool',
-                    }
-                },
-                list: {
-                class: List,
-                        inlineToolbar: true,
-                },
-                checklist: {
-                class: Checklist,
-                        inlineToolbar: true,
-                },
-                table: {
-                class: Table,
-                        inlineToolbar: true,
-                        config: {
-                        rows: 2,
-                            cols: 3,
-                    },
-                },
-                code: CodeTool,
-            }
+            placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...',
+            tools: this.toolSettings
         }
 
         if (this.$textarea.val().length > 0 && this.isJson(this.$textarea.val()) === true){

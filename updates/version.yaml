@@ -6,3 +6,4 @@
 1.0.6: Fixing Link plugin is not being rendered
 1.0.61: Repacking plugin
 1.0.62: Updated README
+1.1.0: Ability to add custom blocks through third-party octobercms plugins, 3 new blocks, slight refactor of formwidget configuration.
