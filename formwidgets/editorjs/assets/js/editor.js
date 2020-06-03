@@ -19,6 +19,7 @@
 
     var Editor = function (element, options) {
         this.options = options
+        this.parameters = null
         this.$el = $(element)
         this.$form = this.$el.closest('form')
         this.$textarea = this.$el.find('>textarea:first')
@@ -42,44 +43,50 @@
     }
 
     Editor.prototype.initEditorJS = function (){
-        this.$editor = new EditorJS({
+
+        this.parameters = {
             holder: this.$el.attr('id'),
-            placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...',
+                placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...',
             tools: {
                 header: {
-                    class: Header,
-                    shortcut: 'CMD+SHIFT+H',
+                class: Header,
+                        shortcut: 'CMD+SHIFT+H',
                 },
                 Marker: {
-                    class: Marker,
-                    shortcut: 'CMD+SHIFT+M',
+                class: Marker,
+                        shortcut: 'CMD+SHIFT+M',
                 },
                 linkTool: {
-                    class: LinkTool,
-                    config: {
+                class: LinkTool,
+                        config: {
                         endpoint: '/editorjs/plugins/linktool',
                     }
                 },
                 list: {
-                    class: List,
-                    inlineToolbar: true,
+                class: List,
+                        inlineToolbar: true,
                 },
                 checklist: {
-                    class: Checklist,
-                    inlineToolbar: true,
+                class: Checklist,
+                        inlineToolbar: true,
                 },
                 table: {
-                    class: Table,
-                    inlineToolbar: true,
-                    config: {
+                class: Table,
+                        inlineToolbar: true,
+                        config: {
                         rows: 2,
-                        cols: 3,
+                            cols: 3,
                     },
                 },
                 code: CodeTool,
-            },
-            data: JSON.parse(this.$textarea.val())
-        });
+            }
+        }
+
+        if (this.$textarea.val().length > 0 && this.isJson(this.$textarea.val()) === true){
+            this.parameters.data = JSON.parse(this.$textarea.val())
+        }
+
+        this.$editor = new EditorJS(this.parameters);
     }
 
     /*
@@ -100,15 +107,26 @@
             this.$editor.save().then((outputData) => {
                 this.$textarea.val(JSON.stringify(outputData))
                 this.saving = true;
-                this.$form.request('onSave',{
-                    data: {
-                        redirect: 0,
-                    }
-                });
+                if (window.location.href.indexOf("update") > -1) {
+                    this.$form.request('onSave',{
+                        data: {
+                            redirect: 0,
+                        }
+                    });
+                }
             }).catch((error) => {
                 console.log('Saving failed: ', error)
             });
         }
+    }
+
+    Editor.prototype.isJson = function (string) {
+        try {
+            JSON.parse(string);
+        } catch (e) {
+            return false;
+        }
+        return true;
     }
 
     // Editor PLUGIN DEFINITION
