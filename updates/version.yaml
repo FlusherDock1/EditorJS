@@ -4,3 +4,5 @@
 1.0.4: Fixing bug, that blocks editor from rendering
 1.0.5: Fixing small issue of block creating model on first button click
 1.0.6: Fixing Link plugin is not being rendered
+1.0.61: Repacking plugin
+1.0.62: Updated README

@@ -44,7 +44,7 @@ Given data can be used as you want: render with HTML for Web clients, render nat
 
 Install plugin by OctoberCMS plugin updater.
 
-Go to Settings –> Updates&Plugins find Editor in plugin search. Click on icon and install it.
+Go to Settings –> Updates&Plugins find EditorJS in plugin search. Click on icon and install it.
 
 ## **Usage**
 
@@ -62,6 +62,7 @@ To implement Editor to your Model, you must prepare column in database that is s
 return $this->convertJsonToHtml($this->YourColumnName);
 ```
 5. Render your field `{{ model.YourColumnName_html|raw }}`
+6. Add editor styles to your page by '<link href="/plugins/reazzon/editor/assets/css/editorjs.css" rel="stylesheet">'
 
 Example of model:
 ```
