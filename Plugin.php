@@ -17,9 +17,10 @@ class Plugin extends PluginBase
     {
         return [
             'name'        => 'Editor',
-            'description' => 'No description provided yet...',
-            'author'      => 'ReaZzon',
-            'icon'        => 'icon-leaf'
+            'description' => 'Next generation block styled editor.',
+            'author'      => 'Nick Khaetsky',
+            'icon'        => 'icon-pencil-square-o',
+            'homepage'    => 'https://github.com/FlusherDock1/EditorJS'
         ];
     }
 
