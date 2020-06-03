@@ -113,6 +113,8 @@
                             redirect: 0,
                         }
                     });
+                } else if (window.location.href.indexOf("create") > -1) {
+                    this.$form.request('onSave');
                 }
             }).catch((error) => {
                 console.log('Saving failed: ', error)
