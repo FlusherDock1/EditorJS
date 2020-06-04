@@ -1,6 +1,8 @@
 <?php namespace ReaZzon\Editor\FormWidgets;
 
 use Config, Event;
+use System\Classes\PluginManager;
+use October\Rain\Support\Collection;
 use Backend\Classes\FormWidgetBase;
 
 /**
@@ -14,6 +16,10 @@ class EditorJS extends FormWidgetBase
     protected $defaultAlias = 'reazzon_editor_editor_js';
 
     public $placeholder;
+
+    public $scripts;
+
+    public $toolSettings;
 
     /**
      * @inheritDoc
@@ -39,12 +45,13 @@ class EditorJS extends FormWidgetBase
      */
     public function prepareVars()
     {
+        $this->prepareBlocks();
         $this->vars['placeholder'] = $this->placeholder;
         $this->vars['name'] = $this->formField->getName();
         $this->vars['value'] = $this->getLoadValue();
         $this->vars['model'] = $this->model;
-        $this->vars['toolSettings'] = $this->getToolSettings();
-        $this->vars['scripts'] = null;
+        $this->vars['toolSettings'] = e(json_encode($this->toolSettings));
+        $this->vars['scripts'] = $this->scripts;
     }
 
     /**
@@ -52,20 +59,7 @@ class EditorJS extends FormWidgetBase
      */
     public function loadAssets()
     {
-        $this->addCss('css/editor.css', 'ReaZzon.Editor');
-        $this->addJs('js/vendor.js', 'ReaZzon.Editor');
-        $this->addJs('js/tools/link.js', 'ReaZzon.Editor');
-        $this->addJs('js/tools/list.js', 'ReaZzon.Editor');
-        $this->addJs('js/tools/header.js', 'ReaZzon.Editor');
-        $this->addJs('js/tools/code.js', 'ReaZzon.Editor');
-        $this->addJs('js/tools/table.js', 'ReaZzon.Editor');
-        $this->addJs('js/tools/checklist.js', 'ReaZzon.Editor');
-        $this->addJs('js/tools/marker.js', 'ReaZzon.Editor');
-        $this->addJs('js/tools/embed.js', 'ReaZzon.Editor');
-        $this->addJs('js/tools/raw.js', 'ReaZzon.Editor');
-        $this->addJs('js/tools/delimiter.js', 'ReaZzon.Editor');
-        $this->addJs('js/editor.js', 'ReaZzon.Editor');
-        $this->handleExtendedScripts();
+
     }
 
     /**
@@ -76,61 +70,36 @@ class EditorJS extends FormWidgetBase
         return $value;
     }
 
-    protected function getToolSettings()
+    protected function prepareBlocks()
     {
-        $toolsConfig = $this->handleExtendedConfigs(Config::get('reazzon.editor::toolSettings'));
-        return e(json_encode($toolsConfig));
-    }
+        $this->toolSettings = Config::get('reazzon.editor::toolSettings');
+        $this->scripts = Config::get('reazzon.editor::scripts');
 
-    /**\
-     * Handling events from other plugins
-     *
-     * Example:
-     *      \Event::listen('reazzon.editor.extend_editor_scripts', function (){
-     *          return '/plugins/reazzon/test/assets/js/raw.js';
-     *      });
-     *
-     * @return void
-     */
-    protected function handleExtendedScripts(){
-        $scriptsList = Event::fire('reazzon.editor.extend_editor_scripts');
-        if (empty($scriptsList)) {
-            return;
-        }
+        $pluginManager = PluginManager::instance();
+        $plugins = $pluginManager->getPlugins();
 
-        foreach ($scriptsList as $script){
-            $this->vars['scripts'][] = $script;
-        }
-    }
+        foreach ($plugins as $plugin) {
+            if (!method_exists($plugin, 'registerEditorBlocks')) {
+                continue;
+            }
 
-    /**
-     * Handling extenders
-     *
-     * Example:
-     *      \Event::listen('reazzon.editor.extend_editor_tools_config', function (){
-     *          return [
-     *              'raw' => [
-     *                  'class' => 'RawTool'
-     *              ],
-     *          ];
-     *      });
-     *
-     * @param $toolsConfig
-     * @return array
-     */
-    protected function handleExtendedConfigs($toolsConfig)
-    {
-        $configs = Event::fire('reazzon.editor.extend_editor_tools_config');
-        if (empty($configs)) {
-            return $toolsConfig;
-        }
+            $editorPlugins = $plugin->registerEditorBlocks();
+            if (!is_array($editorPlugins)) {
+                continue;
+            }
 
-        foreach ($configs as $config) {
-            foreach ($config as $key => $item) {
-                $toolsConfig[$key] = $item;
+            foreach ($editorPlugins as $section => $config) {
+                if ($section === 'blocks'){
+                    foreach ($config as $key => $block){
+                        $this->toolSettings = array_add($this->toolSettings, $key, $block);
+                    }
+                }
+                if ($section === 'scripts'){
+                    foreach ($config as $script){
+                        array_push($this->scripts, $script);
+                    }
+                }
             }
         }
-
-        return $toolsConfig;
     }
 }

@@ -1,6 +1,20 @@
 <?php
 
 return [
+    'scripts' => [
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/vendor.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/link.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/list.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/header.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/code.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/table.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/checklist.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/marker.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/embed.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/raw.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/delimiter.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/editor.js',
+    ],
     'toolSettings' => [
         'header' => [
             'class' => 'Header',
@@ -38,12 +52,12 @@ return [
         'embed' => [
             'class' => 'Embed',
         ],
-        'raw' => [
-            'class' => 'RawTool'
-        ],
-        'delimiter' => [
-            'class' => 'Delimiter'
-        ],
+//        'raw' => [
+//            'class' => 'RawTool'
+//        ],
+//        'delimiter' => [
+//            'class' => 'Delimiter'
+//        ],
     ],
     'validationSettings' => [
         'tools' => [
