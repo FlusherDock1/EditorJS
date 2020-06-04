@@ -8,3 +8,4 @@
 1.0.62: Updated README
 1.1.0: Ability to add custom blocks through third-party octobercms plugins, 3 new blocks, slight refactor of formwidget configuration.
 1.2.0: !!! Refactoring of extender method
+1.3.0: Added integrations with RainLab.Blog, RainLab.StaticPages, Lovata.GoodNews, Indikator.News.

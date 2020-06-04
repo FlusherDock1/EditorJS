@@ -6,10 +6,10 @@ use EditorJS\EditorJSException;
 
 /**
  * Trait ConvertEditor
- *
  * Some code was borrowed from https://github.com/advoor/nova-editor-js/blob/master/src/NovaEditorJs.php
  *
  * @package ReaZzon\Editor\Traits
+ * @author Nick Khaetsky, rzzsapb@gmail.com
  */
 trait ConvertEditor
 {

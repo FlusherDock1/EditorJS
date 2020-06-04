@@ -1,0 +1,50 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+tabs:
+    fields:
+        warning:
+            type: partial
+            tab: 'reazzon.editor::lang.settings.tab.integrations.name'
+            path: $/reazzon/editor/models/settings/warning.htm
+
+        section_standard:
+            label: 'reazzon.editor::lang.settings.tab.integrations.section_standard.name'
+            tab: 'reazzon.editor::lang.settings.tab.integrations.name'
+            type: section
+            span: left
+
+        section_custom:
+            label: 'reazzon.editor::lang.settings.tab.integrations.section_custom.name'
+            tab: 'reazzon.editor::lang.settings.tab.integrations.name'
+            type: section
+            span: right
+
+        integration_blog:
+            label: 'reazzon.editor::lang.settings.tab.integrations.blog.name'
+            tab: 'reazzon.editor::lang.settings.tab.integrations.name'
+            comment: 'reazzon.editor::lang.settings.tab.integrations.blog.comment'
+            type: switch
+            span: left
+
+        integration_good_news:
+            label: 'reazzon.editor::lang.settings.tab.integrations.good_news.name'
+            tab: 'reazzon.editor::lang.settings.tab.integrations.name'
+            comment: 'reazzon.editor::lang.settings.tab.integrations.good_news.comment'
+            type: switch
+            span: right
+
+        integration_static_pages:
+            label: 'reazzon.editor::lang.settings.tab.integrations.static_pages.name'
+            tab: 'reazzon.editor::lang.settings.tab.integrations.name'
+            comment: 'reazzon.editor::lang.settings.tab.integrations.static_pages.comment'
+            type: switch
+            span: left
+
+        integration_indikator_news:
+            label: 'reazzon.editor::lang.settings.tab.integrations.indikator_news.name'
+            tab: 'reazzon.editor::lang.settings.tab.integrations.name'
+            comment: 'reazzon.editor::lang.settings.tab.integrations.indikator_news.comment'
+            type: switch
+            span: right

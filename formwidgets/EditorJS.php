@@ -7,6 +7,8 @@ use Backend\Classes\FormWidgetBase;
 
 /**
  * EditorJS Form Widget
+ * @package ReaZzon\Editor\FormWidgets
+ * @author Nick Khaetsky, rzzsapb@gmail.com
  */
 class EditorJS extends FormWidgetBase
 {
@@ -59,7 +61,7 @@ class EditorJS extends FormWidgetBase
      */
     public function loadAssets()
     {
-
+        $this->addCss('css/editor.css', 'ReaZzon.Editor');
     }
 
     /**
