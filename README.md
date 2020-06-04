@@ -50,6 +50,9 @@ Go to Settings –> Updates&Plugins find EditorJS in plugin search. Click on ico
 
 ## **Usage**
 
+After installing plugin, you are now able to set in `fields.yaml`  `type:editorjs` to any desirable field. That's all.
+You are not limited of how many editors can be rendered at one page.
+
 ### How to enable integrations
 
 1. Make sure that the desirable plugin for integration is installed in system (list of supported plugins listed in Key Features section) 
@@ -58,10 +61,7 @@ Go to Settings –> Updates&Plugins find EditorJS in plugin search. Click on ico
 4. Enable desirable integrations
 5. Done.
 
-After installing plugin, you are now able to set in `fields.yaml`  `type:editorjs` to any desirable field. That's all.
-You are not limited of how many editors can be rendered at one page.
-
-#### How to render HTML from Editor JSON
+### How to render HTML from Editor JSON
 To implement Editor to your Model, you must prepare column in database that is set to text and added to `$jsonable` property.
 
 1. Create column with type `text` at your Model table, or use already existing one.
