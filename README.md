@@ -15,7 +15,7 @@ Meet the new Editor. The most advanced "WYSWYG" (if you can say so) editor ever.
 - Lovata.GoodNews
 - Indikator.News
 
-**Blocks supported at the moment:**
+**Blocks supported:**
 - Paragraph
 - Header
 - List (ul, ol)
@@ -26,8 +26,6 @@ Meet the new Editor. The most advanced "WYSWYG" (if you can say so) editor ever.
 - Raw
 - Embed
 - Delimiter
-
-**Blocks coming in near future:**
 - Image
 
 ### **What does it mean «block-styled editor»**
