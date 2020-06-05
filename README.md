@@ -107,23 +107,27 @@ Example of rendering:
 
 You can create any new block as you like by reading official documentation that you can find here [Editor.Js docs](https://editorjs.io/api)
 
-After creating new JS script with new block type Class, you can go through steps below to extend EditorJS formwidget:
-1. In `boot()` method of your plugin add two event listeners:
-    1. ```
-       // Adding additional JS to page where editorjs presented
-       \Event::listen('reazzon.editor.extend_editor_scripts', function (){
-           return '/plugins/reazzon/testcontent/assets/js/raw.js';
-       });
-       
-       // Adding new block to EditorJS config 
-       \Event::listen('reazzon.editor.extend_editor_tools_config', function (){
-           return [
-               'raw' => [
-                   'class' => 'RawTool'
-               ],
-           ];
-       });
-       ```
+After creating new JS scripts with new block type Class, you can go through steps below to extend EditorJS formwidget:
+1. Create new method in your Plugin.php file named `registerEditorBlocks()`, and by example below add blocks array and scripts for them.
+    ```
+    /**
+     * Registers additional blocks for EditorJS
+     * @return array
+     */
+    public function registerEditorBlocks()
+    {
+        return [
+            'blocks' =>[
+                'raw' => [
+                    'class' => 'RawTool'
+                ],
+            ],
+            'scripts' => [
+                '/plugins/reazzon/testcontent/assets/js/raw.js'
+            ]
+        ];
+    }
+    ```
 2. Done.
 
 Now you can even publish your editorjs extender plugin to marketplace, so everyone can use your block!
