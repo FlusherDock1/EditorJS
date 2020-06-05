@@ -26,7 +26,7 @@ Meet the new Editor. The most advanced "WYSWYG" (if you can say so) editor ever.
 - Raw
 - Embed
 - Delimiter
-- Image
+- Image (paste url, drag'n'drop, upload)
 
 ### **What does it mean «block-styled editor»**
 
