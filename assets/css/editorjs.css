@@ -8,21 +8,26 @@
     border-radius: 0.5rem;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
 }
+
 .editor-js-content .editor-js-block {
     padding: 0.7em 0;
 }
+
 .editor-js-content h2 {
     padding: 1em 0;
     margin: 0 0 -0.9em;
     line-height: 1.5em;
 }
+
 .editor-js-content p {
     line-height: 1.6em;
 }
+
 .editor-js-content li {
     padding: 5.5px 0 5.5px 3px;
     line-height: 1.6em;
 }
+
 .editor-js-content .editor-js-code {
     min-height: 200px;
     color: #41314e;
@@ -36,6 +41,35 @@
     overflow-x: auto;
     resize: vertical;
 }
+
+.editor-js-content .editor-js-image {
+    --bg-color: #CDD1E0;
+    --front-color: #388AE5;
+    --border-color: #E8E8EB;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.editor-js-content .editor-js-image img {
+    max-width: 100%;
+    vertical-align: bottom;
+    display: block;
+}
+
+.editor-js-content .editor-js-image.withBorder img{
+    border: 1px solid var(--border-color);
+}
+
+.editor-js-content .editor-js-image.withBackground img{
+    max-width: 60%;
+    margin: 0 auto;
+}
+
+.editor-js-content .editor-js-image.stretched img{
+    width: 100%;
+}
+
 .editor-js-content .editor-js-link {
     display: block;
     background: #fff;
@@ -49,13 +83,13 @@
     text-decoration: none ;
 }
 
-
 .editor-js-content .editor-js-link h4 {
     font-size: 17px;
     font-weight: 600;
     line-height: 1.5em;
     margin: 0 0 10px;
 }
+
 .editor-js-content .editor-js-link small {
     margin-top: 25px;
     display: block;
@@ -63,6 +97,7 @@
     line-height: 1em;
     color: #888;
 }
+
 .editor-js-content .editor-js-link .editor-js-link-image {
     background-position: 50%;
     background-repeat: no-repeat;
@@ -73,12 +108,14 @@
     border-radius: 3px;
     float: right;
 }
+
 .editor-js-content .editor-js-checklist .checklist-item {
     display: -webkit-box;
     display: flex;
     padding: 0 10px;
     box-sizing: content-box;
 }
+
 .editor-js-content .editor-js-checklist .checklist-item .checkbox {
     display: inline-block;
     flex-shrink: 0;
@@ -94,6 +131,7 @@
     -ms-user-select: none;
     user-select: none;
 }
+
 .editor-js-content .editor-js-checklist .checklist-item .checkbox:after {
     position: absolute;
     top: 5px;
@@ -109,21 +147,25 @@
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
+
 .editor-js-content .editor-js-checklist .checklist-item .checkbox-checked {
     background: #388ae5;
     border-color: #388ae5;
 }
+
 .editor-js-content .editor-js-checklist .checklist-item .checkbox-text {
     outline: none;
     -webkit-box-flex: 1;
     flex-grow: 1;
     padding: 10px 0;
 }
+
 .editor-js-content .editor-js-delimiter {
     line-height: 1.6em;
     width: 100%;
     text-align: center;
 }
+
 .editor-js-content .editor-js-delimiter:before {
     display: inline-block;
     content: "***";
@@ -132,12 +174,14 @@
     height: 30px;
     letter-spacing: 0.2em;
 }
+
 .editor-js-content .editor-js-table {
     width: 100%;
     height: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
+
 .editor-js-content .editor-js-table td {
     border: 1px solid #dbdbe2;
     padding: 10px;

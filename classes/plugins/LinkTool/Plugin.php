@@ -2,7 +2,15 @@
 
 use ReaZzon\Editor\Classes\Plugins\LinkTool\OpenGraph;
 
-class Plugin {
+/**
+ * LinkTool Plugin
+ *
+ * @package ReaZzon\Editor\Classes\Plugins\LinkTool
+ * @author Nick Khaetsky, rzzsapb@gmail.com
+ */
+class Plugin
+{
+    use \ReaZzon\Editor\Traits\PluginHelper;
 
     /**
      * LinkTool constructor
@@ -13,7 +21,7 @@ class Plugin {
 
     /**
      * @param $data
-     * @return array
+     * @return \Response
      */
     public function createResponse($data)
     {
@@ -25,28 +33,17 @@ class Plugin {
             return $this->error();
         }
 
+        if ($this->checkRequest()){
+            return $this->error();
+        }
+
         $graphResponse = OpenGraph::fetch(array_get($data, 'url'));
-        return $this->success([
-            "title" => $graphResponse->title,
-            "description" => $graphResponse->description,
-            "image" => [
-                "url" => $graphResponse->image,
+        return $this->success('meta', [
+            'title' => $graphResponse->title,
+            'description' => $graphResponse->description,
+            'image' => [
+                'url' => $graphResponse->image,
             ]
         ]);
-    }
-
-    protected function success($response)
-    {
-        return [
-            'success' => 1,
-            'meta' => $response
-        ];
-    }
-
-    protected function error()
-    {
-        return [
-            'success' => 0
-        ];
     }
 }

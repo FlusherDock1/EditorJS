@@ -13,6 +13,7 @@ return [
         '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/embed.js',
         '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/raw.js',
         '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/delimiter.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/image.js',
         '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/editor.js',
     ],
     'toolSettings' => [
@@ -23,6 +24,15 @@ return [
         'Marker' => [
             'class' => 'Marker',
             'shortcut' => 'CMD+SHIFT+M',
+        ],
+        'image' => [
+            'class' => 'ImageTool',
+            'config' => [
+                'endpoints' => [
+                    'byFile' => '/editorjs/plugins/image/uploadFile',
+                    'byUrl' => '/editorjs/plugins/image/fetchUrl',
+                ]
+            ]
         ],
         'linkTool' => [
             'class' => 'LinkTool',
