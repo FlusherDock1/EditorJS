@@ -10,3 +10,4 @@
 1.2.0: !!! Refactoring of extender method
 1.3.0: Added integrations with RainLab.Blog, RainLab.StaticPages, Lovata.GoodNews, Indikator.News.
 1.3.5: Image block added. Added setting for toggling off security of outside api calls to editor plugins. Code cleanup and slight refactor.
+1.3.6: Warning text fixed
