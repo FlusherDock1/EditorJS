@@ -11,7 +11,7 @@ use ReaZzon\Editor\Classes\Event\ExtendLovataGoodNews;
 /**
  * Editor Plugin Information File
  * @package ReaZzon\Editor
- * @author Nick Khaetsky, rzzsapb@gmail.com
+ * @author Nick Khaetsky, nick@reazzon.ru
  */
 class Plugin extends PluginBase
 {

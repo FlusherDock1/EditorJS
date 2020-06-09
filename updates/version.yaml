@@ -12,3 +12,4 @@
 1.3.5: Image block added. Added setting for toggling off security of outside api calls to editor plugins. Code cleanup and slight refactor.
 1.3.6: Warning text fixed
 1.3.7: Small files cleanup and changes
+1.3.71: Small typo fix
