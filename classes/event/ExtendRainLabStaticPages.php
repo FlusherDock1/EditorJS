@@ -6,7 +6,7 @@ use System\Classes\PluginManager;
 /**
  * Class ExtendRainLabStaticPages
  * @package ReaZzon\Editor\Classes\Event
- * @author Nick Khaetsky, rzzsapb@gmail.com
+ * @author Nick Khaetsky, nick@reazzon.ru
  */
 class ExtendRainLabStaticPages
 {

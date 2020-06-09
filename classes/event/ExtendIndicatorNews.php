@@ -6,7 +6,7 @@ use ReaZzon\Editor\Models\Settings;
 /**
  * Class ExtendIndicatorNews
  * @package ReaZzon\Editor\Classes\Event
- * @author Nick Khaetsky, rzzsapb@gmail.com
+ * @author Nick Khaetsky, nick@reazzon.ru
  */
 class ExtendIndicatorNews
 {

@@ -14,15 +14,15 @@
 
     <div
         class="editorjs-wrapper"
-        data-control="editor"
-        id="<?= $this->getId('input') ?>"
+        data-control="editorjs"
+        id="<?= $this->getId() ?>"
         data-placeholder="<?= $placeholder ?>"
         data-settings="<?= $toolSettings ?>">
         <textarea
             type="hidden"
             style="display: none"
             name="<?= $name ?>"
-            id="<?= $this->getId('input') ?>_input"><?= $value ?></textarea>
+            id="<?= $this->getId('textarea') ?>"><?= $value ?></textarea>
     </div>
 
 <?php endif ?>

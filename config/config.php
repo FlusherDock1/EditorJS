@@ -14,7 +14,6 @@ return [
         '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/raw.js',
         '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/delimiter.js',
         '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/image.js',
-        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/editor.js',
     ],
     'toolSettings' => [
         'header' => [

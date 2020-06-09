@@ -7,7 +7,7 @@ use ReaZzon\Editor\Models\Settings;
  * PluginHelper
  *
  * @package ReaZzon\Editor\Traits;
- * @author Nick Khaetsky, rzzsapb@gmail.com
+ * @author Nick Khaetsky, nick@reazzon.ru
  */
 trait PluginHelper
 {

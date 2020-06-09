@@ -6,7 +6,7 @@ use ReaZzon\Editor\Models\Settings;
 /**
  * Class ExtendRainLabBlog
  * @package ReaZzon\Editor\Classes\Event
- * @author Nick Khaetsky, rzzsapb@gmail.com
+ * @author Nick Khaetsky, nick@reazzon.ru
  */
 class ExtendRainLabBlog
 {

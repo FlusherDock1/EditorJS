@@ -2,6 +2,11 @@
 
 use Storage;
 
+/**
+ * Image Plugin
+ * @package ReaZzon\Editor\Classes\Plugins\Image
+ * @author Nick Khaetsky, nick@reazzon.ru
+ */
 class Plugin
 {
     use \ReaZzon\Editor\Traits\PluginHelper;

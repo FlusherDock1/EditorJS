@@ -4,9 +4,8 @@ use ReaZzon\Editor\Classes\Plugins\LinkTool\OpenGraph;
 
 /**
  * LinkTool Plugin
- *
  * @package ReaZzon\Editor\Classes\Plugins\LinkTool
- * @author Nick Khaetsky, rzzsapb@gmail.com
+ * @author Nick Khaetsky, nick@reazzon.ru
  */
 class Plugin
 {

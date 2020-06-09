@@ -9,7 +9,7 @@ use EditorJS\EditorJSException;
  * Some code was borrowed from https://github.com/advoor/nova-editor-js/blob/master/src/NovaEditorJs.php
  *
  * @package ReaZzon\Editor\Traits
- * @author Nick Khaetsky, rzzsapb@gmail.com
+ * @author Nick Khaetsky, nick@reazzon.ru
  */
 trait ConvertEditor
 {

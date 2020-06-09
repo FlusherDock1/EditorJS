@@ -8,16 +8,18 @@ use Backend\Classes\FormWidgetBase;
 /**
  * EditorJS Form Widget
  * @package ReaZzon\Editor\FormWidgets
- * @author Nick Khaetsky, rzzsapb@gmail.com
+ * @author Nick Khaetsky, nick@reazzon.ru
  */
 class EditorJS extends FormWidgetBase
 {
     /**
      * @inheritDoc
      */
-    protected $defaultAlias = 'reazzon_editor_editor_js';
+    protected $defaultAlias = 'editorjs';
 
     public $placeholder;
+
+    public $stretch;
 
     public $scripts;
 
@@ -59,9 +61,10 @@ class EditorJS extends FormWidgetBase
     /**
      * @inheritDoc
      */
-    public function loadAssets()
+    protected function loadAssets()
     {
         $this->addCss('css/editor.css', 'ReaZzon.Editor');
+        $this->addJs('js/editor.js', 'ReaZzon.Editor');
     }
 
     /**

@@ -2,6 +2,11 @@
 
 use Model;
 
+/**
+ * Class Settings
+ * @package ReaZzon\Editor\Models
+ * @author Nick Khaetsky, nick@reazzon.ru
+ */
 class Settings extends Model
 {
     public $implement = ['System.Behaviors.SettingsModel'];
