@@ -14,6 +14,8 @@ return [
         '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/raw.js',
         '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/delimiter.js',
         '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/image.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/quote.js',
+        '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/underline.js',
     ],
     'toolSettings' => [
         'header' => [
@@ -55,18 +57,30 @@ return [
                 'cols' => 3,
             ],
         ],
+        'quote' => [
+            'class' => 'Quote',
+            'inlineToolbar' => true,
+            'shortcut' => 'CMD+SHIFT+O',
+            'config' => [
+                'quotePlaceholder' => 'Enter a quote',
+                'captionPlaceholder' => 'Quote\'s author',
+            ],
+        ],
         'code' => [
             'class' => 'CodeTool',
         ],
         'embed' => [
             'class' => 'Embed',
         ],
-//        'raw' => [
-//            'class' => 'RawTool'
-//        ],
-//        'delimiter' => [
-//            'class' => 'Delimiter'
-//        ],
+        'raw' => [
+            'class' => 'RawTool'
+        ],
+        'delimiter' => [
+            'class' => 'Delimiter'
+        ],
+        'underline' => [
+            'class' => 'Underline'
+        ]
     ],
     'validationSettings' => [
         'tools' => [
@@ -229,7 +243,18 @@ return [
                     'type' => 'string',
                     'required' => false,
                 ],
-            ]
+            ],
+            'quote' => [
+                'text' => [
+                    'type' => 'string',
+                ],
+                'alignment' => [
+                    'type' => 'string',
+                ],
+                'caption' => [
+                    'type' => 'string',
+                ],
+            ],
         ]
     ]
 ];

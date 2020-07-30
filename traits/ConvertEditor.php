@@ -62,6 +62,9 @@ trait ConvertEditor
                     case 'embed':
                         $htmlOutput .= View::make('reazzon.editor::blocks.embed', $block['data']);
                         break;
+                    case 'quote':
+                        $htmlOutput .= View::make('reazzon.editor::blocks.quote', $block['data']);
+                        break;
                 }
             }
 
