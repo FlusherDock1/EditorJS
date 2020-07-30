@@ -5,7 +5,7 @@
  * - data-control="editor" - enables the editorjs plugin
  *
  * JavaScript API:
- * $('input').editor()
+ * $('div#id').editor()
  *
  */
 
@@ -19,7 +19,6 @@
 
     var Editor = function (element, options) {
         this.options = options
-        this.parameters = null
         this.prevented = false
         this.saving = false
         this.$el = $(element)
@@ -40,59 +39,65 @@
 
     Editor.prototype.init = function () {
         this.initEditorJS();
-        this.$form.on('oc.beforeRequest', this.proxy(this.onFormBeforeRequest))
+        this.$form.on('oc.beforeRequest', this.proxy(this.syncContent))
     }
 
     Editor.prototype.initEditorJS = function (){
 
+        // Init all plugin classes from config
         for (let [key, value] of Object.entries(this.toolSettings)) {
             value.class = window[value.class];
         }
 
-        this.parameters = {
+        // Parameters for EditorJS
+        let parameters = {
             holder: this.$el.attr('id'),
             placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...',
             tools: this.toolSettings
         }
 
+        // Parsing already existing data from textarea
         if (this.$textarea.val().length > 0 && this.isJson(this.$textarea.val()) === true){
-            this.parameters.data = JSON.parse(this.$textarea.val())
+            parameters.data = JSON.parse(this.$textarea.val())
         }
 
-        this.$editor = new EditorJS(this.parameters);
+        this.$editor = new EditorJS(parameters);
+    }
+
+    Editor.prototype.dispose = function() {
+        this.unregisterHandlers()
+
+        this.$textarea.Editor('destroy')
+
+        this.$el.removeData('oc.editorjs')
+
+        this.options = null
+        this.prevented = null
+        this.saving = null
+        this.$el = null
+        this.$form = null
+        this.$textarea = null
+        this.$editor = null
+        this.toolSettings = null
+
+        BaseProto.dispose.call(this)
     }
 
     /*
- * Instantly synchronizes HTML content.
- */
-    Editor.prototype.onFormBeforeRequest = function (e) {
+     * Instantly synchronizes HTML content.
+     */
+    Editor.prototype.syncContent = function (e) {
+        console.log(e);
+        this.$editor.save().then((outputData) => {
+            this.$textarea.val(JSON.stringify(outputData))
+        }).catch((error) => {
+            console.log('Saving failed: ', error)
+        });
+    }
 
-        if (!this.$editor) {
-            return
-        }
-
-        if (this.prevented === false){
-            this.prevented = true;
-            e.preventDefault();
-        }
-
-        if (this.prevented === true && this.saving === false) {
-            this.$editor.save().then((outputData) => {
-                this.$textarea.val(JSON.stringify(outputData))
-                this.saving = true;
-                if (window.location.href.indexOf("update") > -1) {
-                    this.$form.request('onSave',{
-                        data: {
-                            redirect: 0,
-                        }
-                    });
-                } else if (window.location.href.indexOf("create") > -1) {
-                    this.$form.request('onSave');
-                }
-            }).catch((error) => {
-                console.log('Saving failed: ', error)
-            });
-        }
+    Editor.prototype.unregisterHandlers = function() {
+        this.$form.off('oc.beforeRequest', this.proxy(this.syncContent))
+        this.$el.off('dispose-control', this.proxy(this.dispose))
     }
 
     Editor.prototype.isJson = function (string) {
@@ -113,9 +118,9 @@
         var args = Array.prototype.slice.call(arguments, 1), result
         this.each(function () {
             var $this = $(this)
-            var data = $this.data('oc.Editor')
+            var data = $this.data('oc.editorjs')
             var options = $.extend({}, Editor.DEFAULTS, $this.data(), typeof option == 'object' && option)
-            if (!data) $this.data('oc.Editor', (data = new Editor(this, options)))
+            if (!data) $this.data('oc.editorjs', (data = new Editor(this, options)))
             if (typeof option == 'string') result = data[option].apply(data, args)
             if (typeof result != 'undefined') return false
         })
@@ -137,7 +142,7 @@
     // ===============
 
     $(document).render(function () {
-        $('[data-control="editor"]').Editor();
+        $('[data-control="editorjs"]').Editor();
     })
 
 }(window.jQuery);
