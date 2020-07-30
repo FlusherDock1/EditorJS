@@ -19,8 +19,6 @@
 
     var Editor = function (element, options) {
         this.options = options
-        this.prevented = false
-        this.saving = false
         this.$el = $(element)
         this.$form = this.$el.closest('form')
         this.$textarea = this.$el.find('>textarea:first')
@@ -53,7 +51,10 @@
         let parameters = {
             holder: this.$el.attr('id'),
             placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...',
-            tools: this.toolSettings
+            tools: this.toolSettings,
+            onChange: () => {
+                this.syncContent()
+            }
         }
 
         // Parsing already existing data from textarea
@@ -72,8 +73,6 @@
         this.$el.removeData('oc.editorjs')
 
         this.options = null
-        this.prevented = null
-        this.saving = null
         this.$el = null
         this.$form = null
         this.$textarea = null
@@ -87,7 +86,6 @@
      * Instantly synchronizes HTML content.
      */
     Editor.prototype.syncContent = function (e) {
-        console.log(e);
         this.$editor.save().then((outputData) => {
             this.$textarea.val(JSON.stringify(outputData))
         }).catch((error) => {

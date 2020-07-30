@@ -21,8 +21,6 @@
         this.options = options
         this.$el = $(element)
         this.parameters = null
-        this.prevented = false
-        this.saving = false
         this.$form = this.$el.closest('form')
         this.$textarea = $(options.textareaElement)
         this.$editor = null
@@ -46,7 +44,7 @@
         this.$textarea.on('syncContent.oc.editor', this.proxy(this.onSyncContent))
 
         this.initEditorJS();
-        this.$form.on('oc.beforeRequest', this.proxy(this.onFormBeforeRequest))
+        this.$form.on('oc.beforeRequest', this.proxy(this.onSyncContent))
         this.$el.one('dispose-control', this.proxy(this.dispose))
     }
 
@@ -59,7 +57,10 @@
         this.parameters = {
             holder: this.$el.attr('id'),
             placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...',
-            tools: this.toolSettings
+            tools: this.toolSettings,
+            onChange: () => {
+                this.onSyncContent()
+            }
         }
 
         if (this.$textarea.val().length > 0 && this.isJson(this.$textarea.val()) === true){
@@ -87,46 +88,17 @@
     }
 
     MLEditor.prototype.onSetLocale = function(e, locale, localeValue) {
-        if (typeof localeValue === 'string' && this.$editorjs.data('oc.richEditor')) {
+        if (typeof localeValue === 'string' && this.$editorjs.data('oc.editorjs')) {
             this.$editorjs.Editor('setContent', localeValue);
         }
     }
 
     MLEditor.prototype.onSyncContent = function(ev, editorjs, value) {
-        this.$el.multiLingual('setLocaleValue', value.html)
-    }
-
-    /*
- * Instantly synchronizes HTML content.
- */
-    MLEditor.prototype.onFormBeforeRequest = function (e) {
-
-        if (!this.$editor) {
-            return
-        }
-
-        if (this.prevented === false){
-            this.prevented = true;
-            e.preventDefault();
-        }
-
-        if (this.prevented === true && this.saving === false) {
-            this.$editor.save().then((outputData) => {
-                this.$textarea.val(JSON.stringify(outputData))
-                this.saving = true;
-                if (window.location.href.indexOf("update") > -1) {
-                    this.$form.request('onSave',{
-                        data: {
-                            redirect: 0,
-                        }
-                    });
-                } else if (window.location.href.indexOf("create") > -1) {
-                    this.$form.request('onSave');
-                }
-            }).catch((error) => {
-                console.log('Saving failed: ', error)
-            });
-        }
+        this.$editor.save().then((outputData) => {
+            this.$el.multiLingual('setLocaleValue', JSON.stringify(outputData))
+        }).catch((error) => {
+            console.log('Saving failed: ', error)
+        });
     }
 
     MLEditor.prototype.isJson = function (string) {
