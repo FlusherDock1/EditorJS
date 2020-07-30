@@ -26,7 +26,6 @@
         this.toolSettings = this.$el.data('settings')
 
         $.oc.foundation.controlUtils.markDisposable(element)
-
         Base.call(this)
 
         this.init()
@@ -119,7 +118,7 @@
             var data = $this.data('oc.editorjs')
             var options = $.extend({}, Editor.DEFAULTS, $this.data(), typeof option == 'object' && option)
             if (!data) $this.data('oc.editorjs', (data = new Editor(this, options)))
-            if (typeof option == 'string') result = data[option].apply(data, args)
+            // if (typeof option == 'string') result = data[option].apply(data, args)
             if (typeof result != 'undefined') return false
         })
 

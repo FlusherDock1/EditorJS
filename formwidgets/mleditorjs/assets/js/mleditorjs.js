@@ -22,7 +22,7 @@
         this.$el = $(element)
         this.parameters = null
         this.$form = this.$el.closest('form')
-        this.$textarea = $(options.textareaElement)
+        this.$textarea = $('RLTranslate[en][content]')
         this.$editor = null
         this.$editorjs = $('[data-control=editorjs]:first', this.$el)
         this.toolSettings = this.$el.data('settings')
@@ -41,33 +41,8 @@
         this.$el.multiLingual()
 
         this.$el.on('setLocale.oc.multilingual', this.proxy(this.onSetLocale))
-        this.$textarea.on('syncContent.oc.editor', this.proxy(this.onSyncContent))
-
-        this.initEditorJS();
-        this.$form.on('oc.beforeRequest', this.proxy(this.onSyncContent))
+        this.$textarea.on('changeContent.oc.editor', this.proxy(this.onSyncContent))
         this.$el.one('dispose-control', this.proxy(this.dispose))
-    }
-
-    MLEditor.prototype.initEditorJS = function (){
-
-        for (let [key, value] of Object.entries(this.toolSettings)) {
-            value.class = window[value.class];
-        }
-
-        this.parameters = {
-            holder: this.$el.attr('id'),
-            placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...',
-            tools: this.toolSettings,
-            onChange: () => {
-                this.onSyncContent()
-            }
-        }
-
-        if (this.$textarea.val().length > 0 && this.isJson(this.$textarea.val()) === true){
-            this.parameters.data = JSON.parse(this.$textarea.val())
-        }
-
-        this.$editor = new EditorJS(this.parameters);
     }
 
     MLEditor.prototype.dispose = function() {
