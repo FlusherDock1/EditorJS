@@ -57,6 +57,14 @@ class MLEditorJS extends EditorJS
     /**
      * @inheritDoc
      */
+    public function getSaveValue($value)
+    {
+        return $value;
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function loadAssets()
     {
         $this->actAsParent();
@@ -67,14 +75,6 @@ class MLEditorJS extends EditorJS
             $this->loadLocaleAssets();
             $this->addJs('js/mleditorjs.js');
         }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSaveValue($value)
-    {
-        return $value;
     }
 
     /**
