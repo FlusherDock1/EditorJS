@@ -85,16 +85,17 @@
      * Instantly synchronizes HTML content.
      */
     Editor.prototype.syncContent = function (e) {
-        this.$editor.save().then((outputData) => {
-            this.$textarea.val(JSON.stringify(outputData))
-        }).catch((error) => {
-            console.log('Saving failed: ', error)
-        });
+        this.$editor.save().then( outputData => {
+            this.$textarea.val( JSON.stringify( outputData ) );
+            this.$textarea.trigger('syncContent.oc.editorjs', [ this, outputData ])
+        })
+        .catch( error => console.log('editorjs - Error get content: ', error.message ) );
     }
 
     Editor.prototype.unregisterHandlers = function() {
         this.$form.off('oc.beforeRequest', this.proxy(this.syncContent))
         this.$el.off('dispose-control', this.proxy(this.dispose))
+        this.$form.off('oc.beforeRequest', this.proxy(this.onFormBeforeRequest))
     }
 
     Editor.prototype.isJson = function (string) {
@@ -104,6 +105,10 @@
             return false;
         }
         return true;
+    }
+
+    Editor.prototype.onFormBeforeRequest = async function(ev, ctx ) {
+        // ToDo this.syncContent();
     }
 
     // Editor PLUGIN DEFINITION

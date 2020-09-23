@@ -22,11 +22,13 @@
         this.$el = $(element)
         this.parameters = null
         this.$form = this.$el.closest('form')
-        this.$textarea = $('RLTranslate[en][content]')
+        this.$textarea = $(options.textareaElement)
         this.$editor = null
         this.$editorjs = $('[data-control=editorjs]:first', this.$el)
         this.toolSettings = this.$el.data('settings')
-
+        this.$locale   = $('[data-editor-active-locale]', this.$el)
+        this.oldLocale = null;
+        this.currentLocale = this.$locale.val();
         $.oc.foundation.controlUtils.markDisposable(element)
 
         Base.call(this)
@@ -41,13 +43,12 @@
         this.$el.multiLingual()
 
         this.$el.on('setLocale.oc.multilingual', this.proxy(this.onSetLocale))
-        this.$textarea.on('changeContent.oc.editor', this.proxy(this.onSyncContent))
+        this.$textarea.on('syncContent.oc.editorjs', this.proxy(this.onSyncContent))
         this.$el.one('dispose-control', this.proxy(this.dispose))
     }
 
     MLEditor.prototype.dispose = function() {
         this.$el.off('setLocale.oc.multilingual', this.proxy(this.onSetLocale))
-        this.$textarea.off('syncContent.oc.editor', this.proxy(this.onSyncContent))
 
         this.$el.off('dispose-control', this.proxy(this.dispose))
 
@@ -64,16 +65,33 @@
 
     MLEditor.prototype.onSetLocale = function(e, locale, localeValue) {
         if (typeof localeValue === 'string' && this.$editorjs.data('oc.editorjs')) {
-            this.$editorjs.Editor('setContent', localeValue);
+            const editor = this.$editorjs.data( 'oc.editorjs' ).$editor;
+
+        // setLocales
+            this.oldLocale	= this.$locale.val();
+            this.currentLocale	= locale;
+            this.$locale.val( this.currentLocale );
+
+            editor.clear();
+
+        let jsonData	= null;
+
+        // setPrepare
+            if( localeValue !== '' ) {
+                try {
+                    jsonData	= JSON.parse( localeValue );
+                } catch ( e ) {
+                    console.log( 'editorjs - Error parse content: ', e.message );
+                }
+            }
+
+            if( jsonData === null ) return;
+            editor.blocks.render( jsonData );
         }
     }
 
-    MLEditor.prototype.onSyncContent = function(ev, editorjs, value) {
-        this.$editor.save().then((outputData) => {
-            this.$el.multiLingual('setLocaleValue', JSON.stringify(outputData))
-        }).catch((error) => {
-            console.log('Saving failed: ', error)
-        });
+    MLEditor.prototype.onSyncContent = function(ev, editor, data ) {
+        this.$el.multiLingual('setLocaleValue', JSON.stringify( data ), this.currentLocale );
     }
 
     MLEditor.prototype.isJson = function (string) {
