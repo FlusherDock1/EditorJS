@@ -1,6 +1,7 @@
 # Upgrade guide
 
 - [Upgrading to 1.1 from 1.2](#upgrade-1.2)
+- [Upgrading to 1.5.1 from 1.4](#upgrade-1.5.1)
 
 <a name="upgrade-1.2"></a>
 ## Upgrading To 1.2
@@ -56,3 +57,8 @@ public function registerEditorBlocks()
     ];
 }
 ```
+
+<a name="upgrade-1.5.1"></a>
+## Upgrading To 1.5.1
+
+You don't need your editorJS field to be jsonable. Remove it from $jsonable property of your model. Otherwise, your data will be corrupted.
