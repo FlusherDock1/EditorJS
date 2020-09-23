@@ -60,17 +60,16 @@ You are not limited of how many editors can be rendered at one page.
 5. Done.
 
 ### How to render HTML from Editor JSON
-To implement Editor to your Model, you must prepare column in database that is set to text and added to `$jsonable` property.
+To implement Editor to your Model, you must prepare column in database that is set to text.
 
 1. Create column with type `text` at your Model table, or use already existing one.
-2. Add column to `$jsonable` array in your Model.
-3. Add `\ReaZzon\Editor\Traits\ConvertEditor` trait to your Model.
-4. Add **get<YourColumnName>HtmlAttribute()** method and paste line of code as in the example below:
+2. Add `\ReaZzon\Editor\Traits\ConvertEditor` trait to your Model.
+3. Add **get<YourColumnName>HtmlAttribute()** method and paste line of code as in the example below:
 ```
 return $this->convertJsonToHtml($this->YourColumnName);
 ```
-5. Render your field `{{ model.YourColumnName_html|raw }}`
-6. Add editor styles to your page by `<link href="/plugins/reazzon/editor/assets/css/editorjs.css" rel="stylesheet">`
+4. Render your field `{{ model.YourColumnName_html|raw }}`
+5. Add editor styles to your page by `<link href="/plugins/reazzon/editor/assets/css/editorjs.css" rel="stylesheet">`
 
 Example of model:
 ```
