@@ -1,6 +1,7 @@
 <?php namespace ReaZzon\Editor;
 
 use Backend, Event;
+use ReaZzon\Editor\Classes\Event\ProcessMLFields;
 use System\Classes\PluginBase;
 
 use ReaZzon\Editor\Classes\Event\ExtendRainLabBlog;
@@ -45,6 +46,7 @@ class Plugin extends PluginBase
         Event::subscribe(ExtendRainLabStaticPages::class);
         Event::subscribe(ExtendLovataGoodNews::class);
         Event::subscribe(ExtendIndicatorNews::class);
+        Event::subscribe(ProcessMLFields::class);
     }
 
     /**
@@ -91,6 +93,7 @@ class Plugin extends PluginBase
     {
         return [
             'ReaZzon\Editor\FormWidgets\EditorJS' => 'editorjs',
+            'ReaZzon\Editor\FormWidgets\MLEditorJS' => 'mleditorjs',
         ];
     }
 }

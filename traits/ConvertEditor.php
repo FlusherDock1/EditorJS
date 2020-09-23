@@ -42,7 +42,7 @@ trait ConvertEditor
                         $htmlOutput .= View::make('reazzon.editor::blocks.image', $block['data']);
                         break;
                     case 'code':
-                        $htmlOutput .= View::   make('reazzon.editor::blocks.code', $block['data']);
+                        $htmlOutput .= View::make('reazzon.editor::blocks.code', $block['data']);
                         break;
                     case 'linkTool':
                         $htmlOutput .= View::make('reazzon.editor::blocks.link', $block['data']);
