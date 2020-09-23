@@ -14,3 +14,4 @@
 1.3.7: Small files cleanup and changes
 1.3.71: Small typo fix
 1.4.0: Fixed bug with namespaces, added Quote block and Underline inline tool
+1.5.0: RainLab.Translate support. Now EditorJS supports multilanguage. Thanks for help @yurasovm
