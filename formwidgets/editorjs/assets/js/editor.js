@@ -39,7 +39,7 @@
         this.$form.on('oc.beforeRequest', this.proxy(this.syncContent))
     }
 
-    Editor.prototype.initEditorJS = function (){
+    Editor.prototype.initEditorJS = function () {
 
         // Init all plugin classes from config
         for (let [key, value] of Object.entries(this.toolSettings)) {
@@ -57,14 +57,14 @@
         }
 
         // Parsing already existing data from textarea
-        if (this.$textarea.val().length > 0 && this.isJson(this.$textarea.val()) === true){
+        if (this.$textarea.val().length > 0 && this.isJson(this.$textarea.val()) === true) {
             parameters.data = JSON.parse(this.$textarea.val())
         }
 
         this.$editor = new EditorJS(parameters);
     }
 
-    Editor.prototype.dispose = function() {
+    Editor.prototype.dispose = function () {
         this.unregisterHandlers()
 
         this.$textarea.Editor('destroy')
@@ -85,17 +85,17 @@
      * Instantly synchronizes HTML content.
      */
     Editor.prototype.syncContent = function (e) {
-        this.$editor.save().then( outputData => {
-            this.$textarea.val( JSON.stringify( outputData ) );
-            this.$textarea.trigger('syncContent.oc.editorjs', [ this, outputData ])
+        this.$editor.save().then(outputData => {
+            this.$textarea.val(JSON.stringify(outputData));
+            this.$textarea.trigger('syncContent.oc.editorjs', [this, outputData])
         })
-        .catch( error => console.log('editorjs - Error get content: ', error.message ) );
+        .catch(error => console.log('editorjs - Error get content: ', error.message));
     }
 
-    Editor.prototype.unregisterHandlers = function() {
+    Editor.prototype.unregisterHandlers = function () {
         this.$form.off('oc.beforeRequest', this.proxy(this.syncContent))
         this.$el.off('dispose-control', this.proxy(this.dispose))
-        this.$form.off('oc.beforeRequest', this.proxy(this.onFormBeforeRequest))
+        // this.$form.off('oc.beforeRequest', this.proxy(this.onFormBeforeRequest))
     }
 
     Editor.prototype.isJson = function (string) {
@@ -107,8 +107,8 @@
         return true;
     }
 
-    Editor.prototype.onFormBeforeRequest = async function(ev, ctx ) {
-        // ToDo this.syncContent();
+    Editor.prototype.onFormBeforeRequest = async function (ev, ctx) {
+        // TODO: this.syncContent();
     }
 
     // Editor PLUGIN DEFINITION

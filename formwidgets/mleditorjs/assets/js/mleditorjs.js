@@ -26,7 +26,7 @@
         this.$editor = null
         this.$editorjs = $('[data-control=editorjs]:first', this.$el)
         this.toolSettings = this.$el.data('settings')
-        this.$locale   = $('[data-editor-active-locale]', this.$el)
+        this.$locale = $('[data-editor-active-locale]', this.$el)
         this.oldLocale = null;
         this.currentLocale = this.$locale.val();
         $.oc.foundation.controlUtils.markDisposable(element)
@@ -47,7 +47,7 @@
         this.$el.one('dispose-control', this.proxy(this.dispose))
     }
 
-    MLEditor.prototype.dispose = function() {
+    MLEditor.prototype.dispose = function () {
         this.$el.off('setLocale.oc.multilingual', this.proxy(this.onSetLocale))
 
         this.$el.off('dispose-control', this.proxy(this.dispose))
@@ -63,35 +63,35 @@
         BaseProto.dispose.call(this)
     }
 
-    MLEditor.prototype.onSetLocale = function(e, locale, localeValue) {
+    MLEditor.prototype.onSetLocale = function (e, locale, localeValue) {
         if (typeof localeValue === 'string' && this.$editorjs.data('oc.editorjs')) {
-            const editor = this.$editorjs.data( 'oc.editorjs' ).$editor;
+            const editor = this.$editorjs.data('oc.editorjs').$editor;
 
-        // setLocales
-            this.oldLocale	= this.$locale.val();
-            this.currentLocale	= locale;
-            this.$locale.val( this.currentLocale );
+            // setLocales
+            this.oldLocale = this.$locale.val();
+            this.currentLocale = locale;
+            this.$locale.val(this.currentLocale);
 
             editor.clear();
 
-        let jsonData	= null;
+            let jsonData = null;
 
-        // setPrepare
-            if( localeValue !== '' ) {
+            // setPrepare
+            if (localeValue !== '') {
                 try {
-                    jsonData	= JSON.parse( localeValue );
-                } catch ( e ) {
-                    console.log( 'editorjs - Error parse content: ', e.message );
+                    jsonData = JSON.parse(localeValue);
+                } catch (e) {
+                    console.log('editorjs - Error parse content: ', e.message);
                 }
             }
 
-            if( jsonData === null ) return;
-            editor.blocks.render( jsonData );
+            if (jsonData === null) return;
+            editor.blocks.render(jsonData);
         }
     }
 
-    MLEditor.prototype.onSyncContent = function(ev, editor, data ) {
-        this.$el.multiLingual('setLocaleValue', JSON.stringify( data ), this.currentLocale );
+    MLEditor.prototype.onSyncContent = function (ev, editor, data) {
+        this.$el.multiLingual('setLocaleValue', JSON.stringify(data), this.currentLocale);
     }
 
     MLEditor.prototype.isJson = function (string) {
@@ -112,9 +112,9 @@
         var args = Array.prototype.slice.call(arguments, 1), result
         this.each(function () {
             var $this = $(this)
-            var data = $this.data('oc.Editor')
+            var data = $this.data('oc.editorjs')
             var options = $.extend({}, MLEditor.DEFAULTS, $this.data(), typeof option == 'object' && option)
-            if (!data) $this.data('oc.MLEditor', (data = new MLEditor(this, options)))
+            if (!data) $this.data('oc.editorjs', (data = new MLEditor(this, options)))
             if (typeof option == 'string') result = data[option].apply(data, args)
             if (typeof result != 'undefined') return false
         })
