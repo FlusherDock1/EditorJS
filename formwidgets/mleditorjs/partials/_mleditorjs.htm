@@ -12,7 +12,7 @@
         data-textarea-element="#<?= $this->getId('textarea') ?>"
         data-settings="<?= $toolSettings ?>"
         data-default-locale="<?= $defaultLocale->code ?>"
-        class="field-multilingual field-multilingual-editorjs dropdown"
+        class="field-multilingual field-multilingual-textarea field-multilingual-editorjs dropdown"
         >
 
         <?= $editorjs; ?>
@@ -23,6 +23,12 @@
             data-active-locale
             type="button">
         </button>
+
+        <input
+            type="hidden"
+            data-editor-active-locale
+            value="<?= $defaultLocale->code ?>"
+        />
 
         <?= $this->makeMLPartial('locale_values') ?>
 

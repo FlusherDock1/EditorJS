@@ -59,7 +59,7 @@ class MLEditorJS extends EditorJS
      */
     public function getSaveValue($value)
     {
-        return $value;
+        return $this->getLocaleSaveValue($value);
     }
 
     /**
