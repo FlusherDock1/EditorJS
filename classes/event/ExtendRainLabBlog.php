@@ -33,11 +33,19 @@ class ExtendRainLabBlog
                     return;
                 }
 
+                if( PluginManager::instance()->hasPlugin('RainLab.Translate') ) {
+                    $editorType = 'mleditorjs';
+                    $editorWidgetPath = 'ReaZzon\Editor\FormWidgets\MLEditorJS';
+                } else {
+                    $editorType = 'editorjs';
+                    $editorWidgetPath = 'ReaZzon\Editor\FormWidgets\EditorJS';
+                }
+
                 // Finding content field and changing it's type regardless whatever it already is.
                 foreach ($widget->getFields() as $field) {
                     if ($field->fieldName === 'content') {
-                        $field->config['type'] = 'editorjs';
-                        $field->config['widget'] = 'ReaZzon\Editor\FormWidgets\EditorJS';
+                        $field->config['type'] = $editorType;
+                        $field->config['widget'] = $editorWidgetPath;
                         $field->config['stretch'] = true;
                     }
                 }
