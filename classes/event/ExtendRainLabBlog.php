@@ -33,15 +33,23 @@ class ExtendRainLabBlog
                     return;
                 }
 
+                $fieldType = 'editorjs';
+                $fieldWidgetPath = 'ReaZzon\Editor\FormWidgets\EditorJS';
+
+                if (PluginManager::instance()->hasPlugin('RainLab.Translate')
+                    && !PluginManager::instance()->isDisabled('RainLab.Translate')) {
+                    $fieldType = 'mleditorjs';
+                    $fieldWidgetPath = 'ReaZzon\Editor\FormWidgets\MLEditorJS';
+                }
+
                 // Finding content field and changing it's type regardless whatever it already is.
                 foreach ($widget->getFields() as $field) {
                     if ($field->fieldName === 'content') {
-                        $field->config['type'] = 'editorjs';
-                        $field->config['widget'] = 'ReaZzon\Editor\FormWidgets\EditorJS';
+                        $field->config['type'] = $fieldType;
+                        $field->config['widget'] = $fieldWidgetPath;
                         $field->config['stretch'] = true;
                     }
                 }
-
             });
 
             // Replacing original content_html attribute.
