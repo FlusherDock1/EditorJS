@@ -1,5 +1,6 @@
 <?php namespace ReaZzon\Editor\Classes\Event;
 
+use RainLab\Translate\Classes\MLStaticPage;
 use ReaZzon\Editor\Models\Settings;
 use System\Classes\PluginManager;
 
@@ -57,6 +58,16 @@ class ExtendRainLabStaticPages
                     $model->markup = $this->convertJsonToHtml($model->viewBag['editor']);
                 });
             });
+
+            if (PluginManager::instance()->hasPlugin('RainLab.Translate')
+                && !PluginManager::instance()->isDisabled('RainLab.Translate')) {
+
+                MLStaticPage::extend(function (MLStaticPage $model) {
+                    $model->bindEvent('model.beforeSave', function () use ($model) {
+                        $model->markup = $this->convertJsonToHtml($model->viewBag['editor']);
+                    });
+                });
+            }
         }
     }
 }
