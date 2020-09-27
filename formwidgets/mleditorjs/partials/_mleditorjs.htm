@@ -1,0 +1,37 @@
+<?php if ($this->previewMode): ?>
+
+    <div class="form-control">
+        <?= $value ?>
+    </div>
+
+<?php else: ?>
+    <!-- ML EditorJS -->
+    <div
+        id="<?= $this->getId('mlControl') ?>"
+        data-control="mleditorjs"
+        data-textarea-element="#<?= $this->getId('textarea') ?>"
+        data-settings="<?= $toolSettings ?>"
+        data-default-locale="<?= $defaultLocale->code ?>"
+        class="field-multilingual field-multilingual-textarea field-multilingual-editorjs dropdown"
+        >
+
+        <?= $editorjs; ?>
+
+        <button
+            class="btn btn-default ml-btn"
+            data-toggle="dropdown"
+            data-active-locale
+            type="button">
+        </button>
+
+        <input
+            type="hidden"
+            data-editor-active-locale
+            value="<?= $defaultLocale->code ?>"
+        />
+
+        <?= $this->makeMLPartial('locale_values') ?>
+
+        <?= $this->makeMLPartial('locale_selector') ?>
+    </div>
+<?php endif ?>
