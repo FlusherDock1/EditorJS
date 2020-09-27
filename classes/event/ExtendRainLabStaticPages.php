@@ -34,13 +34,19 @@ class ExtendRainLabStaticPages
                 }
 
                 $widget->removeField('markup');
-                $editorType = PluginManager::instance()->hasPlugin('RainLab.Translate') ? 'mleditorjs' : 'editorjs';
+
+                $fieldType = 'editorjs';
+
+                if (PluginManager::instance()->hasPlugin('RainLab.Translate')
+                    && !PluginManager::instance()->isDisabled('RainLab.Translate')) {
+                    $fieldType = 'mleditorjs';
+                }
 
                 // Registering editorjs formWidget
                 $widget->addSecondaryTabFields([
                     'viewBag[editor]' => [
                         'tab' => 'rainlab.pages::lang.editor.content',
-                        'type' => $editorType,
+                        'type' => $fieldType,
                         'stretch' => true
                     ]
                 ]);

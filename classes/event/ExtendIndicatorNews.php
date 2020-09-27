@@ -33,19 +33,20 @@ class ExtendIndicatorNews
                     return;
                 }
 
-                if( PluginManager::instance()->hasPlugin('RainLab.Translate') ) {
-                    $editorType = 'mleditorjs';
-                    $editorWidgetPath = 'ReaZzon\Editor\FormWidgets\MLEditorJS';
-                } else {
-                    $editorType = 'editorjs';
-                    $editorWidgetPath = 'ReaZzon\Editor\FormWidgets\EditorJS';
+                $fieldType = 'editorjs';
+                $fieldWidgetPath = 'ReaZzon\Editor\FormWidgets\EditorJS';
+
+                if (PluginManager::instance()->hasPlugin('RainLab.Translate')
+                    && !PluginManager::instance()->isDisabled('RainLab.Translate')) {
+                    $fieldType = 'mleditorjs';
+                    $fieldWidgetPath = 'ReaZzon\Editor\FormWidgets\MLEditorJS';
                 }
 
                 // Finding content field and changing it's type regardless whatever it already is.
                 foreach ($widget->getFields() as $field) {
                     if ($field->fieldName === 'content') {
-                        $field->config['type'] = $editorType;
-                        $field->config['widget'] = $editorWidgetPath;
+                        $field->config['type'] = $fieldType;
+                        $field->config['widget'] = $fieldWidgetPath;
                         $field->config['stretch'] = true;
                     }
                 }
