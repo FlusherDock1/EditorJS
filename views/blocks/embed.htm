@@ -1,4 +1,4 @@
-<table class="editor-js-embed">
+<div class="editor-js-embed">
     <iframe
         width="{{ width }}px"
         height="{{ height }}px"
@@ -6,7 +6,5 @@
         allowfullscreen=""
         src="{{ embed }}"></iframe>
 
-    <div class="caption">
-        {{ caption }}
-    </div>
-</table>
+    {% if caption %}<div class="caption">{{ caption }}</div>{% endif %}
+</div>
