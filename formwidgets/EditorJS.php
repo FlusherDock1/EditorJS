@@ -98,12 +98,12 @@ class EditorJS extends FormWidgetBase
              * @var array $section
              */
             foreach ($editorPlugins as $block => $section) {
-                if ($section === 'settings'){
-                    $this->toolSettings = array_add($this->toolSettings, $block, $section);
-                }
-                if ($section === 'scripts'){
-                    foreach ($section as $script){
-                        array_push($this->scripts, $script);
+                if ( array_key_exists('settings', $section) ){
+                    $this->toolSettings = array_add($this->toolSettings, $block, $section['settings']);
+                    if ( array_key_exists('scripts', $section) ){
+                        foreach ($section['scripts'] as $script){
+                            array_push($this->scripts, $script);
+                        }
                     }
                 }
             }
