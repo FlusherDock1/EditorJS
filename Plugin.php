@@ -397,15 +397,15 @@ class Plugin extends PluginBase
                 ],
                 'view' => 'reazzon.editor::blocks.raw'
             ],
-//            'delimiter' => [
-//                'settings' => [
-//                    'class' => 'Delimiter'
-//                ],
-//                'scripts' => [
-//                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/delimiter.js',
-//                ],
-//                'view' => 'reazzon.editor::blocks.delimiter'
-//            ],
+            'delimiter' => [
+                'settings' => [
+                    'class' => 'Delimiter'
+                ],
+                'scripts' => [
+                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/delimiter.js',
+                ],
+                'view' => 'reazzon.editor::blocks.delimiter'
+            ],
             'underline' => [
                 'settings' => [
                     'class' => 'Underline'

@@ -18,3 +18,4 @@
 1.5.1: !!! Read upgrade guide, if you already have model with editorJS field
 1.5.2: Fixing RainLab.StaticPages translate saving.
 1.6.0: !!! Refactoring extending system. Changing method for converting blocks to html. Please read upgrade guide
+1.6.1: Fixing typos, and delimiter block

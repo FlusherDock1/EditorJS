@@ -60,10 +60,10 @@ You are not limited of how many editors can be rendered at one page.
 5. Done.
 
 ### How to render HTML from Editor JSON
-To implement Editor to your Model, you must prepare column in database that is set to text.
+To implement Editor to your Model, you must prepare a column in a database that is set to text.
 
-1. Create column with type `text` at your Model table, or use already existing one.
-2. Add `\ReaZzon\Editor\Traits\ConvertEditor` trait to your Model.
+1. Create a column with type `text` at your Model table, or use an already existing one.
+2. Add `'ReaZzon.Editor.Behaviors.ConvertToHtml'` to $implement attribute of your model.
 3. Add **get<YourColumnName>HtmlAttribute()** method and paste line of code as in the example below:
 ```
 return $this->convertJsonToHtml($this->YourColumnName);
@@ -76,15 +76,11 @@ Example of model:
 // ...
 class Post extends Model
 {
-    use \ReaZzon\Editor\Traits\ConvertEditor;
 
     // ...
 
-    /**
-     * @var array Attributes to be cast to JSON
-     */
-    protected $jsonable = [
-        'content'
+    public $implement = [
+        'ReaZzon.Editor.Behaviors.ConvertToHtml'
     ];
 
     // ...
@@ -114,14 +110,21 @@ After creating new JS scripts with new block type Class, you can go through step
     public function registerEditorBlocks()
     {
         return [
-            'blocks' =>[
-                'raw' => [
+            'raw' => [
+                'settings' => [
                     'class' => 'RawTool'
                 ],
+                'validation' => [
+                    'html' => [
+                        'type' => 'string',
+                        'allowedTags' => '*',
+                    ]
+                ],
+                'scripts' => [
+                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/raw.js',
+                ],
+                'view' => 'reazzon.editor::blocks.raw'
             ],
-            'scripts' => [
-                '/plugins/reazzon/testcontent/assets/js/raw.js'
-            ]
         ];
     }
     ```
