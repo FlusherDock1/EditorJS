@@ -11,8 +11,6 @@ use System\Classes\PluginManager;
  */
 class ExtendRainLabStaticPages
 {
-    use \ReaZzon\Editor\Traits\ConvertEditor;
-
     /**
      * Add listeners
      * @param \Illuminate\Events\Dispatcher $event
@@ -54,8 +52,11 @@ class ExtendRainLabStaticPages
             });
 
             \RainLab\Pages\Classes\Page::extend(function ($model) {
+                /** @var \October\Rain\Database\Model $model */
+                $model->implement[] = 'ReaZzon.Editor.Behaviors.ConvertToHtml';
+
                 $model->bindEvent('model.beforeSave', function () use ($model) {
-                    $model->markup = $this->convertJsonToHtml($model->viewBag['editor']);
+                    $model->markup = $model->convertJsonToHtml($model->viewBag['editor']);
                 });
             });
 
@@ -63,8 +64,11 @@ class ExtendRainLabStaticPages
                 && !PluginManager::instance()->isDisabled('RainLab.Translate')) {
 
                 MLStaticPage::extend(function (MLStaticPage $model) {
+                    /** @var \October\Rain\Database\Model $model */
+                    $model->implement[] = 'ReaZzon.Editor.Behaviors.ConvertToHtml';
+
                     $model->bindEvent('model.beforeSave', function () use ($model) {
-                        $model->markup = $this->convertJsonToHtml($model->viewBag['editor']);
+                        $model->markup = $model->convertJsonToHtml($model->viewBag['editor']);
                     });
                 });
             }

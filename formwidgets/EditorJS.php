@@ -65,6 +65,7 @@ class EditorJS extends FormWidgetBase
     {
         $this->addCss('css/editor.css', 'ReaZzon.Editor');
         $this->addJs('js/editor.js', 'ReaZzon.Editor');
+        $this->addJs('js/vendor.js', 'ReaZzon.Editor');
     }
 
     /**
@@ -77,9 +78,6 @@ class EditorJS extends FormWidgetBase
 
     protected function prepareBlocks()
     {
-        $this->toolSettings = Config::get('reazzon.editor::toolSettings');
-        $this->scripts = Config::get('reazzon.editor::scripts');
-
         $pluginManager = PluginManager::instance();
         $plugins = $pluginManager->getPlugins();
 
@@ -97,13 +95,15 @@ class EditorJS extends FormWidgetBase
              * @var string $block
              * @var array $section
              */
-            foreach ($editorPlugins as $block => $section) {
-                if ($section === 'settings'){
-                    $this->toolSettings = array_add($this->toolSettings, $block, $section);
-                }
-                if ($section === 'scripts'){
-                    foreach ($section as $script){
-                        array_push($this->scripts, $script);
+            foreach ($editorPlugins as $block => $sections) {
+                foreach ($sections as $name => $section) {
+                    if ($name === 'settings') {
+                        $this->toolSettings = array_add($this->toolSettings, $block, $section);
+                    }
+                    if ($name === 'scripts') {
+                        foreach ($section as $script) {
+                            $this->addJs($script);
+                        }
                     }
                 }
             }

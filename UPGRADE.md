@@ -2,6 +2,7 @@
 
 - [Upgrading to 1.1 from 1.2](#upgrade-1.2)
 - [Upgrading to 1.5.1 from 1.4](#upgrade-1.5.1)
+- [Upgrading to 1.6.0 from 1.5.2](#upgrade-1.6.0)
 
 <a name="upgrade-1.2"></a>
 ## Upgrading To 1.2
@@ -62,3 +63,26 @@ public function registerEditorBlocks()
 ## Upgrading To 1.5.1
 
 You don't need your editorJS field to be jsonable. Remove it from $jsonable property of your model. Otherwise, your data will be corrupted.
+## Upgrading To 1.6.0
+
+In all your models where editorsjs field converts to html blocks you need to do these steps:
+
+1. Remove ConvertEditor trait `use ConvertEditor;` from your model;
+2. Add array property `$implement` and add to it `'ReaZzon.Editor.Behaviors.ConvertToHtml'`
+
+    Example:
+    ```
+    class Post extends Model
+    {
+       // Remove use ConvertEditor;
+       // ...
+   
+        public $implement = [
+           'ReaZzon.Editor.Behaviors.ConvertToHtml'
+        ];
+   
+       // ... 
+    }
+    ```
+   
+3. That's it, now you can use your model as it was before.

@@ -10,8 +10,6 @@ use ReaZzon\Editor\Models\Settings;
  */
 class ExtendRainLabBlog
 {
-    use \ReaZzon\Editor\Traits\ConvertEditor;
-
     /**
      * Add listeners
      * @param \Illuminate\Events\Dispatcher $event
@@ -54,9 +52,12 @@ class ExtendRainLabBlog
 
             // Replacing original content_html attribute.
             \RainLab\Blog\Models\Post::extend(function ($model) {
+                /** @var \October\Rain\Database\Model $model */
+                $model->implement[] = 'ReaZzon.Editor.Behaviors.ConvertToHtml';
+
                 $model->bindEvent('model.getAttribute', function ($attribute, $value) use ($model) {
                     if ($attribute == 'content_html') {
-                        return $this->convertJsonToHtml($model->content);
+                        return $model->convertJsonToHtml($model->getAttribute('content'));
                     }
                 });
             });

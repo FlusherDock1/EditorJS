@@ -10,8 +10,6 @@ use ReaZzon\Editor\Models\Settings;
  */
 class ExtendLovataGoodNews
 {
-    use \ReaZzon\Editor\Traits\ConvertEditor;
-
     /**
      * Add listeners
      * @param \Illuminate\Events\Dispatcher $event
@@ -54,8 +52,11 @@ class ExtendLovataGoodNews
 
             // Replacing original content attribute.
             \Lovata\GoodNews\Classes\Item\ArticleItem::extend(function ($elementItem) {
+                /** @var \October\Rain\Database\Model $elementItem */
+                $elementItem->implement[] = 'ReaZzon.Editor.Behaviors.ConvertToHtml';
+
                 $elementItem->addDynamicMethod('getContentAttribute', function () use ($elementItem) {
-                    return $this->convertJsonToHtml($elementItem->getAttribute('content'));
+                    return $elementItem->convertJsonToHtml($elementItem->getAttribute('content'));
                 });
             });
         }

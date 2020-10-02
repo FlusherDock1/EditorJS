@@ -104,6 +104,15 @@ class Plugin extends PluginBase
     public function registerEditorBlocks()
     {
         return [
+            'paragraph' => [
+                'validation' => [
+                    'text' => [
+                        'type' => 'string',
+                        'allowedTags' => 'i,b,u,a[href],span[class],code[class],mark[class]'
+                    ]
+                ],
+                'view' => 'reazzon.editor::blocks.paragraph'
+            ],
             'header' => [
                 'settings' => [
                     'class' => 'Header',
@@ -327,7 +336,7 @@ class Plugin extends PluginBase
                 'scripts' => [
                     '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/quote.js',
                 ],
-                'quote' => 'reazzon.editor::blocks.quote'
+                'view' => 'reazzon.editor::blocks.quote'
             ],
             'code' => [
                 'settings' => [
@@ -388,15 +397,15 @@ class Plugin extends PluginBase
                 ],
                 'view' => 'reazzon.editor::blocks.raw'
             ],
-            'delimiter' => [
-                'settings' => [
-                    'class' => 'Delimiter'
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/delimiter.js',
-                ],
-                'view' => 'reazzon.editor::blocks.delimiter'
-            ],
+//            'delimiter' => [
+//                'settings' => [
+//                    'class' => 'Delimiter'
+//                ],
+//                'scripts' => [
+//                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/delimiter.js',
+//                ],
+//                'view' => 'reazzon.editor::blocks.delimiter'
+//            ],
             'underline' => [
                 'settings' => [
                     'class' => 'Underline'

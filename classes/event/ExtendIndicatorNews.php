@@ -10,8 +10,6 @@ use ReaZzon\Editor\Models\Settings;
  */
 class ExtendIndicatorNews
 {
-    use \ReaZzon\Editor\Traits\ConvertEditor;
-
     /**
      * Add listeners
      * @param \Illuminate\Events\Dispatcher $event
@@ -54,8 +52,11 @@ class ExtendIndicatorNews
 
             // Replacing original content_render attribute.
             \Indikator\News\Models\Posts::extend(function ($model) {
+                /** @var \October\Rain\Database\Model $model */
+                $model->implement[] = 'ReaZzon.Editor.Behaviors.ConvertToHtml';
+
                 $model->addDynamicMethod('getContentRenderAttribute', function () use ($model) {
-                    return $this->convertJsonToHtml($model->getAttribute('content'));
+                    return $model->convertJsonToHtml($model->getAttribute('content'));
                 });
             });
         }

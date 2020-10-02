@@ -17,3 +17,4 @@
 1.5.0: RainLab.Translate support. Now EditorJS supports multilanguage. Thanks for help @yurasovm
 1.5.1: !!! Read upgrade guide, if you already have model with editorJS field
 1.5.2: Fixing RainLab.StaticPages translate saving.
+1.6.0: !!! Refactoring extending system. Changing method for converting blocks to html. Please read upgrade guide
