@@ -98,6 +98,37 @@ class Plugin extends PluginBase
     }
 
     /**
+     * Registering additional twig functions
+     *
+     * @return array
+     */
+    public function registerMarkupTags()
+    {
+        return [
+            'filters' => [
+                'convertBytes' => [$this, 'convertBytes'],
+            ],
+        ];
+    }
+
+    /**
+     * Converts bytes to more sensible string
+     *
+     * @param int $bytes
+     * @return string
+     */
+    public function convertBytes($bytes)
+    {
+        $units = array('B', 'KiB', 'MB', 'GB', 'TB');
+
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+        $bytes /= pow(1024, $pow);
+        return round($bytes, 2) . ' ' . $units[$pow];
+    }
+
+    /**
      * Registers additional blocks for EditorJS
      * @return array
      */
@@ -186,6 +217,40 @@ class Plugin extends PluginBase
                     '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/image.js',
                 ],
                 'view' => 'reazzon.editor::blocks.image'
+            ],
+            'attaches' => [
+                'settings' => [
+                    'class' => 'AttachesTool',
+                    'config' => [
+                        'endpoint' => config('app.url').'/editorjs/plugins/attaches',
+                    ]
+                ],
+                'validation' => [
+                    'file' => [
+                        'type' => 'array',
+                        'data' => [
+                            'url' => [
+                                'type' => 'string',
+                            ],
+                            'size' => [
+                                'type' => 'int',
+                            ],
+                            'name' => [
+                                'type' => 'string',
+                            ],
+                            'extension' => [
+                                'type' => 'string',
+                            ],
+                        ]
+                    ],
+                    'title' => [
+                        'type' => 'string',
+                    ]
+                ],
+                'scripts' => [
+                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/attaches.js',
+                ],
+                'view' => 'reazzon.editor::blocks.attaches'
             ],
             'linkTool' => [
                 'settings' => [
@@ -404,6 +469,7 @@ class Plugin extends PluginBase
                 'scripts' => [
                     '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/delimiter.js',
                 ],
+                'validation' => [],
                 'view' => 'reazzon.editor::blocks.delimiter'
             ],
             'underline' => [

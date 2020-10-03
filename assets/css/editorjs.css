@@ -70,6 +70,44 @@
     width: 100%;
 }
 
+.editor-js-content .editor-js-attach {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 20px;
+    border: 1px solid #e6e9eb;
+    border-radius: 3px;
+    background: #fff;
+    margin-bottom: 15px;
+    text-decoration: none;
+}
+
+.editor-js-content .editor-js-attach .attach-information {
+    display: flex;
+    align-items: center;
+}
+
+.editor-js-content .editor-js-attach .attach-information .attach-information__icon {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.editor-js-content .editor-js-attach .attach-information .attach-information__meta {
+    display: flex;
+    flex-direction: column;
+    color: #000000;
+}
+
+.editor-js-content .editor-js-attach .attach-information .attach-information__meta .attach-information__meta-row {
+    color: #7b7e89
+}
+
+.editor-js-content .editor-js-attach .attach-download {
+    display: flex;
+    align-items: center;
+}
+
 .editor-js-content .editor-js-link {
     display: block;
     background: #fff;
@@ -77,10 +115,6 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border-radius: 6px;
     padding: 25px;
-}
-
-.editor-js-content .editor-js-link a{
-    text-decoration: none ;
 }
 
 .editor-js-content .editor-js-link h4 {
@@ -110,7 +144,6 @@
 }
 
 .editor-js-content .editor-js-checklist .checklist-item {
-    display: -webkit-box;
     display: flex;
     padding: 0 10px;
     box-sizing: content-box;
@@ -144,7 +177,6 @@
     background: transparent;
     content: "";
     opacity: 1;
-    -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
 
@@ -155,7 +187,6 @@
 
 .editor-js-content .editor-js-checklist .checklist-item .checkbox-text {
     outline: none;
-    -webkit-box-flex: 1;
     flex-grow: 1;
     padding: 10px 0;
 }

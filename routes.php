@@ -12,6 +12,10 @@ Route::group(['prefix' => 'editorjs'], function () {
             return (new ReaZzon\Editor\Classes\Plugins\Image\Plugin)->createResponse($type, \Input::all());
         });
 
+        Route::any('attaches', function () {
+            return (new ReaZzon\Editor\Classes\Plugins\Attaches\Plugin)->createResponse(\Input::all());
+        });
+
     });
 
 });
