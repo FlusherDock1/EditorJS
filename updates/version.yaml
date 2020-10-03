@@ -19,3 +19,4 @@
 1.5.2: Fixing RainLab.StaticPages translate saving.
 1.6.0: !!! Refactoring extending system. Changing method for converting blocks to html. Please read upgrade guide
 1.6.1: Fixing typos, and delimiter block
+1.6.2: Fixing disposing of EditorJs. Fixing upload url for images. Now EditorJS can be placed inside repeater

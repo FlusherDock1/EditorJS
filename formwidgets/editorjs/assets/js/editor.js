@@ -65,18 +65,16 @@
     }
 
     Editor.prototype.dispose = function () {
-        this.unregisterHandlers()
+        this.$form.off('oc.beforeRequest', this.proxy(this.syncContent))
+        this.$el.off('dispose-control', this.proxy(this.dispose))
+        this.$editor.destroy();
 
-        this.$textarea.Editor('destroy')
-
-        this.$el.removeData('oc.editorjs')
-
-        this.options = null
-        this.$el = null
-        this.$form = null
-        this.$textarea = null
-        this.$editor = null
-        this.toolSettings = null
+        this.options = null;
+        this.$el = null;
+        this.$form = null;
+        this.$textarea = null;
+        this.toolSettings = null;
+        this.$editor = null;
 
         BaseProto.dispose.call(this)
     }
@@ -92,12 +90,6 @@
         .catch(error => console.log('editorjs - Error get content: ', error.message));
     }
 
-    Editor.prototype.unregisterHandlers = function () {
-        this.$form.off('oc.beforeRequest', this.proxy(this.syncContent))
-        this.$el.off('dispose-control', this.proxy(this.dispose))
-        // this.$form.off('oc.beforeRequest', this.proxy(this.onFormBeforeRequest))
-    }
-
     Editor.prototype.isJson = function (string) {
         try {
             JSON.parse(string);
@@ -105,10 +97,6 @@
             return false;
         }
         return true;
-    }
-
-    Editor.prototype.onFormBeforeRequest = async function (ev, ctx) {
-        // TODO: this.syncContent();
     }
 
     // Editor PLUGIN DEFINITION

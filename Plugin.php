@@ -146,8 +146,8 @@ class Plugin extends PluginBase
                     'class' => 'ImageTool',
                     'config' => [
                         'endpoints' => [
-                            'byFile' => '/editorjs/plugins/image/uploadFile',
-                            'byUrl' => '/editorjs/plugins/image/fetchUrl',
+                            'byFile' => config('app.url').'/editorjs/plugins/image/uploadFile',
+                            'byUrl' => config('app.url').'/editorjs/plugins/image/fetchUrl',
                         ]
                     ]
                 ],
