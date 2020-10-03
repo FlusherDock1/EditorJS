@@ -21,3 +21,4 @@
 1.6.1: Fixing typos, and delimiter block
 1.6.2: Fixing disposing of EditorJs. Fixing upload url for images. Now EditorJS can be placed inside repeater
 1.6.3: New block "Attaches", provides ability to upload any file to your editor.
+1.6.4: Dropping October.Drivers plugin from requiring

@@ -16,9 +16,6 @@ use ReaZzon\Editor\Classes\Event\ExtendLovataGoodNews;
  */
 class Plugin extends PluginBase
 {
-    /** @var array Plugin dependencies */
-    public $require = ['October.Drivers'];
-
     /**
      * Returns information about this plugin.
      *
