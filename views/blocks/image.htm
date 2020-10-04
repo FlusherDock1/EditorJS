@@ -1,4 +1,6 @@
-<div class="editor-js-image {{ stretched ? 'stretched' : '' }} {{ withBorder ? 'withBorder' : '' }} {{ withBackground ? 'withBackground' : '' }}">
-    <img src="{{ file.url }}" alt="{{ caption }}">
+<div class="editor-js-image">
+    <div class="image-wrapper {{ stretched ? 'stretched' : '' }} {{ withBorder ? 'withBorder' : '' }} {{ withBackground ? 'withBackground' : '' }}">
+        <img src="{{ file.url }}" alt="{{ caption }}">
+    </div>
     {% if caption %}<span>{{ caption }}</span>{% endif %}
 </div>

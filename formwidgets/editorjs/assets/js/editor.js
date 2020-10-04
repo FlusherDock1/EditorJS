@@ -53,7 +53,10 @@
             tools: this.toolSettings,
             onChange: () => {
                 this.syncContent()
-            }
+            },
+            onReady: () => {
+                new DragDrop(this.$editor);
+            },
         }
 
         // Parsing already existing data from textarea
