@@ -64,6 +64,9 @@ abstract class ConvertableBehavior extends ExtensionBase
             if (!is_array($editorPlugins)) {
                 continue;
             }
+            
+            // prepare tools
+            $this->validationSettings['tools'] = [];
 
             /**
              * @var string $block
