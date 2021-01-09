@@ -1,21 +1,13 @@
 <?php
-
-Route::group(['prefix' => 'editorjs'], function () {
-
-    Route::group(['prefix' => 'plugins'], function () {
-
-        Route::any('linktool', function () {
-            return (new ReaZzon\Editor\Classes\Plugins\LinkTool\Plugin)->createResponse(\Input::all());
+\Illuminate\Support\Facades\App::before(function() {
+    Route::group(['prefix' => 'editorjs'], function () {
+        Route::group([
+            'prefix' => 'plugins',
+            'middleware' => \ReaZzon\Editor\Classes\Middlewares\PluginGroupMiddleware::class
+        ], function () {
+            Route::any('linktool', \ReaZzon\Editor\Classes\Plugins\LinkTool\Plugin::class);
+            Route::any('image/{type}', \ReaZzon\Editor\Classes\Plugins\Image\Plugin::class);
+            Route::any('attaches', \ReaZzon\Editor\Classes\Plugins\Attaches\Plugin::class);
         });
-
-        Route::any('image/{type}', function ($type) {
-            return (new ReaZzon\Editor\Classes\Plugins\Image\Plugin)->createResponse($type, \Input::all());
-        });
-
-        Route::any('attaches', function () {
-            return (new ReaZzon\Editor\Classes\Plugins\Attaches\Plugin)->createResponse(\Input::all());
-        });
-
     });
-
 });

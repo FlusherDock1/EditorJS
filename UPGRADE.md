@@ -3,6 +3,7 @@
 - [Upgrading to 1.1 from 1.2](#upgrade-1.2)
 - [Upgrading to 1.5.1 from 1.4](#upgrade-1.5.1)
 - [Upgrading to 1.6.0 from 1.5.2](#upgrade-1.6.0)
+- [Upgrading to 1.7.0 from 1.6.0](#upgrade-1.7.0)
 
 <a name="upgrade-1.2"></a>
 ## Upgrading To 1.2
@@ -11,12 +12,12 @@ if you are not developing additional blocks for EditorJS, you can skip this inst
 
 
 Version 1.2 brings new way to extend EditorJS completely abandoning events system.
-For that you need to: 
+For that you need to:
 Instruction to upgrade:
 1. Create new method `registerEditorBlocks()` in your Plugin.php
 2. Move arrays with blocks and scripts to it like in example below
 3. Done.
-    
+
 Before:
 ```
 /**
@@ -76,13 +77,19 @@ In all your models where editorsjs field converts to html blocks you need to do 
     {
        // Remove use ConvertEditor;
        // ...
-   
+
         public $implement = [
            'ReaZzon.Editor.Behaviors.ConvertToHtml'
         ];
-   
-       // ... 
+
+       // ...
     }
     ```
-   
+
 3. That's it, now you can use your model as it was before.
+
+## Upgrading To 1.7.0
+Trait `ReaZzon\Editor\Traits\PluginHelper` is deprecated, please use standart Laravel Resources response and `ReaZzon\Editor\Classes\Exceptions\PluginErrorException` for throwing an error.
+
+For third party frontend plugins, use `ReaZzon\Editor\Classes\Middlewares\PluginGroupMiddleware` to add standard access restrictions.
+

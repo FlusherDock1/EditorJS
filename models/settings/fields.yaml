@@ -55,3 +55,12 @@ tabs:
             tab: 'reazzon.editor::lang.settings.editor.name'
             type: switch
             span: left
+            default: false
+
+        disable_secure_backendauth:
+            label: 'reazzon.editor::lang.settings.editor.disable_secure_backendauth.name'
+            comment: 'reazzon.editor::lang.settings.editor.disable_secure_backendauth.comment'
+            tab: 'reazzon.editor::lang.settings.editor.name'
+            type: switch
+            span: left
+            default: false

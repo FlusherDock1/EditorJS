@@ -1,7 +1,11 @@
 <?php namespace ReaZzon\Editor\Classes\Plugins\Attaches;
 
-use System\Models\File;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\UploadedFile;
+use ReaZzon\Editor\Classes\Exceptions\PluginErrorException;
+use ReaZzon\Editor\Classes\Plugins\Attaches\Resources\AttachResource;
+use Illuminate\Http\Request;
+use System\Models\File;
 
 /**
  * Image Plugin
@@ -10,47 +14,30 @@ use Illuminate\Http\UploadedFile;
  */
 class Plugin
 {
-    use \ReaZzon\Editor\Traits\PluginHelper;
-
     /**
-     * LinkTool constructor
+     * Attaches
+     * @return Responsable
      */
-    public function __construct()
+    public function __invoke(Request $request): Responsable
     {
+        $file = $request->file('file');
+        if (null === $file || !$file instanceof UploadedFile) {
+            throw new PluginErrorException;
+        }
+
+        $file = $this->processFile($file);
+        return new AttachResource($file);
     }
 
     /**
-     * @param $data
-     * @return \Response
+     * @param UploadedFile $uploadedFile
+     * @return File
      */
-    public function createResponse($data)
+    protected function processFile(UploadedFile $uploadedFile): File
     {
-        if ($this->checkRequest()){
-            return $this->error();
-        }
+        $file = new File;
+        $file->fromPost($uploadedFile);
 
-        return $this->processFile($data);
-    }
-
-    /**
-     * @param $data
-     * @return \Response
-     */
-    protected function processFile($data)
-    {
-        if (!array_has($data, 'file') && empty(array_get($data, 'file'))){
-            return $this->error();
-        }
-
-        $file = new File();
-        $file->fromPost(array_get($data, 'file'));
-        $file->save();
-
-        return $this->success('file', [
-            'url' => $file->path,
-            'name' => $file->file_name,
-            'size' => $file->file_size,
-            'extension' => $file->getExtension()
-        ]);
+        return $file;
     }
 }

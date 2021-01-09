@@ -8,6 +8,7 @@ use ReaZzon\Editor\Models\Settings;
  *
  * @package ReaZzon\Editor\Traits;
  * @author Nick Khaetsky, nick@reazzon.ru
+ * @deprecated
  */
 trait PluginHelper
 {
