@@ -37,16 +37,17 @@ class Plugin
      */
     public function __invoke(string $type, Request $request): Responsable
     {
-        if (!\in_array($type, $this->whitelist, true)) {
-            throw new PluginErrorException;
-        }
+//        if (!\in_array($type, $this->whitelist)) {
+//            throw new PluginErrorException;
+//        }
 
-        try {
+//        try {
+
             $file = $this->$type($request);
             return new ImageResource($file);
-        } catch(\Exception $e) {
-            throw new PluginErrorException;
-        }
+//        } catch(\Exception $e) {
+//            throw new PluginErrorException;
+//        }
     }
 
     /**
@@ -62,7 +63,7 @@ class Plugin
         }
 
         $file = new File;
-        $file->fromFile($image);
+        $file->fromPost($image);
 
         return $this->proccessFile($file);
     }
