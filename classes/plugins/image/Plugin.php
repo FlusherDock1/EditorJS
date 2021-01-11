@@ -41,7 +41,7 @@ class Plugin
             throw new PluginErrorException;
         }
 
-        try
+        try {
             $file = $this->$type($request);
             return new ImageResource($file);
         } catch(\Exception $e) {
