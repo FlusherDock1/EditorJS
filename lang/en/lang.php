@@ -44,6 +44,10 @@ return [
             'disable_secure_endpoints' => [
                 'name' => 'Turn off blocking of external requests to EditorJS plugins',
                 'comment' => 'If you want to use EditorJS on the frontend, it is recommended to enable this setting.'
+            ],
+            'disable_secure_backendauth' => [
+                'name' => 'Disable admin authorization check when querying EditorJS plugins',
+                'comment' => 'If you want to use EditorJS on the frontend and only on the current site, it is not recommended to disable blocking.'
             ]
         ]
     ],
