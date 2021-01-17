@@ -23,4 +23,6 @@
 1.6.3: New block "Attaches", provides ability to upload any file to your editor.
 1.6.4: Dropping October.Drivers plugin from requiring
 1.6.5: New drag and drop reorder functionality. Updating link tool and some styles fixes.
+1.6.6: Fixing validation errors on rendering content.
 1.7.0: Fix style in plugins. !!!Fix security. Refactoring code plugins.
+1.7.1: Fixing rendering of content.

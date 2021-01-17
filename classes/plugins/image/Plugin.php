@@ -14,9 +14,6 @@ use System\Models\File;
  */
 class Plugin
 {
-    /**
-     *
-     */
     const MEDIA_FOLDER = 'media/editor';
 
     /**

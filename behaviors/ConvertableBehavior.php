@@ -54,6 +54,7 @@ abstract class ConvertableBehavior extends ExtensionBase
     {
         $pluginManager = PluginManager::instance();
         $plugins = $pluginManager->getPlugins();
+        $this->validationSettings['tools'] = [];
 
         foreach ($plugins as $plugin) {
             if (!method_exists($plugin, 'registerEditorBlocks')) {
@@ -64,9 +65,8 @@ abstract class ConvertableBehavior extends ExtensionBase
             if (!is_array($editorPlugins)) {
                 continue;
             }
-            
-            // prepare tools
-            $this->validationSettings['tools'] = [];
+
+
 
             /**
              * @var string $block
