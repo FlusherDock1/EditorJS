@@ -50,7 +50,7 @@ class PluginGroupMiddleware
             $refererHeader,
             \Config::get('app.url') .'/'. \Config::get('cms.backendUri')
         );
-        return $checkDomain && !$checkBackend;
+        return $checkDomain && $checkBackend;
     }
 
     /**

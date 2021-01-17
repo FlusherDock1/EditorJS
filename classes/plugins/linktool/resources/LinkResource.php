@@ -28,10 +28,10 @@ class LinkResource extends Resource
     public function toArray($request)
     {
         return [
-            'title'       => $this->resource->title,
-            'description' => $this->resource->description,
+            'title'       => optional($this->resource)->title,
+            'description' => optional($this->resource)->description,
             'image'       => [
-                'url' => $this->resource->image,
+                'url' => optional($this->resource)->image
             ]
         ];
     }

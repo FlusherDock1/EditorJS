@@ -2,6 +2,7 @@
 
 
 use Illuminate\Http\Resources\Json\Resource;
+use System\Models\File;
 
 /**
  * Class AttachResource
@@ -30,7 +31,7 @@ class AttachResource extends Resource
         return [
             'url'       => $this->resource->getPath(),
             'name'      => $this->resource->getFileName(),
-            'size'      => $this->resource->getFileSize(),
+            'size'      => $this->resource->file_size,
             'extension' => $this->resource->getExtension()
         ];
     }

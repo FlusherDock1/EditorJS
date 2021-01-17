@@ -62,7 +62,7 @@ class Plugin
         }
 
         $file = new File;
-        $file->fromFile($image);
+        $file->fromPost($image);
 
         return $this->proccessFile($file);
     }
