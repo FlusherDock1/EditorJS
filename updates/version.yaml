@@ -24,3 +24,4 @@
 1.6.4: Dropping October.Drivers plugin from requiring
 1.6.5: New drag and drop reorder functionality. Updating link tool and some styles fixes.
 1.7.0: Fix style in plugins. !!!Fix security. Refactoring code plugins.
+1.7.1: Fix check backend referer. (Thanks for debug [@m49n](https://github.com/m49n)
