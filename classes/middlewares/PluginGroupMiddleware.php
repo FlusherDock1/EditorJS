@@ -1,6 +1,5 @@
 <?php namespace ReaZzon\Editor\Classes\Middlewares;
 
-
 use Backend\Facades\BackendAuth;
 use Illuminate\Http\Request;
 use October\Rain\Support\Str;
