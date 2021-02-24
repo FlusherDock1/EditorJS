@@ -26,3 +26,4 @@
 1.6.6: Fixing validation errors on rendering content.
 1.7.0: Fix style in plugins. !!!Fix security. Refactoring code plugins.
 1.7.1: Fixing rendering of content.
+1.7.2: Fix check backend referer. (Thanks for debug [@m49n](https://github.com/m49n)~

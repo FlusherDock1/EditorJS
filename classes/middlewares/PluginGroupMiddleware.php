@@ -47,7 +47,7 @@ class PluginGroupMiddleware
         $checkDomain  = Str::startsWith($refererHeader, \Config::get('app.url'));
         $checkBackend = Str::startsWith(
             $refererHeader,
-            \Config::get('app.url') .'/'. \Config::get('cms.backendUri')
+            $this->getBackendUri()
         );
         return $checkDomain && $checkBackend;
     }
@@ -62,5 +62,16 @@ class PluginGroupMiddleware
         }
 
         return BackendAuth::check();
+    }
+
+    /**
+     * @return string
+     */
+    private function getBackendUri(): string
+    {
+        return sprintf('%s/%s',
+            rtrim(\Config::get('app.url'), '/'),
+            ltrim(\Config::get('cms.backendUri'), '/')
+        );
     }
 }
