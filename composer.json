@@ -1,5 +1,14 @@
 {
+    "name": "reazzon/editor",
+    "description": "Most powerfull, next generation block styled editor with multilingual support.",
     "require": {
         "codex-team/editor.js": "dev-master"
-    }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nick Khaetsky",
+            "email": "rzzsapb@gmail.com"
+        }
+    ]
 }
