@@ -9,3 +9,9 @@
     border-radius: 3px;
     padding: 20px 0;
 }
+
+.editorjs-wrapper,
+.editorjs-wrapper .codex-editor,
+.editorjs-wrapper .codex-editor .codex-editor__redactor{
+    height: 100%;
+}
