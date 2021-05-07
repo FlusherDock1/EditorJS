@@ -9,6 +9,10 @@
  *
  */
 
+if("function" == typeof define && define.amd) {
+    delete define.amd;
+}
+
 +function ($) {
     "use strict";
     var Base = $.oc.foundation.base,

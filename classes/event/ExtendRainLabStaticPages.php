@@ -68,7 +68,9 @@ class ExtendRainLabStaticPages
                     $model->implement[] = 'ReaZzon.Editor.Behaviors.ConvertToHtml';
 
                     $model->bindEvent('model.beforeSave', function () use ($model) {
-                        $model->markup = $model->convertJsonToHtml($model->viewBag['editor']);
+                        if (isset($model->viewBag['editor']) && !empty($model->viewBag['editor'])) {
+                            $model->markup = $model->convertJsonToHtml($model->viewBag['editor']);
+                        }
                     });
                 });
             }

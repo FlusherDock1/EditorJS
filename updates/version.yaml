@@ -29,3 +29,4 @@
 1.7.2: Fix check backend referer. (Thanks for debug [@m49n](https://github.com/m49n)~
 1.7.3: Upgrading EditorJS vendor to 2.19.1.
 1.7.4: Fixed height stretching, added composer.json for October CMS v2
+1.7.5: Fix for October V2. Thanks @shiftaltd. Possible fix for Editor JS in ML Static Pages
