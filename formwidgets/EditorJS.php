@@ -21,8 +21,6 @@ class EditorJS extends FormWidgetBase
 
     public $stretch;
 
-    public $scripts;
-
     public $toolSettings;
 
     /**
@@ -49,13 +47,11 @@ class EditorJS extends FormWidgetBase
      */
     public function prepareVars()
     {
-        $this->prepareBlocks();
         $this->vars['placeholder'] = $this->placeholder;
         $this->vars['name'] = $this->formField->getName();
         $this->vars['value'] = $this->getLoadValue();
         $this->vars['model'] = $this->model;
         $this->vars['toolSettings'] = e(json_encode($this->toolSettings));
-        $this->vars['scripts'] = $this->scripts;
     }
 
     /**
@@ -63,6 +59,7 @@ class EditorJS extends FormWidgetBase
      */
     protected function loadAssets()
     {
+        $this->prepareBlocks();
         $this->addCss('css/editor.css', 'ReaZzon.Editor');
         $this->addJs('js/editor.js', 'ReaZzon.Editor');
         $this->addJs('js/vendor.js', 'ReaZzon.Editor');
