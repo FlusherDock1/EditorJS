@@ -11,6 +11,7 @@ use ReaZzon\Editor\Classes\Event\ExtendRainLabBlog;
 use ReaZzon\Editor\Classes\Event\ExtendRainLabStaticPages;
 use ReaZzon\Editor\Classes\Event\ExtendIndicatorNews;
 use ReaZzon\Editor\Classes\Event\ExtendLovataGoodNews;
+use ReaZzon\Editor\Behaviors\ConvertToHtml;
 
 /**
  * Editor Plugin Information File
@@ -107,6 +108,19 @@ class Plugin extends PluginBase
             'ReaZzon\Editor\FormWidgets\EditorJS' => 'editorjs',
             'ReaZzon\Editor\FormWidgets\MLEditorJS' => 'mleditorjs',
         ];
+    }
+    
+    public function registerMarkupTags()
+    {
+        return [
+            'filters' => [
+                'editorjs' => [$this, 'convertJsonToHtml']
+            ],
+        ];
+    }
+    
+    public function convertJsonToHtml($field) {
+        return (new ConvertToHtml)->convertJsonToHtml($field);
     }
 
     /**
