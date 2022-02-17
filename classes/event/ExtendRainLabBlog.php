@@ -40,7 +40,7 @@ class ExtendRainLabBlog
                     $fieldWidgetPath = 'ReaZzon\Editor\FormWidgets\MLEditorJS';
                 }
 
-                // Finding content field and changing it's type regardless whatever it already is.
+                // Finding content field and changing its type regardless whatever it already is.
                 foreach ($widget->getFields() as $field) {
                     if ($field->fieldName === 'content') {
                         $field->config['type'] = $fieldType;
