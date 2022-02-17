@@ -109,32 +109,19 @@ class Plugin extends PluginBase
             'ReaZzon\Editor\FormWidgets\MLEditorJS' => 'mleditorjs',
         ];
     }
-    
-    public function registerMarkupTags()
-    {
-        return [
-            'filters' => [
-                'editorjs' => [$this, 'convertJsonToHtml']
-            ],
-        ];
-    }
-    
-    public function convertJsonToHtml($field) {
-        return (new ConvertToHtml)->convertJsonToHtml($field);
-    }
 
-    /**
-     * Registering additional twig functions
-     *
-     * @return array
-     */
     public function registerMarkupTags()
     {
         return [
             'filters' => [
+                'editorjs' => [$this, 'convertJsonToHtml'],
                 'convertBytes' => [$this, 'convertBytes'],
             ],
         ];
+    }
+
+    public function convertJsonToHtml($field) {
+        return (new ConvertToHtml)->convertJsonToHtml($field);
     }
 
     /**
