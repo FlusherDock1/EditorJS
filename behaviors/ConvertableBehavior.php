@@ -66,8 +66,6 @@ abstract class ConvertableBehavior extends ExtensionBase
                 continue;
             }
 
-
-
             /**
              * @var string $block
              * @var array $section

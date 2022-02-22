@@ -60,6 +60,12 @@ class ExtendRainLabBlog
                         return $model->convertJsonToHtml($model->getAttribute('content'));
                     }
                 });
+
+                $model->bindEvent('model.translate.resolveComputedFields', function ($locale) use ($model) {
+                    return [
+                        'content_html' => $model->convertJsonToHtml($model->asExtension('TranslatableModel')->getAttributeTranslated('content', $locale))
+                    ];
+                });
             });
         }
     }

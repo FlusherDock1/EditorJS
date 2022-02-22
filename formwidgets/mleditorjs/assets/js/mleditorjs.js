@@ -20,10 +20,8 @@
     var MLEditor = function (element, options) {
         this.options = options
         this.$el = $(element)
-        this.parameters = null
         this.$form = this.$el.closest('form')
         this.$textarea = $(options.textareaElement)
-        this.$editor = null
         this.$editorjs = $('[data-control=editorjs]:first', this.$el)
         this.toolSettings = this.$el.data('settings')
         this.$locale = $('[data-editor-active-locale]', this.$el)
@@ -72,8 +70,6 @@
             this.currentLocale = locale;
             this.$locale.val(this.currentLocale);
 
-            editor.clear();
-
             let jsonData = null;
 
             // setPrepare
@@ -85,7 +81,11 @@
                 }
             }
 
-            if (jsonData === null) return;
+            if (jsonData === null || (jsonData.blocks !== undefined && jsonData.blocks.length === 0)) {
+                editor.clear()
+                return;
+            }
+
             editor.blocks.render(jsonData);
         }
     }

@@ -67,7 +67,7 @@ if("function" == typeof define && define.amd) {
         if (this.$textarea.val().length > 0 && this.isJson(this.$textarea.val()) === true) {
             parameters.data = JSON.parse(this.$textarea.val())
         }
-
+        console.log('editor.js Init')
         this.$editor = new EditorJS(parameters);
     }
 
