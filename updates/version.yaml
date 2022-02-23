@@ -34,3 +34,4 @@
 1.7.9: Changed composer dependency version for editor-js-php
 1.8.0: Added support to override block views from theme partials. Fixed StaticPage support, fixed Rainlab.Blog support.
 1.8.1: Fixed bug with blocknames. Thanks @sergeitoroptsev
+1.9.0: Added event to extend editorjs config right before render

@@ -27,7 +27,10 @@ if("function" == typeof define && define.amd) {
         this.$form = this.$el.closest('form')
         this.$textarea = this.$el.find('>textarea:first')
         this.$editor = null
-        this.toolSettings = this.$el.data('settings')
+        this.settings = this.$el.data('settings')
+        this.blockSettings = this.$el.data('blocks-settings')
+        this.tunesSettings = this.$el.data('tunes-settings')
+        this.inlineToolbarSettings = this.$el.data('inlineToolbar-settings')
 
         $.oc.foundation.controlUtils.markDisposable(element)
         Base.call(this)
@@ -46,15 +49,20 @@ if("function" == typeof define && define.amd) {
     Editor.prototype.initEditorJS = function () {
 
         // Init all plugin classes from config
-        for (let [key, value] of Object.entries(this.toolSettings)) {
+        for (let [key, value] of Object.entries(this.blockSettings)) {
             value.class = window[value.class];
         }
 
         // Parameters for EditorJS
         let parameters = {
             holder: this.$el.attr('id'),
-            placeholder: this.$el.data('placeholder') ? this.$el.data('placeholder') : 'Tell your story...',
-            tools: this.toolSettings,
+            placeholder: this.settings.placeholder ? this.settings.placeholder : 'Tell your story...',
+            defaultBlock: this.settings.defaultBlock ? this.settings.defaultBlock : 'paragraph',
+            autofocus: this.settings.autofocus,
+            i18n: this.settings.i18n,
+            tools: this.blockSettings,
+            tunes: this.tunesSettings,
+            inlineToolbar: this.inlineToolbarSettings,
             onChange: () => {
                 this.syncContent()
             },
@@ -63,11 +71,13 @@ if("function" == typeof define && define.amd) {
             },
         }
 
+        console.log(parameters)
+
         // Parsing already existing data from textarea
         if (this.$textarea.val().length > 0 && this.isJson(this.$textarea.val()) === true) {
             parameters.data = JSON.parse(this.$textarea.val())
         }
-        console.log('editor.js Init')
+
         this.$editor = new EditorJS(parameters);
     }
 
@@ -80,7 +90,11 @@ if("function" == typeof define && define.amd) {
         this.$el = null;
         this.$form = null;
         this.$textarea = null;
-        this.toolSettings = null;
+        this.settings = null;
+        this.blockSettings = null;
+        this.blockSettings = null;
+        this.tunesSettings = null;
+        this.inlineToolbarSettings = null;
         this.$editor = null;
 
         BaseProto.dispose.call(this)

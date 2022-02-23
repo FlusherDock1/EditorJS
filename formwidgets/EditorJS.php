@@ -1,8 +1,7 @@
 <?php namespace ReaZzon\Editor\FormWidgets;
 
-use Config, Event;
+use Event;
 use System\Classes\PluginManager;
-use October\Rain\Support\Collection;
 use Backend\Classes\FormWidgetBase;
 
 /**
@@ -12,16 +11,24 @@ use Backend\Classes\FormWidgetBase;
  */
 class EditorJS extends FormWidgetBase
 {
+    const EVENT_CONFIG_BUILT = 'reazzon.editorjs.config.built';
+
     /**
      * @inheritDoc
      */
     protected $defaultAlias = 'editorjs';
 
-    public $placeholder;
-
     public $stretch;
 
-    public $toolSettings;
+    public $settings = [];
+
+    public $blocksSettings = [];
+
+    public $tunesSettings = [];
+
+    public $inlineToolbarSettings = [];
+
+    public $blocksScripts = [];
 
     /**
      * @inheritDoc
@@ -36,7 +43,7 @@ class EditorJS extends FormWidgetBase
     public function render()
     {
         $this->fillFromConfig([
-            'placeholder',
+            'settings'
         ]);
         $this->prepareVars();
         return $this->makePartial('editorjs');
@@ -47,11 +54,13 @@ class EditorJS extends FormWidgetBase
      */
     public function prepareVars()
     {
-        $this->vars['placeholder'] = $this->placeholder;
         $this->vars['name'] = $this->formField->getName();
         $this->vars['value'] = $this->getLoadValue();
         $this->vars['model'] = $this->model;
-        $this->vars['toolSettings'] = e(json_encode($this->toolSettings));
+        $this->vars['settings'] = e(json_encode($this->settings));
+        $this->vars['blockSettings'] = e(json_encode($this->blocksSettings));
+        $this->vars['tunesSettings'] = e(json_encode($this->tunesSettings));
+        $this->vars['inlineToolbarSettings'] = e(json_encode($this->inlineToolbarSettings));
     }
 
     /**
@@ -85,7 +94,7 @@ class EditorJS extends FormWidgetBase
             }
 
             $editorPlugins = $plugin->registerEditorBlocks();
-            if (!is_array($editorPlugins)) {
+            if (!is_array($editorPlugins) && !empty($editorPlugins)) {
                 continue;
             }
 
@@ -96,14 +105,70 @@ class EditorJS extends FormWidgetBase
             foreach ($editorPlugins as $block => $sections) {
                 foreach ($sections as $name => $section) {
                     if ($name === 'settings') {
-                        $this->toolSettings = array_add($this->toolSettings, $block, $section);
+                        $this->blocksSettings = array_add($this->blocksSettings, $block, $section);
                     }
                     if ($name === 'scripts') {
                         foreach ($section as $script) {
-                            $this->addJs($script);
+                            $this->blocksScripts[] = $script;
                         }
                     }
                 }
+            }
+
+            $editorTunes = $plugin->registerEditorTunes();
+            if (!empty($editorTunes) && is_array($editorTunes)) {
+                foreach ($editorTunes as $tune) {
+                    $this->tunesSettings[] = $tune;
+                }
+            }
+
+            $inlineToolbarSettings = $plugin->registerEditorInlineToolbar();
+            if (!empty($inlineToolbarSettings) && is_array($inlineToolbarSettings)) {
+                foreach ($inlineToolbarSettings as $inlineToolbarSetting) {
+                    $this->inlineToolbarSettings[] = $inlineToolbarSetting;
+                }
+            }
+
+            /**
+             * Extend config, add your own settings to already existing plugins.
+             *
+             * Event::listen(\ReaZzon\Editor\FormWidgets\EditorJS::EVENT_CONFIG_BUILT, function($blocks) {
+             *
+             *     foreach($blocks['settings'] as $settings) {
+             *          // ..
+             *     }
+             *
+             *     foreach($blocks['scripts'] as $script) {
+             *         // ..
+             *     }
+             *
+             *     foreach($blocks['tunes'] as $tuneItem) {
+             *         // ..
+             *     }
+             *
+             *     foreach($blocks['inlineToolbar'] as $inlineToolbarItem) {
+             *         // ..
+             *     }
+             *
+             *     return $blocks;
+             * });
+             */
+            $eventBlocks = Event::fire(self::EVENT_CONFIG_BUILT, [
+                'settings' => $this->blocksSettings,
+                'scripts' => $this->blocksScripts,
+                'tunes' => $this->tunesSettings,
+                'inlineToolbar' => $this->inlineToolbarSettings
+            ]);
+
+            if (!empty($eventBlocks)) {
+                $this->blocksSettings = $eventBlocks['settings'];
+                $this->blocksScripts = $eventBlocks['scripts'];
+                $this->tunesSettings = $eventBlocks['tunes'];
+                $this->inlineToolbarSettings = $eventBlocks['inlineToolbar'];
+            }
+
+            foreach ($this->blocksScripts as $script) {
+                $this->addJs($script);
             }
         }
     }

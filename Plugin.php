@@ -489,6 +489,16 @@ class Plugin extends PluginBase
         ];
     }
 
+    public function registerEditorTunes()
+    {
+        return [];
+    }
+
+    public function registerEditorInlineToolbar()
+    {
+        return [];
+    }
+
     /**
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */

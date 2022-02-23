@@ -10,10 +10,11 @@
         class="editorjs-wrapper"
         data-control="editorjs"
         id="<?= $this->getId() ?>"
-        data-placeholder="<?= $placeholder ?>"
-        data-settings="<?= $toolSettings ?>">
+        data-settings="<?= $settings ?>"
+        data-blocks-settings="<?= $blockSettings ?>"
+        data-tunes-settings="<?= $tunesSettings ?>"
+        data-inlineToolbar-settings="<?= $inlineToolbarSettings ?>">
         <textarea
-            type="hidden"
             style="display: none"
             name="<?= $name ?>"
             id="<?= $this->getId('textarea') ?>"><?= $value ?></textarea>

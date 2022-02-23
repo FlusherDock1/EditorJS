@@ -3,8 +3,9 @@
     "type": "october-plugin",
     "description": "Most powerful, next generation block styled editor with multilingual support.",
     "require": {
-        "codex-team/editor.js": "^2.0",
-        "composer/installers": "~1.0"
+        "ext-json": "*",
+        "composer/installers": "~1.0",
+        "codex-team/editor.js": "^2.0"
     },
     "license": "MIT",
     "authors": [

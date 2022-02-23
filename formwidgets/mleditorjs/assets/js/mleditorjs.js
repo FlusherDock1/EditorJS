@@ -23,7 +23,6 @@
         this.$form = this.$el.closest('form')
         this.$textarea = $(options.textareaElement)
         this.$editorjs = $('[data-control=editorjs]:first', this.$el)
-        this.toolSettings = this.$el.data('settings')
         this.$locale = $('[data-editor-active-locale]', this.$el)
         this.oldLocale = null;
         this.currentLocale = this.$locale.val();
