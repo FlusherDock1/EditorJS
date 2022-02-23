@@ -33,3 +33,4 @@
 1.7.8: Fix for Ocotber v2 when editorjs opened on page with monaco editor and other vue components.
 1.7.9: Changed composer dependency version for editor-js-php
 1.8.0: Added support to override block views from theme partials. Fixed StaticPage support, fixed Rainlab.Blog support.
+1.8.1: Fixed bug with blocknames. Thanks @sergeitoroptsev
