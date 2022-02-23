@@ -46,7 +46,7 @@ class ConvertToHtml extends ConvertableBehavior
             $partialFilePath = $partial->getBaseFileName();
             if (strpos($partialFilePath, self::FOLDER_NAME) !== false) {
                 $blockName = basename($partialFilePath);
-                $blocksPartials[$blockName] = $partialFilePath;
+                $blocksPartials[strtolower($blockName)] = $partialFilePath;
             }
         }
 
