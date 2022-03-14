@@ -36,3 +36,4 @@
 1.8.1: Fixed bug with blocknames. Thanks @sergeitoroptsev
 1.9.0: Added event to extend editorjs config right before render
 1.9.1: Fix errors if extension plugin doesnt have new methods
+1.9.2: Removed deprecated config
