@@ -89,45 +89,9 @@ class EditorJS extends FormWidgetBase
         $plugins = $pluginManager->getPlugins();
 
         foreach ($plugins as $plugin) {
-            if (!method_exists($plugin, 'registerEditorBlocks')) {
-                continue;
-            }
-
-            $editorPlugins = $plugin->registerEditorBlocks();
-            if (!is_array($editorPlugins) && !empty($editorPlugins)) {
-                continue;
-            }
-
-            /**
-             * @var string $block
-             * @var array $section
-             */
-            foreach ($editorPlugins as $block => $sections) {
-                foreach ($sections as $name => $section) {
-                    if ($name === 'settings') {
-                        $this->blocksSettings = array_add($this->blocksSettings, $block, $section);
-                    }
-                    if ($name === 'scripts') {
-                        foreach ($section as $script) {
-                            $this->blocksScripts[] = $script;
-                        }
-                    }
-                }
-            }
-
-            $editorTunes = $plugin->registerEditorTunes();
-            if (!empty($editorTunes) && is_array($editorTunes)) {
-                foreach ($editorTunes as $tune) {
-                    $this->tunesSettings[] = $tune;
-                }
-            }
-
-            $inlineToolbarSettings = $plugin->registerEditorInlineToolbar();
-            if (!empty($inlineToolbarSettings) && is_array($inlineToolbarSettings)) {
-                foreach ($inlineToolbarSettings as $inlineToolbarSetting) {
-                    $this->inlineToolbarSettings[] = $inlineToolbarSetting;
-                }
-            }
+            $this->processEditorBlocks($plugin);
+            $this->processEditorTunes($plugin);
+            $this->processEditorInlineToolbar($plugin);
 
             /**
              * Extend config, add your own settings to already existing plugins.
@@ -167,9 +131,72 @@ class EditorJS extends FormWidgetBase
                 $this->inlineToolbarSettings = $eventBlocks['inlineToolbar'];
             }
 
-            foreach ($this->blocksScripts as $script) {
-                $this->addJs($script);
+            if (!empty($this->blocksScripts)) {
+                foreach ($this->blocksScripts as $script) {
+                    $this->addJs($script);
+                }
             }
+        }
+    }
+
+    protected function processEditorBlocks($plugin): void
+    {
+        if (!method_exists($plugin, 'registerEditorBlocks')) {
+            return;
+        }
+
+        $editorPlugins = $plugin->registerEditorBlocks();
+        if (!is_array($editorPlugins) && !empty($editorPlugins)) {
+            return;
+        }
+
+        /**
+         * @var string $block
+         * @var array $section
+         */
+        foreach ($editorPlugins as $block => $sections) {
+            foreach ($sections as $name => $section) {
+                if ($name === 'settings') {
+                    $this->blocksSettings = array_add($this->blocksSettings, $block, $section);
+                }
+                if ($name === 'scripts') {
+                    foreach ($section as $script) {
+                        $this->blocksScripts[] = $script;
+                    }
+                }
+            }
+        }
+    }
+
+    protected function processEditorTunes($plugin): void
+    {
+        if (!method_exists($plugin, 'registerEditorTunes')) {
+            return;
+        }
+
+        $editorTunes = $plugin->registerEditorTunes();
+        if (empty($editorTunes) && !is_array($editorTunes)) {
+            return;
+        }
+
+        foreach ($editorTunes as $tune) {
+            $this->tunesSettings[] = $tune;
+        }
+    }
+
+    protected function processEditorInlineToolbar($plugin): void
+    {
+        if (!method_exists($plugin, 'registerEditorInlineToolbar')) {
+            return;
+        }
+
+        $inlineToolbarSettings = $plugin->registerEditorInlineToolbar();
+        if (empty($inlineToolbarSettings) && !is_array($inlineToolbarSettings)) {
+            return;
+        }
+
+        foreach ($inlineToolbarSettings as $inlineToolbarSetting) {
+            $this->inlineToolbarSettings[] = $inlineToolbarSetting;
         }
     }
 }
