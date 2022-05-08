@@ -1,5 +1,6 @@
 <?php namespace ReaZzon\Editor\Classes\Event;
 
+use Backend\Widgets\Form;
 use System\Classes\PluginManager;
 use ReaZzon\Editor\Models\Settings;
 
@@ -8,65 +9,53 @@ use ReaZzon\Editor\Models\Settings;
  * @package ReaZzon\Editor\Classes\Event
  * @author Nick Khaetsky, nick@reazzon.ru
  */
-class ExtendRainLabBlog
+class ExtendRainLabBlog extends AbstractFormExtender
 {
-    /**
-     * Add listeners
-     * @param \Illuminate\Events\Dispatcher $event
-     */
-    public function subscribe($event)
+    protected function replaceField(Form $widget)
+    {
+        if ($field = $widget->getField('content')) {
+            $field->displayAs($this->fieldWidgetPath);
+            $field->stretch = true;
+        }
+    }
+
+    protected function extendModel()
+    {
+        // Replacing original content_html attribute.
+        $this->modelClass::extend(function ($model) {
+            $model->implement[] = 'ReaZzon.Editor.Behaviors.ConvertToHtml';
+
+            $model->bindEvent('model.getAttribute', function ($attribute, $value) use ($model) {
+                if ($attribute == 'content_html') {
+                    return $model->convertJsonToHtml($model->getAttribute('content'));
+                }
+            });
+
+            $model->bindEvent('model.translate.resolveComputedFields', function ($locale) use ($model) {
+                return [
+                    'content_html' => $model->convertJsonToHtml($model->asExtension('TranslatableModel')->getAttributeTranslated('content', $locale))
+                ];
+            });
+        });
+    }
+
+    protected function getControllerClass()
+    {
+        return \RainLab\Blog\Controllers\Posts::class;
+    }
+
+    protected function getModelClass()
+    {
+        return \RainLab\Blog\Models\Post::class;
+    }
+
+    protected function isEnabled()
     {
         if (Settings::get('integration_blog', false) &&
             PluginManager::instance()->hasPlugin('RainLab.Blog')) {
-
-            $event->listen('backend.form.extendFields', function ($widget) {
-
-                // Only for RainLab.Blog Posts controller
-                if (!$widget->getController() instanceof \RainLab\Blog\Controllers\Posts) {
-                    return;
-                }
-
-                // Only for RainLab.Blog Post model
-                if (!$widget->model instanceof \RainLab\Blog\Models\Post) {
-                    return;
-                }
-
-                $fieldType = 'editorjs';
-                $fieldWidgetPath = 'ReaZzon\Editor\FormWidgets\EditorJS';
-
-                if (PluginManager::instance()->hasPlugin('RainLab.Translate')
-                    && !PluginManager::instance()->isDisabled('RainLab.Translate')) {
-                    $fieldType = 'mleditorjs';
-                    $fieldWidgetPath = 'ReaZzon\Editor\FormWidgets\MLEditorJS';
-                }
-
-                // Finding content field and changing its type regardless whatever it already is.
-                foreach ($widget->getFields() as $field) {
-                    if ($field->fieldName === 'content') {
-                        $field->config['type'] = $fieldType;
-                        $field->config['widget'] = $fieldWidgetPath;
-                        $field->config['stretch'] = true;
-                    }
-                }
-            });
-
-            // Replacing original content_html attribute.
-            \RainLab\Blog\Models\Post::extend(function ($model) {
-                /** @var \October\Rain\Database\Model $model */
-                $model->implement[] = 'ReaZzon.Editor.Behaviors.ConvertToHtml';
-
-                $model->bindEvent('model.getAttribute', function ($attribute, $value) use ($model) {
-                    if ($attribute == 'content_html') {
-                        return $model->convertJsonToHtml($model->getAttribute('content'));
-                    }
-                });
-
-                $model->bindEvent('model.translate.resolveComputedFields', function ($locale) use ($model) {
-                    return [
-                        'content_html' => $model->convertJsonToHtml($model->asExtension('TranslatableModel')->getAttributeTranslated('content', $locale))
-                    ];
-                });
-            });
+            return true;
         }
+
+        return false;
     }
 }
