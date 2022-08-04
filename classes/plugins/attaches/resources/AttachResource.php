@@ -1,14 +1,14 @@
 <?php namespace ReaZzon\Editor\Classes\Plugins\Attaches\Resources;
 
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use System\Models\File;
 
 /**
  * Class AttachResource
  * @package ReaZzon\Editor\Classes\Plugins\Attaches\Resources
  */
-class AttachResource extends Resource
+class AttachResource extends JsonResource
 {
     /**
      * @var string
