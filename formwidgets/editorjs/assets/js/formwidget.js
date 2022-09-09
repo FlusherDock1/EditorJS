@@ -44,6 +44,7 @@ if("function" == typeof define && define.amd) {
     Editor.prototype.init = function () {
         this.initEditorJS();
         this.$form.on('oc.beforeRequest', this.proxy(this.syncContent))
+        this.$el.one('dispose-control', this.proxy(this.dispose))
     }
 
     Editor.prototype.initEditorJS = function () {
@@ -65,13 +66,8 @@ if("function" == typeof define && define.amd) {
             inlineToolbar: this.inlineToolbarSettings,
             onChange: () => {
                 this.syncContent()
-            },
-            onReady: () => {
-                new DragDrop(this.$editor);
-            },
+            }
         }
-
-        console.log(parameters)
 
         // Parsing already existing data from textarea
         if (this.$textarea.val().length > 0 && this.isJson(this.$textarea.val()) === true) {
@@ -79,25 +75,6 @@ if("function" == typeof define && define.amd) {
         }
 
         this.$editor = new EditorJS(parameters);
-    }
-
-    Editor.prototype.dispose = function () {
-        this.$form.off('oc.beforeRequest', this.proxy(this.syncContent))
-        this.$el.off('dispose-control', this.proxy(this.dispose))
-        this.$editor.destroy();
-
-        this.options = null;
-        this.$el = null;
-        this.$form = null;
-        this.$textarea = null;
-        this.settings = null;
-        this.blockSettings = null;
-        this.blockSettings = null;
-        this.tunesSettings = null;
-        this.inlineToolbarSettings = null;
-        this.$editor = null;
-
-        BaseProto.dispose.call(this)
     }
 
     /*
@@ -120,20 +97,49 @@ if("function" == typeof define && define.amd) {
         return true;
     }
 
+    Editor.prototype.dispose = function () {
+        this.$form.off('oc.beforeRequest', this.proxy(this.syncContent))
+        this.$el.off('dispose-control', this.proxy(this.dispose))
+        this.$editor.destroy();
+
+        this.options = null;
+        this.$el = null;
+        this.$form = null;
+        this.$textarea = null;
+        this.settings = null;
+        this.blockSettings = null;
+        this.blockSettings = null;
+        this.tunesSettings = null;
+        this.inlineToolbarSettings = null;
+        this.$editor = null;
+
+        BaseProto.dispose.call(this)
+    }
+
     // Editor PLUGIN DEFINITION
     // ============================
 
     var old = $.fn.Editor
 
     $.fn.Editor = function (option) {
-        var args = Array.prototype.slice.call(arguments, 1), result
-        this.each(function () {
-            var $this = $(this)
-            var data = $this.data('oc.editorjs')
-            var options = $.extend({}, Editor.DEFAULTS, $this.data(), typeof option == 'object' && option)
-            if (!data) $this.data('oc.editorjs', (data = new Editor(this, options)))
-            // if (typeof option == 'string') result = data[option].apply(data, args)
-            if (typeof result != 'undefined') return false
+        var args = Array.prototype.slice.call(arguments, 1), items, result
+
+        items = this.each(function () {
+            var $this = $(this),
+                data = $this.data('oc.Editor'),
+                options = $.extend({}, Editor.DEFAULTS, $this.data(), typeof option == 'object' && option);
+
+            if (!data) {
+                $this.data('oc.Editor', (data = new Editor(this, options)))
+            }
+
+            if (typeof option == 'string') {
+                result = data[option].apply(data, args)
+            }
+
+            if (typeof result != 'undefined') {
+                return false
+            }
         })
 
         return result ? result : this
