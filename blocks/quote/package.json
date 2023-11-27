@@ -1,0 +1,9 @@
+{
+    "private": true,
+    "scripts": {
+        "copy": "cp node_modules//@editorjs//quote//dist//quote.umd.js js//block.js"
+    },
+    "dependencies": {
+        "@editorjs/quote": "^2.6"
+    }
+}

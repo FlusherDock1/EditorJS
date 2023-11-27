@@ -1,0 +1,9 @@
+{
+    "private": true,
+    "scripts": {
+        "copy": "cp node_modules//@editorjs//warning//dist//warning.umd.js js//block.js"
+    },
+    "dependencies": {
+        "@editorjs/warning": "^1.4"
+    }
+}

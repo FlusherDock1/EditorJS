@@ -1,0 +1,12 @@
+.editorjs-wrapper{
+    background-color: var(--oc-form-control-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    padding: 1rem 0;
+}
+
+.editorjs-wrapper,
+.editorjs-wrapper .codex-editor,
+.editorjs-wrapper .codex-editor .codex-editor__redactor{
+    height: auto;
+}

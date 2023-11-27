@@ -1,0 +1,9 @@
+{
+    "private": true,
+    "scripts": {
+        "copy": "cp node_modules//@editorjs//delimiter//dist//delimiter.umd.js js//block.js"
+    },
+    "dependencies": {
+        "@editorjs/delimiter": "^1.4"
+    }
+}
