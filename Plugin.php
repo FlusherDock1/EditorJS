@@ -56,85 +56,15 @@ class Plugin extends PluginBase
     public function registerEditorJsBlocks(): array
     {
         return [
-            'paragraph' => [
-                'validation' => [
-                    'text' => [
-                        'type' => 'string',
-                        'allowedTags' => 'i,b,u,a[href],span[class],code[class],mark[class]'
-                    ]
-                ],
-                'view' => 'reazzon.editor::blocks.paragraph'
-            ],
-            'header' => [
-                'settings' => [
-                    'class' => 'Header',
-                    'shortcut' => 'CMD+SHIFT+H',
-                ],
-                'validation' => [
-                    'text' => [
-                        'type' => 'string',
-                    ],
-                    'level' => [
-                        'type' => 'int',
-                        'canBeOnly' => [1, 2, 3, 4, 5]
-                    ]
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/blocks/header/js/block.js',
-                ],
-                'view' => 'reazzon.editor::blocks.heading'
-            ],
-            'quote' => [
-                'settings' => [
-                    'class' => 'Quote',
-                    'inlineToolbar' => true,
-                    'shortcut' => 'CMD+SHIFT+O',
-                ],
-                'validation' => [
-                    'text' => [
-                        'type' => 'string'
-                    ],
-                    'caption' => [
-                        'type' => 'string'
-                    ],
-                    'alignment' => [
-                        'type' => 'string'
-                    ]
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/blocks/quote/js/block.js'
-                ],
-                'view' => 'reazzon.editor::blocks.quote'
-            ],
-            'warning' => [
-                'settings' => [
-                    'class' => 'Warning',
-                    'inlineToolbar' => true,
-                    'shortcut' => 'CMD+SHIFT+W',
-                ],
-                'validation' => [
-                    'title' => [
-                        'type' => 'string'
-                    ],
-                    'message' => [
-                        'type' => 'string'
-                    ]
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/blocks/warning/js/block.js'
-                ],
-                'view' => 'reazzon.editor::blocks.warning'
-            ],
-            'delimiter' => [
-                'settings' => [
-                    'class' => 'Delimiter',
-                ],
-                'validation' => [],
-                'scripts' => [
-                    '/plugins/reazzon/editor/blocks/delimiter/js/block.js'
-                ],
-                'view' => 'reazzon.editor::blocks.delimiter'
-            ]
+            \ReaZzon\Editor\Blocks\ParagraphBlock::class => 'paragraph',
+            \ReaZzon\Editor\Blocks\HeaderBlock::class => 'header',
+            \ReaZzon\Editor\Blocks\ListBlock::class => 'list',
+            \ReaZzon\Editor\Blocks\QuoteBlock::class => 'quote',
+            \ReaZzon\Editor\Blocks\TableBlock::class => 'table',
+            \ReaZzon\Editor\Blocks\CodeBlock::class => 'code',
+            \ReaZzon\Editor\Blocks\WarningBlock::class => 'warning',
+            \ReaZzon\Editor\Blocks\DelimiterBlock::class => 'delimiter',
+            \ReaZzon\Editor\Blocks\RawBlock::class => 'raw'
         ];
     }
 

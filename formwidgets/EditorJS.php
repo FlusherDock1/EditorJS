@@ -2,6 +2,7 @@
 
 use Backend\Classes\FormWidgetBase;
 use October\Rain\Support\Facades\Event;
+use ReaZzon\Editor\Classes\Contracts\EditorJsBlock;
 use System\Classes\PluginManager;
 
 /**
@@ -122,26 +123,16 @@ class EditorJs extends FormWidgetBase
             return;
         }
 
-        $editorPlugins = $plugin->registerEditorJsBlocks();
-        if (!is_array($editorPlugins) && !empty($editorPlugins)) {
+        $editorBlocks = $plugin->registerEditorJsBlocks();
+        if (!is_array($editorBlocks) || empty($editorBlocks)) {
             return;
         }
 
-        /**
-         * @var string $block
-         * @var array $section
-         */
-        foreach ($editorPlugins as $block => $sections) {
-            foreach ($sections as $name => $section) {
-                if ($name === 'settings') {
-                    $this->blocksSettings = array_add($this->blocksSettings, $block, $section);
-                }
-                if ($name === 'scripts') {
-                    foreach ($section as $script) {
-                        $this->blocksScripts[] = $script;
-                    }
-                }
-            }
+        foreach ($editorBlocks as $blockClass => $blockName) {
+            /** @var EditorJsBlock $block */
+            $block = app($blockClass);
+            $this->blocksSettings[$blockName] = $block->registerSettings();
+            $this->blocksScripts = array_merge($this->blocksScripts, $block->registerScripts());
         }
     }
 

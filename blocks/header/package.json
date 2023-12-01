@@ -1,9 +1,0 @@
-{
-    "private": true,
-    "scripts": {
-        "copy": "cp node_modules//@editorjs//header//dist//header.umd.js js//block.js"
-    },
-    "dependencies": {
-        "@editorjs/header": "^2.8"
-    }
-}

@@ -10,6 +10,7 @@
         class="editorjs-wrapper"
         data-control="reazzoneditorjs"
         id="<?= $this->getId() ?>"
+        data-textarea="<?= $this->getId('input') ?>"
         data-settings="<?= $settings ?>"
         data-blocks-settings="<?= $blockSettings ?>"
         data-tunes-settings="<?= $tunesSettings ?>"

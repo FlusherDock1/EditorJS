@@ -1,0 +1,17 @@
+{
+    "private": true,
+    "scripts": {
+        "copy": "node copy.js"
+    },
+    "dependencies": {
+        "@editorjs/paragraph": "^2.11",
+        "@editorjs/header": "^2.8",
+        "@editorjs/table": "^2.3",
+        "@editorjs/raw": "^2.5",
+        "@editorjs/quote": "^2.6",
+        "@editorjs/list": "^1.9",
+        "@editorjs/delimiter": "^1.4",
+        "@editorjs/code": "^2.9",
+        "@editorjs/warning": "^1.4"
+    }
+}
