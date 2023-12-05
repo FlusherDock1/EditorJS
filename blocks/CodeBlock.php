@@ -1,8 +1,8 @@
 <?php namespace ReaZzon\Editor\Blocks;
 
-use ReaZzon\Editor\Classes\AbstractEditorJsBlock;
+use ReaZzon\Editor\Classes\AbstractBlock;
 
-class CodeBlock extends AbstractEditorJsBlock
+class CodeBlock extends AbstractBlock
 {
     public function registerSettings(): array
     {

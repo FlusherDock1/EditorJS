@@ -1,0 +1,9 @@
+{
+    "private": true,
+    "scripts": {
+        "copy": "node copy.js"
+    },
+    "dependencies": {
+        "@editorjs/marker": "^1.4"
+    }
+}

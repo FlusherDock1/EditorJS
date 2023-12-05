@@ -12,9 +12,9 @@
         id="<?= $this->getId() ?>"
         data-textarea="<?= $this->getId('input') ?>"
         data-settings="<?= $settings ?>"
-        data-blocks-settings="<?= $blockSettings ?>"
-        data-tunes-settings="<?= $tunesSettings ?>"
-        data-inlineToolbar-settings="<?= $inlineToolbarSettings ?>"></div>
+        data-blocks="<?= $blocks ?>"
+        data-tunes="<?= $tunes ?>"
+        data-inlineToolbars="<?= $inlineToolbars ?>"></div>
 
     <textarea
         style="display: none"

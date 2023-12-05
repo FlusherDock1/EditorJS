@@ -3,7 +3,7 @@
 use October\Rain\Extension\ExtendableTrait;
 use ReaZzon\Editor\Classes\Contracts\EditorJsBlock;
 
-abstract class AbstractEditorJsBlock implements EditorJsBlock
+abstract class AbstractBlock implements EditorJsBlock
 {
     use ExtendableTrait;
 }

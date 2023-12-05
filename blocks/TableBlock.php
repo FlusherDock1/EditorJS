@@ -1,8 +1,8 @@
 <?php namespace ReaZzon\Editor\Blocks;
 
-use ReaZzon\Editor\Classes\AbstractEditorJsBlock;
+use ReaZzon\Editor\Classes\AbstractBlock;
 
-class TableBlock extends AbstractEditorJsBlock
+class TableBlock extends AbstractBlock
 {
     public function registerSettings(): array
     {

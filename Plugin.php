@@ -73,7 +73,9 @@ class Plugin extends PluginBase
      */
     public function registerEditorJsTunes(): array
     {
-        return [];
+        return [
+            \ReaZzon\Editor\Tools\MarkerTool::class => 'marker'
+        ];
     }
 
     /**

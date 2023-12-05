@@ -3,6 +3,7 @@
 use Backend\Classes\FormWidgetBase;
 use October\Rain\Support\Facades\Event;
 use ReaZzon\Editor\Classes\Contracts\EditorJsBlock;
+use ReaZzon\Editor\Classes\Contracts\EditorJsTune;
 use System\Classes\PluginManager;
 
 /**
@@ -18,13 +19,13 @@ class EditorJs extends FormWidgetBase
 
     public array $settings = [];
 
-    public array $blocksSettings = [];
+    public array $blocks = [];
 
-    public array $tunesSettings = [];
+    public array $tunes = [];
 
-    public array $inlineToolbarSettings = [];
+    public array $inlineToolbars = [];
 
-    public array $blocksScripts = [];
+    public array $additionalScripts = [];
 
     public function init(): void
     {
@@ -44,9 +45,9 @@ class EditorJs extends FormWidgetBase
         $this->vars['model'] = $this->model;
 
         $this->vars['settings'] = e(json_encode($this->settings));
-        $this->vars['blockSettings'] = e(json_encode($this->blocksSettings));
-        $this->vars['tunesSettings'] = e(json_encode($this->tunesSettings));
-        $this->vars['inlineToolbarSettings'] = e(json_encode($this->inlineToolbarSettings));
+        $this->vars['blocks'] = e(json_encode($this->blocks));
+        $this->vars['tunes'] = e(json_encode($this->tunes));
+        $this->vars['inlineToolbars'] = e(json_encode($this->inlineToolbars));
     }
 
     public function loadAssets(): void
@@ -67,16 +68,16 @@ class EditorJs extends FormWidgetBase
         $plugins = $pluginManager->getPlugins();
 
         foreach ($plugins as $plugin) {
-            $this->processEditorBlocks($plugin);
-            $this->processEditorTunes($plugin);
-            $this->processEditorInlineToolbar($plugin);
+            $this->processBlocks($plugin);
+            $this->processTunes($plugin);
+            $this->processInlineToolbar($plugin);
 
             /**
              * Extend config, add your own settings to already existing plugins.
              *
              * Event::listen(\ReaZzon\Editor\FormWidgets\EditorJs::EVENT_CONFIG_BUILT, function($blocks) {
              *
-             *     foreach($blocks['settings'] as $settings) {
+             *     foreach($blocks['blocks'] as $block) {
              *          // ...
              *     }
              *
@@ -96,28 +97,28 @@ class EditorJs extends FormWidgetBase
              * });
              */
             $eventBlocks = Event::fire(self::EVENT_CONFIG_BUILT, [
-                'settings' => $this->blocksSettings,
-                'scripts' => $this->blocksScripts,
-                'tunes' => $this->tunesSettings,
-                'inlineToolbar' => $this->inlineToolbarSettings
+                'scripts' => $this->additionalScripts,
+                'blocks' => $this->blocks,
+                'tunes' => $this->tunes,
+                'inlineToolbars' => $this->inlineToolbars
             ]);
 
             if (!empty($eventBlocks)) {
-                $this->blocksSettings = $eventBlocks['settings'];
-                $this->blocksScripts = $eventBlocks['scripts'];
-                $this->tunesSettings = $eventBlocks['tunes'];
-                $this->inlineToolbarSettings = $eventBlocks['inlineToolbar'];
+                $this->blocks = $eventBlocks['settings'];
+                $this->additionalScripts = $eventBlocks['scripts'];
+                $this->tunes = $eventBlocks['tunes'];
+                $this->inlineToolbars = $eventBlocks['inlineToolbar'];
             }
 
-            if (!empty($this->blocksScripts)) {
-                foreach ($this->blocksScripts as $script) {
+            if (!empty($this->additionalScripts)) {
+                foreach ($this->additionalScripts as $script) {
                     $this->addJs($script);
                 }
             }
         }
     }
 
-    protected function processEditorBlocks($plugin): void
+    protected function processBlocks($plugin): void
     {
         if (!method_exists($plugin, 'registerEditorJsBlocks')) {
             return;
@@ -131,12 +132,12 @@ class EditorJs extends FormWidgetBase
         foreach ($editorBlocks as $blockClass => $blockName) {
             /** @var EditorJsBlock $block */
             $block = app($blockClass);
-            $this->blocksSettings[$blockName] = $block->registerSettings();
-            $this->blocksScripts = array_merge($this->blocksScripts, $block->registerScripts());
+            $this->blocks[$blockName] = $block->registerSettings();
+            $this->additionalScripts = array_merge($this->additionalScripts, $block->registerScripts());
         }
     }
 
-    protected function processEditorTunes($plugin): void
+    protected function processTunes($plugin): void
     {
         if (!method_exists($plugin, 'registerEditorJsTunes')) {
             return;
@@ -147,24 +148,27 @@ class EditorJs extends FormWidgetBase
             return;
         }
 
-        foreach ($editorTunes as $tune) {
-            $this->tunesSettings[] = $tune;
+        foreach ($editorTunes as $tuneClass => $tuneName) {
+            /** @var EditorJsTune $tune */
+            $tune = app($tuneClass);
+            $this->tunes[$tuneName] = $tune->registerSettings();
+            $this->additionalScripts = array_merge($this->additionalScripts, $tune->registerScripts());
         }
     }
 
-    protected function processEditorInlineToolbar($plugin): void
+    protected function processInlineToolbar($plugin): void
     {
         if (!method_exists($plugin, 'registerEditorJsInlineToolbar')) {
             return;
         }
 
-        $inlineToolbarSettings = $plugin->registerEditorJsInlineToolbar();
-        if (empty($inlineToolbarSettings) && !is_array($inlineToolbarSettings)) {
+        $inlineToolbars = $plugin->registerEditorJsInlineToolbar();
+        if (empty($inlineToolbars) && !is_array($inlineToolbars)) {
             return;
         }
 
-        foreach ($inlineToolbarSettings as $inlineToolbarSetting) {
-            $this->inlineToolbarSettings[] = $inlineToolbarSetting;
+        foreach ($inlineToolbars as $inlineToolbarSetting) {
+            $this->inlineToolbars[] = $inlineToolbarSetting;
         }
     }
 }

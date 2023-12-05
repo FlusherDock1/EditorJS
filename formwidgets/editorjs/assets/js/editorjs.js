@@ -9,27 +9,33 @@
 
 oc.registerControl('reazzoneditorjs', class extends oc.ControlBase {
     connect() {
-        this.initSettings();
+        this.initEditor();
         this.initListeners();
-
-        this.editorjs = new EditorJS(this.parameters);
     }
 
-    initSettings() {
+    disconnect() {
+        this.editorjs.destroy();
+        delete this.settings;
+        delete this.blocks;
+        delete this.tunesSettings;
+        delete this.inlineToolbarSettings;
+    }
+
+    initEditor() {
         this.textarea = document.querySelector('#' + this.element.getAttribute('data-textarea'));
         this.settings = JSON.parse(this.element.getAttribute('data-settings'));
-        this.blockSettings = JSON.parse(this.element.getAttribute('data-blocks-settings'));
-        this.tunesSettings = JSON.parse(this.element.getAttribute('data-tunes-settings'));
-        this.inlineToolbarSettings = JSON.parse(this.element.getAttribute('data-inlineToolbar-settings'));
+        this.blocks = JSON.parse(this.element.getAttribute('data-blocks'));
+        this.tunes = JSON.parse(this.element.getAttribute('data-tunes'));
+        this.inlineToolbar = JSON.parse(this.element.getAttribute('data-inlineToolbars'));
         this.parameters = {
             holder: this.element.getAttribute('id'),
             placeholder: this.settings.placeholder ? this.settings.placeholder : 'Tell your story...',
             defaultBlock: this.settings.defaultBlock ? this.settings.defaultBlock : 'paragraph',
             autofocus: this.settings.autofocus,
             i18n: this.settings.i18n,
-            tools: this.blockSettings,
-            tunes: this.tunesSettings,
-            inlineToolbar: this.inlineToolbarSettings,
+            tools: this.blocks,
+            tunes: this.tunes,
+            inlineToolbar: this.inlineToolbar,
             onChange: () => this.syncContent()
         };
 
@@ -39,19 +45,26 @@ oc.registerControl('reazzoneditorjs', class extends oc.ControlBase {
         }
 
         // Init all plugins from config
-        for (let [key, value] of Object.entries(this.blockSettings)) {
+        for (let [key, value] of Object.entries(this.blocks)) {
             value.class = window[value.class];
         }
+
+        for (let [key, value] of Object.entries(this.tunes)) {
+            value.class = window[value.class];
+        }
+
+        this.editorjs = new EditorJS(this.parameters);
     }
 
     initListeners() {
-        window.addEventListener('ajax:before-send', (event) => {
-            console.log(event);
-            const { options, promise } = event.detail;
-
-            console.log(options);
-            console.log(promise);
-        });
+        // TODO pause onSave on page and call syncContent
+        // window.addEventListener('ajax:request-start', (event) => {
+        //     console.log(event);
+        //     const { xhr } = event.detail;
+        //     console.log(xhr);
+        //     event.preventDefault();
+        //     event.stopPropagation();
+        // });
     }
 
     syncContent() {
@@ -67,13 +80,5 @@ oc.registerControl('reazzoneditorjs', class extends oc.ControlBase {
             return false;
         }
         return true;
-    }
-
-    disconnect() {
-        this.editorjs.destroy();
-        delete this.settings;
-        delete this.blockSettings;
-        delete this.tunesSettings;
-        delete this.inlineToolbarSettings;
     }
 });
