@@ -2,13 +2,12 @@
 
 use ReaZzon\Editor\Classes\AbstractTool;
 
-class MarkerTool extends AbstractTool
+class InlineCodeTool extends AbstractTool
 {
     public function registerSettings(): array
     {
         return [
-            'class' => 'Marker',
-            'shortcut' => 'CMD+SHIFT+M',
+            'class' => 'InlineCode'
         ];
     }
 
@@ -20,7 +19,7 @@ class MarkerTool extends AbstractTool
     public function registerScripts(): array
     {
         return [
-            '/plugins/reazzon/editor/assets/js/markerTool.js'
+            '/plugins/reazzon/editor/assets/js/inline-codeTool.js'
         ];
     }
 

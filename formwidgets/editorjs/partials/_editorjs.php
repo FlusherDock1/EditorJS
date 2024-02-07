@@ -8,13 +8,12 @@
 
     <div
         class="editorjs-wrapper"
-        data-control="reazzoneditorjs"
+        data-control="reazzon-editorjs"
         id="<?= $this->getId() ?>"
         data-textarea="<?= $this->getId('input') ?>"
         data-settings="<?= $settings ?>"
-        data-blocks="<?= $blocks ?>"
-        data-tunes="<?= $tunes ?>"
-        data-inlineToolbars="<?= $inlineToolbars ?>"></div>
+        data-tools="<?= $tools ?>"
+        data-tunes="<?= $tunes ?>"></div>
 
     <textarea
         style="display: none"

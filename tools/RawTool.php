@@ -1,21 +1,22 @@
-<?php namespace ReaZzon\Editor\Blocks;
+<?php namespace ReaZzon\Editor\Tools;
 
-use ReaZzon\Editor\Classes\AbstractBlock;
+use ReaZzon\Editor\Classes\AbstractTool;
 
-class CodeBlock extends AbstractBlock
+class RawTool extends AbstractTool
 {
     public function registerSettings(): array
     {
         return [
-            'class' => 'CodeTool'
+            'class' => 'RawTool'
         ];
     }
 
     public function registerValidations(): array
     {
         return [
-            'code' => [
-                'type' => 'string'
+            'html' => [
+                'type' => 'string',
+                'allowedTags' => '*',
             ]
         ];
     }
@@ -23,14 +24,14 @@ class CodeBlock extends AbstractBlock
     public function registerScripts(): array
     {
         return [
-            '/plugins/reazzon/editor/blocks/js/codeBlock.js'
+            '/plugins/reazzon/editor/assets/js/rawTool.js'
         ];
     }
 
     public function registerViews(): array
     {
         return [
-            'reazzon.editor::blocks.code'
+            'reazzon.editor::blocks.raw'
         ];
     }
 }

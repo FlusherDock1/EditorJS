@@ -1,8 +1,8 @@
-<?php namespace ReaZzon\Editor\Blocks;
+<?php namespace ReaZzon\Editor\Tools;
 
-use ReaZzon\Editor\Classes\AbstractBlock;
+use ReaZzon\Editor\Classes\AbstractTool;
 
-class TableBlock extends AbstractBlock
+class TableTool extends AbstractTool
 {
     public function registerSettings(): array
     {
@@ -36,7 +36,7 @@ class TableBlock extends AbstractBlock
     public function registerScripts(): array
     {
         return [
-            '/plugins/reazzon/editor/blocks/js/tableBlock.js'
+            '/plugins/reazzon/editor/assets/js/tableTool.js'
         ];
     }
 

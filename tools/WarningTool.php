@@ -1,8 +1,8 @@
-<?php namespace ReaZzon\Editor\Blocks;
+<?php namespace ReaZzon\Editor\Tools;
 
-use ReaZzon\Editor\Classes\AbstractBlock;
+use ReaZzon\Editor\Classes\AbstractTool;
 
-class WarningBlock extends AbstractBlock
+class WarningTool extends AbstractTool
 {
     public function registerSettings(): array
     {
@@ -28,7 +28,7 @@ class WarningBlock extends AbstractBlock
     public function registerScripts(): array
     {
         return [
-            '/plugins/reazzon/editor/blocks/js/warningBlock.js'
+            '/plugins/reazzon/editor/assets/js/warningTool.js'
         ];
     }
 

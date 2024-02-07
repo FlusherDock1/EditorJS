@@ -2,12 +2,12 @@
  * Rich text editor with blocks form field control (WYSIWYG)
  *
  * Data attributes:
- * - data-control="reazzoneditorjs" - enables the editorjs plugin
+ * - data-control="reazzon-editorjs" - enables the editorjs plugin
  *
  */
 'use strict';
 
-oc.registerControl('reazzoneditorjs', class extends oc.ControlBase {
+oc.registerControl('reazzon-editorjs', class extends oc.ControlBase {
     connect() {
         this.initEditor();
         this.initListeners();
@@ -15,27 +15,26 @@ oc.registerControl('reazzoneditorjs', class extends oc.ControlBase {
 
     disconnect() {
         this.editorjs.destroy();
+        delete this.textarea;
         delete this.settings;
-        delete this.blocks;
-        delete this.tunesSettings;
-        delete this.inlineToolbarSettings;
+        delete this.tools;
+        delete this.tunes;
+        delete this.parameters;
     }
 
     initEditor() {
         this.textarea = document.querySelector('#' + this.element.getAttribute('data-textarea'));
         this.settings = JSON.parse(this.element.getAttribute('data-settings'));
-        this.blocks = JSON.parse(this.element.getAttribute('data-blocks'));
+        this.tools = JSON.parse(this.element.getAttribute('data-tools'));
         this.tunes = JSON.parse(this.element.getAttribute('data-tunes'));
-        this.inlineToolbar = JSON.parse(this.element.getAttribute('data-inlineToolbars'));
         this.parameters = {
             holder: this.element.getAttribute('id'),
             placeholder: this.settings.placeholder ? this.settings.placeholder : 'Tell your story...',
             defaultBlock: this.settings.defaultBlock ? this.settings.defaultBlock : 'paragraph',
             autofocus: this.settings.autofocus,
             i18n: this.settings.i18n,
-            tools: this.blocks,
+            tools: this.tools,
             tunes: this.tunes,
-            inlineToolbar: this.inlineToolbar,
             onChange: () => this.syncContent()
         };
 
@@ -45,7 +44,7 @@ oc.registerControl('reazzoneditorjs', class extends oc.ControlBase {
         }
 
         // Init all plugins from config
-        for (let [key, value] of Object.entries(this.blocks)) {
+        for (let [key, value] of Object.entries(this.tools)) {
             value.class = window[value.class];
         }
 

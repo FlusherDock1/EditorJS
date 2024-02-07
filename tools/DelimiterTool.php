@@ -1,13 +1,13 @@
-<?php namespace ReaZzon\Editor\Blocks;
+<?php namespace ReaZzon\Editor\Tools;
 
-use ReaZzon\Editor\Classes\AbstractBlock;
+use ReaZzon\Editor\Classes\AbstractTool;
 
-class DelimiterBlock extends AbstractBlock
+class DelimiterTool extends AbstractTool
 {
     public function registerSettings(): array
     {
         return [
-            'class' => 'Delimiter',
+            'class' => 'Delimiter'
         ];
     }
 
@@ -19,7 +19,7 @@ class DelimiterBlock extends AbstractBlock
     public function registerScripts(): array
     {
         return [
-            '/plugins/reazzon/editor/blocks/js/delimiterBlock.js'
+            '/plugins/reazzon/editor/assets/js/delimiterTool.js'
         ];
     }
 

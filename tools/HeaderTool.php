@@ -1,8 +1,8 @@
-<?php namespace ReaZzon\Editor\Blocks;
+<?php namespace ReaZzon\Editor\Tools;
 
-use ReaZzon\Editor\Classes\AbstractBlock;
+use ReaZzon\Editor\Classes\AbstractTool;
 
-class HeaderBlock extends AbstractBlock
+class HeaderTool extends AbstractTool
 {
     public function registerSettings(): array
     {
@@ -16,7 +16,7 @@ class HeaderBlock extends AbstractBlock
     {
         return [
             'text' => [
-                'type' => 'string',
+                'type' => 'string'
             ],
             'level' => [
                 'type' => 'int',
@@ -28,7 +28,7 @@ class HeaderBlock extends AbstractBlock
     public function registerScripts(): array
     {
         return [
-            '/plugins/reazzon/editor/blocks/js/headerBlock.js'
+            '/plugins/reazzon/editor/assets/js/headerTool.js'
         ];
     }
 

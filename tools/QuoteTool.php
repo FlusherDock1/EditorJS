@@ -1,8 +1,8 @@
-<?php namespace ReaZzon\Editor\Blocks;
+<?php namespace ReaZzon\Editor\Tools;
 
-use ReaZzon\Editor\Classes\AbstractBlock;
+use ReaZzon\Editor\Classes\AbstractTool;
 
-class QuoteBlock extends AbstractBlock
+class QuoteTool extends AbstractTool
 {
     public function registerSettings(): array
     {
@@ -31,7 +31,7 @@ class QuoteBlock extends AbstractBlock
     public function registerScripts(): array
     {
         return [
-            '/plugins/reazzon/editor/blocks/js/quoteBlock.js'
+            '/plugins/reazzon/editor/assets/js/quoteTool.js'
         ];
     }
 

@@ -53,18 +53,23 @@ class Plugin extends PluginBase
     /**
      * registerEditorJsBlocks registers additional blocks for EditorJs
      */
-    public function registerEditorJsBlocks(): array
+    public function registerEditorJsTools(): array
     {
         return [
-            \ReaZzon\Editor\Blocks\ParagraphBlock::class => 'paragraph',
-            \ReaZzon\Editor\Blocks\HeaderBlock::class => 'header',
-            \ReaZzon\Editor\Blocks\ListBlock::class => 'list',
-            \ReaZzon\Editor\Blocks\QuoteBlock::class => 'quote',
-            \ReaZzon\Editor\Blocks\TableBlock::class => 'table',
-            \ReaZzon\Editor\Blocks\CodeBlock::class => 'code',
-            \ReaZzon\Editor\Blocks\WarningBlock::class => 'warning',
-            \ReaZzon\Editor\Blocks\DelimiterBlock::class => 'delimiter',
-            \ReaZzon\Editor\Blocks\RawBlock::class => 'raw'
+            \ReaZzon\Editor\Tools\ParagraphTool::class => 'paragraph',
+            \ReaZzon\Editor\Tools\HeaderTool::class => 'header',
+            \ReaZzon\Editor\Tools\ListTool::class => 'list',
+            \ReaZzon\Editor\Tools\QuoteTool::class => 'quote',
+            \ReaZzon\Editor\Tools\ImageTool::class => 'image',
+            \ReaZzon\Editor\Tools\TableTool::class => 'table',
+            \ReaZzon\Editor\Tools\CodeAbstractTool::class => 'code',
+            \ReaZzon\Editor\Tools\WarningTool::class => 'warning',
+            \ReaZzon\Editor\Tools\DelimiterTool::class => 'delimiter',
+            \ReaZzon\Editor\Tools\RawTool::class => 'raw',
+            \ReaZzon\Editor\Tools\EmbedTool::class => 'embed',
+            \ReaZzon\Editor\Tools\MarkerTool::class => 'marker',
+            \ReaZzon\Editor\Tools\UnderlineTool::class => 'underline',
+            \ReaZzon\Editor\Tools\InlineCodeTool::class => 'inlineCode',
         ];
     }
 
@@ -72,16 +77,6 @@ class Plugin extends PluginBase
      * registerEditorJsTunes registers additional tunes for EditorJs
      */
     public function registerEditorJsTunes(): array
-    {
-        return [
-            \ReaZzon\Editor\Tools\MarkerTool::class => 'marker'
-        ];
-    }
-
-    /**
-     * registerEditorJsInlineToolbar registers additional inline toolbar for EditorJs
-     */
-    public function registerEditorJsInlineToolbar(): array
     {
         return [];
     }

@@ -1,8 +1,8 @@
-<?php namespace ReaZzon\Editor\Blocks;
+<?php namespace ReaZzon\Editor\Tools;
 
-use ReaZzon\Editor\Classes\AbstractBlock;
+use ReaZzon\Editor\Classes\AbstractTool;
 
-class ParagraphBlock extends AbstractBlock
+class ParagraphTool extends AbstractTool
 {
     public function registerSettings(): array
     {
@@ -25,7 +25,7 @@ class ParagraphBlock extends AbstractBlock
     public function registerScripts(): array
     {
         return [
-            '/plugins/reazzon/editor/blocks/js/paragraphBlock.js'
+            '/plugins/reazzon/editor/assets/js/paragraphTool.js'
         ];
     }
 

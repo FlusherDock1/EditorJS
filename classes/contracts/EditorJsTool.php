@@ -1,6 +1,6 @@
 <?php namespace ReaZzon\Editor\Classes\Contracts;
 
-interface EditorJsBlock
+interface EditorJsTool
 {
     public function registerSettings(): array;
     public function registerValidations(): array;

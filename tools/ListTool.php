@@ -1,8 +1,8 @@
-<?php namespace ReaZzon\Editor\Blocks;
+<?php namespace ReaZzon\Editor\Tools;
 
-use ReaZzon\Editor\Classes\AbstractBlock;
+use ReaZzon\Editor\Classes\AbstractTool;
 
-class ListBlock extends AbstractBlock
+class ListTool extends AbstractTool
 {
     public function registerSettings(): array
     {
@@ -36,7 +36,7 @@ class ListBlock extends AbstractBlock
     public function registerScripts(): array
     {
         return [
-            '/plugins/reazzon/editor/blocks/js/listBlock.js'
+            '/plugins/reazzon/editor/assets/js/listTool.js'
         ];
     }
 
