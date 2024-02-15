@@ -4,6 +4,24 @@ Route::group([
     'prefix' => 'reazzon/editorjs/tools',
     'middleware' => ['web']
 ], function () {
-    Route::post('image/uploadFile', [\ReaZzon\Editor\Classes\Controllers\ImageToolController::class, 'upload']);
-    Route::post('image/fetchUrl', [\ReaZzon\Editor\Classes\Controllers\ImageToolController::class, 'fetch']);
+
+    Route::group([
+        'prefix' => 'image',
+        'controller' => \ReaZzon\Editor\Classes\Controllers\ImageToolController::class
+    ], function () {
+
+        Route::post('uploadFile', 'upload');
+        Route::post('fetchUrl', 'fetch');
+
+    });
+
+    Route::group([
+        'prefix' => 'attaches',
+        'controller' => \ReaZzon\Editor\Classes\Controllers\AttachesToolController::class
+    ], function () {
+
+        Route::post('', 'upload');
+
+    });
+
 });

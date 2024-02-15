@@ -7,12 +7,12 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller;
 
-use ReaZzon\Editor\Classes\Exceptions\ToolRequestErrorException;
 use ReaZzon\Editor\Classes\Requests\ImageTool\{FetchRequest, UploadRequest};
+use ReaZzon\Editor\Classes\Exceptions\ToolRequestErrorException;
 
 class ImageToolController extends Controller
 {
-    const EDITORJS_MEDIA_PATH = 'media/editorjs';
+    const EDITORJS_MEDIA_PATH = 'media/editorjs/images';
 
     /**
      * @throws ToolRequestErrorException

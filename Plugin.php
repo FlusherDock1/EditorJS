@@ -61,6 +61,7 @@ class Plugin extends PluginBase
             \ReaZzon\Editor\Tools\ListTool::class => 'list',
             \ReaZzon\Editor\Tools\QuoteTool::class => 'quote',
             \ReaZzon\Editor\Tools\ImageTool::class => 'image',
+            \ReaZzon\Editor\Tools\AttachesTool::class => 'attaches',
             \ReaZzon\Editor\Tools\TableTool::class => 'table',
             \ReaZzon\Editor\Tools\CodeAbstractTool::class => 'code',
             \ReaZzon\Editor\Tools\WarningTool::class => 'warning',

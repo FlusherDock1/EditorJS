@@ -1,8 +1,8 @@
-<?php namespace ReaZzon\Editor\Classes\Requests\ImageTool;
+<?php namespace ReaZzon\Editor\Classes\Requests\AttachTool;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FetchRequest extends FormRequest
+class UploadRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,7 +12,7 @@ class FetchRequest extends FormRequest
     public function rules()
     {
         return [
-            'url' => 'string|required'
+            'file' => 'file|required'
         ];
     }
 }

@@ -2,17 +2,14 @@
 
 use ReaZzon\Editor\Classes\AbstractTool;
 
-class ImageTool extends AbstractTool
+class AttachesTool extends AbstractTool
 {
     public function registerSettings(): array
     {
         return [
-            'class' => 'ImageTool',
+            'class' => 'AttachesTool',
             'config' => [
-                'endpoints' => [
-                    'byFile' => url('/reazzon/editorjs/tools/image/uploadFile'),
-                    'byUrl' => url('/reazzon/editorjs/tools/image/fetchUrl')
-                ]
+                'endpoint' => url('/reazzon/editorjs/tools/attaches')
             ]
         ];
     }
@@ -25,20 +22,20 @@ class ImageTool extends AbstractTool
                 'data' => [
                     'url' => [
                         'type' => 'string'
+                    ],
+                    'size' => [
+                        'type' => 'int'
+                    ],
+                    'name' => [
+                        'type' => 'string'
+                    ],
+                    'extension' => [
+                        'type' => 'string'
                     ]
                 ]
             ],
-            'caption' => [
+            'title' => [
                 'type' => 'string'
-            ],
-            'withBorder' => [
-                'type' => 'boolean'
-            ],
-            'withBackground' => [
-                'type' => 'boolean'
-            ],
-            'stretched' => [
-                'type' => 'boolean'
             ]
         ];
     }
@@ -46,14 +43,14 @@ class ImageTool extends AbstractTool
     public function registerScripts(): array
     {
         return [
-            '/plugins/reazzon/editor/assets/js/imageTool.js'
+            '/plugins/reazzon/editor/assets/js/attachesTool.js'
         ];
     }
 
     public function registerViews(): array
     {
         return [
-            'reazzon.editor::blocks.image'
+            'reazzon.editor::blocks.attach'
         ];
     }
 }
