@@ -108,6 +108,6 @@ class Plugin
         }
 
         $file->getDisk()->move($file->getDiskPath(), $fileMoveToDirectory);
-        return url('storage/app/'. $fileMoveToDirectory);
+        return url('storage/app/uploads/'. $fileMoveToDirectory);
     }
 }
