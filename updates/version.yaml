@@ -40,3 +40,4 @@
 1.9.3: Support of latest October CMS V2, and V3. Small refactor of extender interface.
 1.9.4: Fix compatibility issues with October CMS v3
 1.9.5: Vendor update. Plugins update. Improve compatibility with October CMS v3 and new Turbo router.
+1.9.6: Fix uploaded images path
