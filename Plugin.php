@@ -3,6 +3,7 @@
 use Event;
 use Backend;
 use ReaZzon\Editor\Classes\Events\ExtendBlogPlugins;
+use ReaZzon\Editor\Tunes\TextVariantTune;
 use System\Classes\PluginBase;
 
 /**
@@ -65,7 +66,7 @@ class Plugin extends PluginBase
             \ReaZzon\Editor\Tools\ImageTool::class => 'image',
             \ReaZzon\Editor\Tools\AttachesTool::class => 'attaches',
             \ReaZzon\Editor\Tools\TableTool::class => 'table',
-            \ReaZzon\Editor\Tools\CodeAbstractTool::class => 'code',
+            \ReaZzon\Editor\Tools\CodeTool::class => 'code',
             \ReaZzon\Editor\Tools\WarningTool::class => 'warning',
             \ReaZzon\Editor\Tools\DelimiterTool::class => 'delimiter',
             \ReaZzon\Editor\Tools\RawTool::class => 'raw',
@@ -81,7 +82,9 @@ class Plugin extends PluginBase
      */
     public function registerEditorJsTunes(): array
     {
-        return [];
+        return [
+            TextVariantTune::class => 'textVariant'
+        ];
     }
 
     /**

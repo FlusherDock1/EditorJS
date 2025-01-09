@@ -2,7 +2,7 @@
 
 interface EditorJsTune
 {
-    public function registerSettings(): array;
-    public function registerValidations(): array;
+    public function registerSettings(): string|array;
+    public function registerAppliedTools(): array;
     public function registerScripts(): array;
 }

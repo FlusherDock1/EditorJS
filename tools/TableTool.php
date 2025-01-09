@@ -1,8 +1,8 @@
 <?php namespace ReaZzon\Editor\Tools;
 
-use ReaZzon\Editor\Classes\AbstractTool;
+use ReaZzon\Editor\Classes\Tool;
 
-class TableTool extends AbstractTool
+class TableTool extends Tool
 {
     public function registerSettings(): array
     {

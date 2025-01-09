@@ -1,6 +1,7 @@
 <?php namespace ReaZzon\Editor\FormWidgets;
 
 use Backend\Classes\FormWidgetBase;
+use October\Contracts\Support\OctoberPackage;
 use October\Rain\Support\Facades\Event;
 use ReaZzon\Editor\Classes\Contracts\EditorJsTool;
 use ReaZzon\Editor\Classes\Contracts\EditorJsTune;
@@ -25,7 +26,7 @@ class EditorJS extends FormWidgetBase
 
     public function init(): void
     {
-        $this->prepareBlocks();
+        $this->buildConfig();
     }
 
     public function render()
@@ -40,9 +41,9 @@ class EditorJS extends FormWidgetBase
         $this->vars['value'] = $this->getLoadValue();
         $this->vars['model'] = $this->model;
 
-        $this->vars['settings'] = e(json_encode($this->settings));
-        $this->vars['tools'] = e(json_encode($this->tools));
-        $this->vars['tunes'] = e(json_encode($this->tunes));
+        $this->vars['settings'] = $this->settings;
+        $this->vars['tools'] = $this->tools;
+        $this->vars['tunes'] = $this->tunes;
     }
 
     public function loadAssets(): void
@@ -57,7 +58,7 @@ class EditorJS extends FormWidgetBase
         return $value;
     }
 
-    protected function prepareBlocks(): void
+    protected function buildConfig(): void
     {
         $pluginManager = PluginManager::instance();
         $plugins = $pluginManager->getPlugins();
@@ -69,7 +70,7 @@ class EditorJS extends FormWidgetBase
             /**
              * Extend config, add your own settings to already existing plugins.
              *
-             * Event::listen(\ReaZzon\Editor\FormWidgets\EditorJs::EVENT_CONFIG_BUILT, function($config) {
+             * Event::listen(\ReaZzon\Editor\FormWidgets\EditorJs::EVENT_CONFIG_BUILT, function(&$config) {
              *
              *     foreach($config['tools'] as $tool) {
              *          // ...
@@ -106,14 +107,14 @@ class EditorJS extends FormWidgetBase
         }
     }
 
-    protected function processTools($plugin): void
+    protected function processTools(OctoberPackage $plugin): void
     {
         if (!method_exists($plugin, 'registerEditorJsTools')) {
             return;
         }
 
         $editorTools = $plugin->registerEditorJsTools();
-        if (!is_array($editorTools) || empty($editorTools)) {
+        if (empty($editorTools) || !is_array($editorTools)) {
             return;
         }
 
@@ -125,22 +126,32 @@ class EditorJS extends FormWidgetBase
         }
     }
 
-    protected function processTunes($plugin): void
+    protected function processTunes(OctoberPackage $plugin): void
     {
         if (!method_exists($plugin, 'registerEditorJsTunes')) {
             return;
         }
 
         $editorTunes = $plugin->registerEditorJsTunes();
-        if (!is_array($editorTunes) || empty($editorTunes)) {
+        if (empty($editorTunes) || !is_array($editorTunes)) {
             return;
         }
 
         foreach ($editorTunes as $tuneClass => $tuneName) {
             /** @var EditorJsTune $tune */
             $tune = app($tuneClass);
-            $this->tunes[$tuneName] = $tune->registerSettings();
+            $this->tools[$tuneName] = $tune->registerSettings();
             $this->additionalScripts = array_merge($this->additionalScripts, $tune->registerScripts());
+
+            $appliedTools = $tune->registerAppliedTools();
+            if (empty($appliedTools)) {
+                $this->tunes[] = $tuneName;
+                continue;
+            }
+
+            foreach ($appliedTools as $toolName) {
+                $this->tools[$toolName]['tunes'] = array_merge(array_get($this->tools[$toolName], 'tunes', []), [$tuneName]);
+            }
         }
     }
 }

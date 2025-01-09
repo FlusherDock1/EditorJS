@@ -1,8 +1,8 @@
 <?php namespace ReaZzon\Editor\Tools;
 
-use ReaZzon\Editor\Classes\AbstractTool;
+use ReaZzon\Editor\Classes\Tool;
 
-class CodeAbstractTool extends AbstractTool
+class CodeTool extends Tool
 {
     public function registerSettings(): array
     {

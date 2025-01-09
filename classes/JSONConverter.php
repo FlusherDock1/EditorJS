@@ -30,13 +30,12 @@ class JSONConverter
     public function validate(): self
     {
         $validated = new EditorJS($this->JSONContent, json_encode([
-            'tools' => array_get($this->validations, 'tools', []),
-            'tunes' => array_get($this->validations, 'tunes', []),
+            'tools' => array_get($this->validations, 'tools', [])
         ]));
 
         // Get sanitized blocks (according to the rules from configuration)
         $this->blocks = $validated->getBlocks();
-
+        dd($this->blocks);
         return $this;
     }
 
@@ -87,7 +86,9 @@ class JSONConverter
                     foreach ($editorExtensions as $extensionClass => $extensionName) {
                         /** @var EditorJsTool|EditorJsTune $extension */
                         $extension = app($extensionClass);
-                        $this->validations[$extensionType][$extensionName] = $extension->registerValidations();
+                        if (method_exists($extension, 'registerValidations')) {
+                            $this->validations[$extensionType][$extensionName] = $extension->registerValidations();
+                        }
 
                         if (method_exists($extension, 'registerView')) {
                             $this->views[$extensionType][$extensionName] = $extension->registerView();
@@ -108,8 +109,7 @@ class JSONConverter
             return (new Controller)->renderPartial($this->partialsCache[$type], $block['data']);
         }
 
-        // Render block from active theme partial
-
+        // Render block to partial from active theme
         $blockFileName = 'editorjs/' . $type . '.htm';
         $theme = Theme::getEditTheme();
         $partial = Partial::listInTheme($theme)->filter(fn($partial) => $partial->fileName == $blockFileName)->first();
@@ -119,8 +119,10 @@ class JSONConverter
             return (new Controller)->renderPartial($partial->fileName, $block['data']);
         }
 
-        // Render block from default block view
-
-        return View::make($this->views['tools'][$type], $block['data']);
+        // Render bock with default view
+        return View::make($this->views['tools'][$type], [
+            ...array_get($block, 'data'),
+            'tunes' => array_get($block, 'tunes')
+        ]);
     }
 }

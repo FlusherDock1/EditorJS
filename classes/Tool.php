@@ -1,9 +1,9 @@
 <?php namespace ReaZzon\Editor\Classes;
 
 use October\Rain\Extension\ExtendableTrait;
-use ReaZzon\Editor\Classes\Contracts\EditorJsTune;
+use ReaZzon\Editor\Classes\Contracts\EditorJsTool;
 
-abstract class AbstractTune implements EditorJsTune
+abstract class Tool implements EditorJsTool
 {
     use ExtendableTrait;
 }

@@ -11,9 +11,9 @@
         data-control="reazzon-editorjs"
         id="<?= $this->getId() ?>"
         data-textarea="<?= $this->getId('input') ?>"
-        data-settings="<?= $settings ?>"
-        data-tools="<?= $tools ?>"
-        data-tunes="<?= $tunes ?>"></div>
+        data-settings="<?= e(json_encode($settings)) ?>"
+        data-tools="<?= e(json_encode($tools)) ?>"
+        data-tunes="<?= e(json_encode($tunes)) ?>"></div>
 
     <textarea
         style="display: none"

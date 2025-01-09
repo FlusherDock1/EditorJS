@@ -2,7 +2,7 @@
 
 interface EditorJsTool
 {
-    public function registerSettings(): array;
+    public function registerSettings(): string|array;
     public function registerValidations(): array;
     public function registerScripts(): array;
     public function registerView(): ?string;
