@@ -32,10 +32,8 @@ class HeaderTool extends AbstractTool
         ];
     }
 
-    public function registerViews(): array
+    public function registerView(): ?string
     {
-        return [
-            'reazzon.editor::blocks.heading'
-        ];
+        return 'reazzon.editor::blocks.heading';
     }
 }

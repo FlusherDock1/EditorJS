@@ -47,10 +47,8 @@ class EmbedTool extends AbstractTool
         ];
     }
 
-    public function registerViews(): array
+    public function registerView(): ?string
     {
-        return [
-            'reazzon.editor::blocks.list'
-        ];
+        return 'reazzon.editor::blocks.list';
     }
 }

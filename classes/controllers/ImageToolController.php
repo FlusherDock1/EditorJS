@@ -7,12 +7,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller;
 
-use ReaZzon\Editor\Classes\Requests\ImageTool\{FetchRequest, UploadRequest};
+use ReaZzon\Editor\Classes\Requests\ImageTool\FetchRequest;
+use ReaZzon\Editor\Classes\Requests\ImageTool\UploadRequest;
 use ReaZzon\Editor\Classes\Exceptions\ToolRequestErrorException;
 
 class ImageToolController extends Controller
 {
-    const EDITORJS_MEDIA_PATH = 'media/editorjs/images';
+    const EDITORJS_MEDIA_PATH = 'resources/editorjs_images';
 
     /**
      * @throws ToolRequestErrorException
@@ -20,7 +21,7 @@ class ImageToolController extends Controller
     public function upload(UploadRequest $request): JsonResponse
     {
         $image = $request->file('image');
-        if (empty($image) || !$image instanceof UploadedFile){
+        if (empty($image) || !$image instanceof UploadedFile) {
             throw new ToolRequestErrorException();
         }
 
@@ -40,7 +41,11 @@ class ImageToolController extends Controller
     private function storeImage($imageExtension, $imageContents): JsonResponse
     {
         if (!Storage::exists(self::EDITORJS_MEDIA_PATH)) {
-            Storage::createDirectory(self::EDITORJS_MEDIA_PATH);
+            try {
+                Storage::createDirectory(self::EDITORJS_MEDIA_PATH, [
+                    'directory_visibility' => 'public'
+                ]);
+            } catch (\Exception $ex) {/* Mute this exception because on mass file pasting this can cause false error */}
         }
 
         $imageMediaPath = self::EDITORJS_MEDIA_PATH . '/' . Str::orderedUuid() . '.' . $imageExtension;

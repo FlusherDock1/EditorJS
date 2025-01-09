@@ -1,6 +1,8 @@
 <?php namespace ReaZzon\Editor;
 
+use Event;
 use Backend;
+use ReaZzon\Editor\Classes\Events\ExtendBlogPlugins;
 use System\Classes\PluginBase;
 
 /**
@@ -35,9 +37,9 @@ class Plugin extends PluginBase
     /**
      * boot method, called right before the request route.
      */
-    public function boot()
+    public function boot(): void
     {
-        //
+        $this->addEventListeners();
     }
 
     /**
@@ -51,7 +53,7 @@ class Plugin extends PluginBase
     }
 
     /**
-     * registerEditorJsBlocks registers additional blocks for EditorJs
+     * registerEditorJsBlocks registers extension blocks for EditorJs
      */
     public function registerEditorJsTools(): array
     {
@@ -109,21 +111,8 @@ class Plugin extends PluginBase
         ];
     }
 
-    /**
-     * registerNavigation used by the backend.
-     */
-    public function registerNavigation()
+    private function addEventListeners(): void
     {
-        return []; // Remove this line to activate
-
-        return [
-            'editor' => [
-                'label' => 'Editor',
-                'url' => Backend::url('reazzon/editor/mycontroller'),
-                'icon' => 'icon-leaf',
-                'permissions' => ['reazzon.editor.*'],
-                'order' => 500,
-            ],
-        ];
+        Event::subscribe(ExtendBlogPlugins::class);
     }
 }

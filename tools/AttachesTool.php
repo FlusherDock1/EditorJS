@@ -47,10 +47,8 @@ class AttachesTool extends AbstractTool
         ];
     }
 
-    public function registerViews(): array
+    public function registerView(): ?string
     {
-        return [
-            'reazzon.editor::blocks.attach'
-        ];
+        return 'reazzon.editor::blocks.attach';
     }
 }

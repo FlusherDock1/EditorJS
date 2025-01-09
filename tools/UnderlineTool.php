@@ -23,8 +23,8 @@ class UnderlineTool extends AbstractTool
         ];
     }
 
-    public function registerViews(): array
+    public function registerView(): ?string
     {
-        return [];
+        return null;
     }
 }

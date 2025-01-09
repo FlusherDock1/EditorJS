@@ -32,10 +32,8 @@ class WarningTool extends AbstractTool
         ];
     }
 
-    public function registerViews(): array
+    public function registerView(): ?string
     {
-        return [
-            'reazzon.editor::blocks.warning'
-        ];
+        return 'reazzon.editor::blocks.warning';
     }
 }

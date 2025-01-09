@@ -11,10 +11,8 @@ use System\Classes\PluginManager;
  *
  * @link https://docs.octobercms.com/3.x/extend/forms/form-widgets.html
  */
-class EditorJs extends FormWidgetBase
+class EditorJS extends FormWidgetBase
 {
-    const EVENT_CONFIG_BUILT = 'reazzon.editorjs.config.built';
-
     protected $defaultAlias = 'reazzon_editor_js';
 
     public array $settings = [];
@@ -88,7 +86,7 @@ class EditorJs extends FormWidgetBase
              *     return $config;
              * });
              */
-            $eventConfig = Event::fire(self::EVENT_CONFIG_BUILT, [
+            $eventConfig = Event::fire('reazzon.editor.config.built', [
                 'scripts' => $this->additionalScripts,
                 'tools' => $this->tools,
                 'tunes' => $this->tunes
@@ -134,7 +132,7 @@ class EditorJs extends FormWidgetBase
         }
 
         $editorTunes = $plugin->registerEditorJsTunes();
-        if (empty($editorTunes) && !is_array($editorTunes)) {
+        if (!is_array($editorTunes) || empty($editorTunes)) {
             return;
         }
 

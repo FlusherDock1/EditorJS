@@ -29,10 +29,8 @@ class ParagraphTool extends AbstractTool
         ];
     }
 
-    public function registerViews(): array
+    public function registerView(): ?string
     {
-        return [
-            'reazzon.editor::blocks.paragraph'
-        ];
+        return 'reazzon.editor::blocks.paragraph';
     }
 }
