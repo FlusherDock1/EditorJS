@@ -1,10 +1,9 @@
 <?php namespace ReaZzon\Editor;
 
 use Event;
-use Backend;
-use ReaZzon\Editor\Classes\Events\ExtendBlogPlugins;
 use ReaZzon\Editor\Tunes\TextVariantTune;
 use System\Classes\PluginBase;
+use ReaZzon\Editor\Classes\Events\IntegrateEditorInPlugins;
 
 /**
  * Plugin Information File
@@ -87,8 +86,21 @@ class Plugin extends PluginBase
         ];
     }
 
+    public function registerSettings(): array
+    {
+        return [
+            'settings' => [
+                'label' => 'EditorJs settings',
+                'description' => 'Manage plugin settings.',
+                'category' => 'Editor',
+                'icon' => 'icon-cog',
+                'class' => \ReaZzon\Editor\Settings\Settings::class,
+            ]
+        ];
+    }
+
     private function addEventListeners(): void
     {
-        Event::subscribe(ExtendBlogPlugins::class);
+        Event::subscribe(IntegrateEditorInPlugins::class);
     }
 }

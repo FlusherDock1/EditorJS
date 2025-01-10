@@ -1,5 +1,6 @@
 <?php namespace ReaZzon\Editor\Classes\Controllers;
 
+use Backend\Facades\BackendAuth;
 use Str;
 use Storage;
 
@@ -19,6 +20,10 @@ class AttachesToolController extends Controller
      */
     public function upload(UploadRequest $request): JsonResponse
     {
+        if (!BackendAuth::check()) {
+            throw new ToolRequestErrorException();
+        }
+
         $file = $request->file('file');
         if (empty($file) || !$file instanceof UploadedFile) {
             throw new ToolRequestErrorException();

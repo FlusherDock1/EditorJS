@@ -1,5 +1,6 @@
 <?php namespace ReaZzon\Editor\Classes\Controllers;
 
+use Backend\Facades\BackendAuth;
 use Str;
 use Storage;
 
@@ -20,6 +21,10 @@ class ImageToolController extends Controller
      */
     public function upload(UploadRequest $request): JsonResponse
     {
+        if (!BackendAuth::check()) {
+            throw new ToolRequestErrorException();
+        }
+
         $image = $request->file('image');
         if (empty($image) || !$image instanceof UploadedFile) {
             throw new ToolRequestErrorException();
@@ -30,6 +35,10 @@ class ImageToolController extends Controller
 
     public function fetch(FetchRequest $request): JsonResponse
     {
+        if (!BackendAuth::check()) {
+            throw new ToolRequestErrorException();
+        }
+
         $imageUrl = $request->get('url');
         if (empty($imageUrl) || !filter_var($imageUrl, FILTER_VALIDATE_URL)) {
             throw new ToolRequestErrorException();

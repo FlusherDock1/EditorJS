@@ -24,8 +24,10 @@ class EditorJS extends FormWidgetBase
 
     public array $additionalScripts = [];
 
-    public function init(): void
+    public function __construct($controller, $formField, $configuration = [])
     {
+        parent::__construct($controller, $formField, $configuration);
+
         $this->buildConfig();
     }
 
@@ -50,7 +52,6 @@ class EditorJS extends FormWidgetBase
     {
         $this->addCss('css/editorjs.css');
         $this->addJs('js/vendor.js');
-        $this->addJs('js/editorjs.js');
     }
 
     public function getSaveValue($value)
@@ -98,13 +99,16 @@ class EditorJS extends FormWidgetBase
                 $this->additionalScripts = $eventConfig['scripts'];
                 $this->tunes = $eventConfig['tunes'];
             }
+        }
 
-            if (!empty($this->additionalScripts)) {
-                foreach ($this->additionalScripts as $script) {
-                    $this->addJs($script);
-                }
+        if (!empty($this->additionalScripts)) {
+            foreach ($this->additionalScripts as $script) {
+                $this->addJs($script);
             }
         }
+
+        // Load control after all plugins scripts
+        $this->addJs('js/editorjs.js');
     }
 
     protected function processTools(OctoberPackage $plugin): void
