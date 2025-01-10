@@ -1,57 +1,38 @@
 <?php namespace ReaZzon\Editor\Classes\Events;
 
 use Backend\Widgets\Form;
+use October\Rain\Database\Model;
 use October\Rain\Events\Dispatcher;
 use ReaZzon\Editor\Classes\JSONConverter;
 use ReaZzon\Editor\FormWidgets\EditorJS;
+use RainLab\Blog\Controllers\Posts;
+use RainLab\Blog\Models\Post;
 
 class ExtendBlogPlugins
 {
     public function subscribe(Dispatcher $event): void
     {
-        $plugins = [
-            [
-                'controller' => \RainLab\Blog\Controllers\Posts::class,
-                'model' => \RainLab\Blog\Models\Post::class,
-                'field' => 'content'
-            ]
-        ];
-
-        foreach ($plugins as $plugin) {
-            $this->extendModel($plugin['model']);
-
-            $event->listen('backend.form.extendFields', function (Form $widget) use ($plugin) {
-                if (!$widget->getController() instanceof $plugin['controller'] || $widget->isNested) {
-                    return;
+        Post::extend(fn (Model $model) => $model->bindEvent('model.setAttribute', function ($name) use ($model) {
+            if ($name === 'content') {
+                if (empty($model->getAttribute('content'))) {
+                    return $model->getAttribute('content');
                 }
 
-                if (!$widget->model instanceof $plugin['model']) {
-                    return;
-                }
+                $converter = new JSONConverter($model->getAttribute('content'));
+                $model->content_html = html_entity_decode($converter->validate()->getHTML());
+            }
+        }));
 
-                $this->replaceField($widget, $plugin['field']);
-            });
-        }
-    }
+        $event->listen('backend.form.extendFields', function (Form $widget) {
+            if (!$widget->getController() instanceof Posts || $widget->isNested) {
+                return;
+            }
 
-    protected function replaceField($widget, $fieldName): void
-    {
-        $widget->getField($fieldName)->displayAs(EditorJS::class)->stretch(true);
-    }
+            if (!$widget->model instanceof Post) {
+                return;
+            }
 
-    protected function extendModel($modelClass)
-    {
-        $modelClass::extend(function ($model) {
-            $model->bindEvent('model.getAttribute', function ($attribute) use ($model) {
-                if ($attribute == 'content_html') {
-                    if (empty($model->getAttribute('content'))) {
-                        return $model->getAttribute('content');
-                    }
-
-                    $converter = new JSONConverter($model->getAttribute('content'));
-                    return $converter->validate()->getHTML();
-                }
-            });
+            $widget->getField('content')->displayAs(EditorJS::class)->stretch(true);
         });
     }
 }

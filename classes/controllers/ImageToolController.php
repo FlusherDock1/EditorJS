@@ -45,7 +45,7 @@ class ImageToolController extends Controller
                 Storage::createDirectory(self::EDITORJS_MEDIA_PATH, [
                     'directory_visibility' => 'public'
                 ]);
-            } catch (\Exception $ex) {/* Mute this exception because on mass file pasting this can cause false error */}
+            } catch (\Exception $ex) {/* Exception muted */}
         }
 
         $imageMediaPath = self::EDITORJS_MEDIA_PATH . '/' . Str::orderedUuid() . '.' . $imageExtension;

@@ -70,7 +70,7 @@ class EditorJS extends FormWidgetBase
             /**
              * Extend config, add your own settings to already existing plugins.
              *
-             * Event::listen(\ReaZzon\Editor\FormWidgets\EditorJs::EVENT_CONFIG_BUILT, function(&$config) {
+             * Event::listen('reazzon.editor.formwidget.config', function(&$config) {
              *
              *     foreach($config['tools'] as $tool) {
              *          // ...
@@ -87,7 +87,7 @@ class EditorJS extends FormWidgetBase
              *     return $config;
              * });
              */
-            $eventConfig = Event::fire('reazzon.editor.config.built', [
+            $eventConfig = Event::fire('reazzon.editor.formwidget.config', [
                 'scripts' => $this->additionalScripts,
                 'tools' => $this->tools,
                 'tunes' => $this->tunes

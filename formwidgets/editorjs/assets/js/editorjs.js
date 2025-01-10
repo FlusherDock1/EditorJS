@@ -38,8 +38,6 @@ oc.registerControl('reazzon-editorjs', class extends oc.ControlBase {
             tunes: this.tunes
         };
 
-        console.log(this.parameters);
-
         // Parsing already existing data from textarea
         if (this.textarea.value.length > 0 && this.isJson(this.textarea.value) === true) {
             this.parameters.data = JSON.parse(this.textarea.value)

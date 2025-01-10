@@ -54,7 +54,7 @@ class Plugin extends PluginBase
     }
 
     /**
-     * registerEditorJsBlocks registers extension blocks for EditorJs
+     * registerEditorJsBlocks extension blocks for EditorJs
      */
     public function registerEditorJsTools(): array
     {
@@ -78,39 +78,12 @@ class Plugin extends PluginBase
     }
 
     /**
-     * registerEditorJsTunes registers additional tunes for EditorJs
+     * registerEditorJsTunes extension tunes for blocks of EditorJs
      */
     public function registerEditorJsTunes(): array
     {
         return [
             TextVariantTune::class => 'textVariant'
-        ];
-    }
-
-    /**
-     * registerComponents used by the frontend.
-     */
-    public function registerComponents()
-    {
-        return []; // Remove this line to activate
-
-        return [
-            'ReaZzon\Editor\Components\MyComponent' => 'myComponent',
-        ];
-    }
-
-    /**
-     * registerPermissions used by the backend.
-     */
-    public function registerPermissions()
-    {
-        return []; // Remove this line to activate
-
-        return [
-            'reazzon.editor.some_permission' => [
-                'tab' => 'Editor',
-                'label' => 'Some permission'
-            ],
         ];
     }
 
