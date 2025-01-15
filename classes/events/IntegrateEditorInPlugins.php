@@ -16,10 +16,6 @@ class IntegrateEditorInPlugins
             PluginManager::instance()->hasPlugin('RainLab.Blog')) {
             $this->extendRainlabBlog($event);
         }
-        if (Settings::get('integrations.rainlab_static_pages', false) &&
-            PluginManager::instance()->hasPlugin('RainLab.Pages')) {
-            $this->extendRainlabStaticPages($event);
-        }
         if (Settings::get('integrations.lovata_good_news', false) &&
             PluginManager::instance()->hasPlugin('Lovata.GoodNews')) {
             $this->extendLovataGoodNews($event);
@@ -51,28 +47,6 @@ class IntegrateEditorInPlugins
             }
 
             $widget->getField('content')->displayAs(EditorJS::class)->stretch(true);
-        });
-    }
-
-    protected function extendRainlabStaticPages($event): void
-    {
-        $event->listen('backend.form.extendFields', function (Form $widget) {
-            if (!$widget->getController() instanceof \RainLab\Pages\Controllers\Index || $widget->isNested) {
-                return;
-            }
-
-            if (!$widget->model instanceof \RainLab\Pages\Classes\Page) {
-                return;
-            }
-
-            $widget->removeField('markup');
-            $widget->addSecondaryTabFields([
-                'viewBag[editor]' => [
-                    'tab' => 'rainlab.pages::lang.editor.content',
-                    'type' => 'editorjs',
-                    'stretch' => true
-                ]
-            ]);
         });
     }
 
