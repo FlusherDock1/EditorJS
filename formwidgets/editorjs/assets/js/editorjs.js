@@ -75,6 +75,11 @@ oc.registerControl('reazzon-editorjs', class extends oc.ControlBase {
             this.editorjs.save().then(outputData => {
                 this.textarea.value = JSON.stringify(outputData);
                 event.detail.promise = oc.request(context.el, context.handler, options);
+                const entryDocument = document.querySelector('[data-control="vue-entry-document"]');
+                if (entryDocument) {
+                    const control = oc.fetchControl(entryDocument);
+                    control.app.state.processing = false;
+                }
             });
         }
     }

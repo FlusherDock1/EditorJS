@@ -1,8 +1,8 @@
 <?php namespace ReaZzon\Editor;
 
 use Event;
-use ReaZzon\Editor\Tunes\TextVariantTune;
 use System\Classes\PluginBase;
+use ReaZzon\Editor\Classes\JSONConverter;
 use ReaZzon\Editor\Classes\Events\IntegrateEditorInPlugins;
 
 /**
@@ -53,6 +53,34 @@ class Plugin extends PluginBase
     }
 
     /**
+     * registerSettings registers any backend configuration links used by this package.
+     */
+    public function registerSettings(): array
+    {
+        return [
+            'settings' => [
+                'label' => 'EditorJs settings',
+                'description' => 'Manage plugin settings.',
+                'category' => 'Editor',
+                'icon' => 'icon-cog',
+                'class' => \ReaZzon\Editor\Settings\Settings::class,
+            ]
+        ];
+    }
+
+    /**
+     * registerMarkupTags registers Twig markup tags introduced by this package.
+     */
+    public function registerMarkupTags(): array
+    {
+        return [
+            'filters' => [
+                'editorjs' => [JSONConverter::class, 'convertAndGetHTML']
+            ]
+        ];
+    }
+
+    /**
      * registerEditorJsBlocks extension blocks for EditorJs
      */
     public function registerEditorJsTools(): array
@@ -82,20 +110,7 @@ class Plugin extends PluginBase
     public function registerEditorJsTunes(): array
     {
         return [
-            TextVariantTune::class => 'textVariant'
-        ];
-    }
-
-    public function registerSettings(): array
-    {
-        return [
-            'settings' => [
-                'label' => 'EditorJs settings',
-                'description' => 'Manage plugin settings.',
-                'category' => 'Editor',
-                'icon' => 'icon-cog',
-                'class' => \ReaZzon\Editor\Settings\Settings::class,
-            ]
+            \ReaZzon\Editor\Tunes\TextVariantTune::class => 'textVariant'
         ];
     }
 

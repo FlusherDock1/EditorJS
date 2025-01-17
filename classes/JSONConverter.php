@@ -15,6 +15,14 @@ class JSONConverter
 {
     private array $partialsCache = [];
 
+    /**
+     * @throws CmsException
+     */
+    public static function convertAndGetHTML(string $JSONContent): string
+    {
+        return (new self($JSONContent))->getHTML();
+    }
+
     public function __construct(
         protected string $JSONContent,
         protected bool $isRenderWithThemeDisabled = false,
