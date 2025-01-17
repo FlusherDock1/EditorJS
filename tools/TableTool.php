@@ -1,0 +1,47 @@
+<?php namespace ReaZzon\Editor\Tools;
+
+use ReaZzon\Editor\Classes\Tool;
+
+class TableTool extends Tool
+{
+    public function registerSettings(): array
+    {
+        return [
+            'class' => 'Table',
+        ];
+    }
+
+    public function registerValidations(): array
+    {
+        return [
+            'withHeadings' => [
+                'type' => 'bool'
+            ],
+            'content' => [
+                'type' => 'array',
+                'data' => [
+                    '-' => [
+                        'type' => 'array',
+                        'data' => [
+                            '-' => [
+                                'type' => 'string',
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    public function registerScripts(): array
+    {
+        return [
+            '/plugins/reazzon/editor/assets/js/tableTool.js'
+        ];
+    }
+
+    public function registerView(): ?string
+    {
+        return 'reazzon.editor::blocks.table';
+    }
+}

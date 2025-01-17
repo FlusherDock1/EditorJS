@@ -1,0 +1,9 @@
+{
+    "private": true,
+    "scripts": {
+        "copy": "cp node_modules//@editorjs//editorjs//dist//editorjs.umd.js js//vendor.js"
+    },
+    "dependencies": {
+        "@editorjs/editorjs": "^2.30"
+    }
+}

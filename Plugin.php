@@ -1,31 +1,21 @@
 <?php namespace ReaZzon\Editor;
 
-use Backend, Event;
+use Event;
 use System\Classes\PluginBase;
-use ReaZzon\Editor\Console\RefreshStaticPages;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use ReaZzon\Editor\Classes\Event\ProcessMLFields;
-use ReaZzon\Editor\Classes\Exceptions\PluginErrorException;
-
-use ReaZzon\Editor\Behaviors\ConvertToHtml;
-use ReaZzon\Editor\Classes\Event\ExtendRainLabBlog;
-use ReaZzon\Editor\Classes\Event\ExtendIndicatorNews;
-use ReaZzon\Editor\Classes\Event\ExtendLovataGoodNews;
-use ReaZzon\Editor\Classes\Event\ExtendRainLabStaticPages;
+use ReaZzon\Editor\Classes\JSONConverter;
+use ReaZzon\Editor\Classes\Events\IntegrateEditorInPlugins;
 
 /**
- * Editor Plugin Information File
- * @package ReaZzon\Editor
- * @author Nick Khaetsky, nick@reazzon.ru
+ * Plugin Information File
+ *
+ * @link https://docs.octobercms.com/3.x/extend/system/plugins.html
  */
 class Plugin extends PluginBase
 {
     /**
-     * Returns information about this plugin.
-     *
-     * @return array
+     * pluginDetails about this plugin.
      */
-    public function pluginDetails()
+    public function pluginDetails(): array
     {
         return [
             'name' => 'reazzon.editor::lang.plugin.name',
@@ -37,478 +27,95 @@ class Plugin extends PluginBase
     }
 
     /**
-     *
+     * register method, called when the plugin is first registered.
      */
     public function register()
     {
-        $this->registerConsoleCommand('editor:refresh.static-pages', RefreshStaticPages::class);
-        $this->registerErrorHandler();
+        //
     }
 
     /**
-     * Boot method, called right before the request route.
-     *
-     * @return array|void
+     * boot method, called right before the request route.
      */
-    public function boot()
+    public function boot(): void
     {
-        Event::subscribe(ExtendRainLabBlog::class);
-        Event::subscribe(ExtendRainLabStaticPages::class);
-        Event::subscribe(ExtendLovataGoodNews::class);
-        Event::subscribe(ExtendIndicatorNews::class);
-        Event::subscribe(ProcessMLFields::class);
+        $this->addEventListeners();
     }
 
     /**
-     * Registers any back-end permissions used by this plugin.
-     *
-     * @return array
+     * registerFormWidgets registers any form widgets implemented in this package.
      */
-    public function registerPermissions()
+    public function registerFormWidgets(): array
     {
         return [
-            'reazzon.editor.access_settings' => [
-                'tab' => 'reazzon.editor::lang.plugin.name',
-                'label' => 'reazzon.editor::lang.permission.access_settings'
-            ],
+            \ReaZzon\Editor\FormWidgets\EditorJs::class => 'editorjs',
         ];
     }
 
     /**
-     * Registers settings for this plugin
-     *
-     * @return array
+     * registerSettings registers any backend configuration links used by this package.
      */
-    public function registerSettings()
+    public function registerSettings(): array
     {
         return [
             'settings' => [
-                'label' => 'reazzon.editor::lang.settings.menu_label',
-                'description' => 'reazzon.editor::lang.settings.menu_description',
-                'category' => 'reazzon.editor::lang.plugin.name',
-                'class' => 'ReaZzon\Editor\Models\Settings',
-                'permissions' => ['reazzon.editor.access_settings'],
+                'label' => 'EditorJs settings',
+                'description' => 'Manage plugin settings.',
+                'category' => 'Editor',
                 'icon' => 'icon-cog',
-                'order' => 500,
+                'class' => \ReaZzon\Editor\Settings\Settings::class,
             ]
         ];
     }
 
     /**
-     * Registers formWidgets.
-     *
-     * @return array
+     * registerMarkupTags registers Twig markup tags introduced by this package.
      */
-    public function registerFormWidgets()
-    {
-        return [
-            'ReaZzon\Editor\FormWidgets\EditorJS' => 'editorjs',
-            'ReaZzon\Editor\FormWidgets\MLEditorJS' => 'mleditorjs',
-        ];
-    }
-
-    public function registerMarkupTags()
+    public function registerMarkupTags(): array
     {
         return [
             'filters' => [
-                'editorjs' => [$this, 'convertJsonToHtml'],
-                'convertBytes' => [$this, 'convertBytes'],
-            ],
-        ];
-    }
-
-    public function convertJsonToHtml($field)
-    {
-        return (new ConvertToHtml)->convertJsonToHtml($field);
-    }
-
-    /**
-     * Converts bytes to more sensible string
-     *
-     * @param int $bytes
-     * @return string
-     * @see \File::sizeToString($bytes);
-     */
-    public function convertBytes($bytes)
-    {
-        return \File::sizeToString($bytes);
-    }
-
-    /**
-     * Registers additional blocks for EditorJS
-     * @return array
-     */
-    public function registerEditorBlocks()
-    {
-        return [
-            'paragraph' => [
-                'validation' => [
-                    'text' => [
-                        'type' => 'string',
-                        'allowedTags' => 'i,b,u,a[href],span[class],code[class],mark[class]'
-                    ]
-                ],
-                'view' => 'reazzon.editor::blocks.paragraph'
-            ],
-            'header' => [
-                'settings' => [
-                    'class' => 'Header',
-                    'shortcut' => 'CMD+SHIFT+H',
-                ],
-                'validation' => [
-                    'text' => [
-                        'type' => 'string',
-                    ],
-                    'level' => [
-                        'type' => 'int',
-                        'canBeOnly' => [1, 2, 3, 4, 5]
-                    ]
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/header.js',
-                ],
-                'view' => 'reazzon.editor::blocks.heading'
-            ],
-            'Marker' => [
-                'settings' => [
-                    'class' => 'Marker',
-                    'shortcut' => 'CMD+SHIFT+M',
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/marker.js',
-                ]
-            ],
-            'image' => [
-                'settings' => [
-                    'class' => 'ImageTool',
-                    'config' => [
-                        'endpoints' => [
-                            'byFile' => config('app.url') . '/editorjs/plugins/image/uploadFile',
-                            'byUrl' => config('app.url') . '/editorjs/plugins/image/fetchUrl',
-                        ]
-                    ]
-                ],
-                'validation' => [
-                    'file' => [
-                        'type' => 'array',
-                        'data' => [
-                            'url' => [
-                                'type' => 'string',
-                            ],
-                            'thumbnails' => [
-                                'type' => 'array',
-                                'required' => false,
-                                'data' => [
-                                    '-' => [
-                                        'type' => 'string',
-                                    ]
-                                ],
-                            ]
-                        ],
-                    ],
-                    'caption' => [
-                        'type' => 'string'
-                    ],
-                    'withBorder' => [
-                        'type' => 'boolean'
-                    ],
-                    'withBackground' => [
-                        'type' => 'boolean'
-                    ],
-                    'stretched' => [
-                        'type' => 'boolean'
-                    ]
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/image.js',
-                ],
-                'view' => 'reazzon.editor::blocks.image'
-            ],
-            'attaches' => [
-                'settings' => [
-                    'class' => 'AttachesTool',
-                    'config' => [
-                        'endpoint' => config('app.url') . '/editorjs/plugins/attaches',
-                    ]
-                ],
-                'validation' => [
-                    'file' => [
-                        'type' => 'array',
-                        'data' => [
-                            'url' => [
-                                'type' => 'string',
-                            ],
-                            'size' => [
-                                'type' => 'int',
-                            ],
-                            'name' => [
-                                'type' => 'string',
-                            ],
-                            'extension' => [
-                                'type' => 'string',
-                            ],
-                        ]
-                    ],
-                    'title' => [
-                        'type' => 'string',
-                    ]
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/attaches.js',
-                ],
-                'view' => 'reazzon.editor::blocks.attaches'
-            ],
-            'linkTool' => [
-                'settings' => [
-                    'class' => 'LinkTool',
-                    'config' => [
-                        'endpoint' => '/editorjs/plugins/linktool',
-                    ]
-                ],
-                'validation' => [
-                    'link' => [
-                        'type' => 'string'
-                    ],
-                    'meta' => [
-                        'type' => 'array',
-                        'data' => [
-                            'title' => [
-                                'type' => 'string',
-                            ],
-                            'description' => [
-                                'type' => 'string',
-                            ],
-                            'image' => [
-                                'type' => 'array',
-                                'data' => [
-                                    'url' => [
-                                        'type' => 'string',
-                                    ],
-                                ]
-                            ]
-                        ]
-                    ]
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/link.js',
-                ],
-                'view' => 'reazzon.editor::blocks.link'
-            ],
-            'list' => [
-                'settings' => [
-                    'class' => 'List',
-                    'inlineToolbar' => true,
-                ],
-                'validation' => [
-                    'style' => [
-                        'type' => 'string',
-                        'canBeOnly' =>
-                            [
-                                0 => 'ordered',
-                                1 => 'unordered',
-                            ],
-                    ],
-                    'items' => [
-                        'type' => 'array',
-                        'data' => [
-                            '-' => [
-                                'type' => 'string',
-                                'allowedTags' => 'i,b,u',
-                            ],
-                        ],
-                    ],
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/list.js',
-                ],
-                'view' => 'reazzon.editor::blocks.list'
-            ],
-            'checklist' => [
-                'settings' => [
-                    'class' => 'Checklist',
-                    'inlineToolbar' => true,
-                ],
-                'validation' => [
-                    'items' => [
-                        'type' => 'array',
-                        'data' => [
-                            '-' => [
-                                'type' => 'array',
-                                'data' => [
-                                    'text' => [
-                                        'type' => 'string',
-                                        'required' => false
-                                    ],
-                                    'checked' => [
-                                        'type' => 'boolean',
-                                        'required' => false
-                                    ],
-                                ],
-
-                            ],
-                        ],
-                    ],
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/checklist.js',
-                ],
-                'view' => 'reazzon.editor::blocks.checklist'
-            ],
-            'table' => [
-                'settings' => [
-                    'class' => 'Table',
-                    'inlineToolbar' => true,
-                    'config' => [
-                        'rows' => 2,
-                        'cols' => 3,
-                    ],
-                ],
-                'validation' => [
-                    'content' => [
-                        'type' => 'array',
-                        'data' => [
-                            '-' => [
-                                'type' => 'array',
-                                'data' => [
-                                    '-' => [
-                                        'type' => 'string',
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/table.js',
-                ],
-                'view' => 'reazzon.editor::blocks.table'
-            ],
-            'quote' => [
-                'settings' => [
-                    'class' => 'Quote',
-                    'inlineToolbar' => true,
-                    'shortcut' => 'CMD+SHIFT+O',
-                    'config' => [
-                        'quotePlaceholder' => 'Enter a quote',
-                        'captionPlaceholder' => 'Quote\'s author',
-                    ],
-                ],
-                'validation' => [
-                    'text' => [
-                        'type' => 'string',
-                    ],
-                    'alignment' => [
-                        'type' => 'string',
-                    ],
-                    'caption' => [
-                        'type' => 'string',
-                    ],
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/quote.js',
-                ],
-                'view' => 'reazzon.editor::blocks.quote'
-            ],
-            'code' => [
-                'settings' => [
-                    'class' => 'CodeTool',
-                ],
-                'validation' => [
-                    'code' => [
-                        'type' => 'string'
-                    ]
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/code.js',
-                ],
-                'view' => 'reazzon.editor::blocks.code'
-            ],
-            'embed' => [
-                'settings' => [
-                    'class' => 'Embed',
-                ],
-                'validation' => [
-                    'service' => [
-                        'type' => 'string'
-                    ],
-                    'source' => [
-                        'type' => 'string'
-                    ],
-                    'embed' => [
-                        'type' => 'string'
-                    ],
-                    'width' => [
-                        'type' => 'int'
-                    ],
-                    'height' => [
-                        'type' => 'int'
-                    ],
-                    'caption' => [
-                        'type' => 'string',
-                        'required' => false,
-                    ],
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/embed.js',
-                ],
-                'view' => 'reazzon.editor::blocks.embed'
-            ],
-            'raw' => [
-                'settings' => [
-                    'class' => 'RawTool'
-                ],
-                'validation' => [
-                    'html' => [
-                        'type' => 'string',
-                        'allowedTags' => '*',
-                    ]
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/raw.js',
-                ],
-                'view' => 'reazzon.editor::blocks.raw'
-            ],
-            'delimiter' => [
-                'settings' => [
-                    'class' => 'Delimiter'
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/delimiter.js',
-                ],
-                'validation' => [],
-                'view' => 'reazzon.editor::blocks.delimiter'
-            ],
-            'underline' => [
-                'settings' => [
-                    'class' => 'Underline'
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/underline.js',
-                ]
+                'editorjs' => [JSONConverter::class, 'convertAndGetHTML']
             ]
         ];
     }
 
-    public function registerEditorTunes()
+    /**
+     * registerEditorJsBlocks extension blocks for EditorJs
+     */
+    public function registerEditorJsTools(): array
     {
-        return [];
-    }
-
-    public function registerEditorInlineToolbar()
-    {
-        return [];
+        return [
+            \ReaZzon\Editor\Tools\ParagraphTool::class => 'paragraph',
+            \ReaZzon\Editor\Tools\HeaderTool::class => 'header',
+            \ReaZzon\Editor\Tools\ListTool::class => 'list',
+            \ReaZzon\Editor\Tools\QuoteTool::class => 'quote',
+            \ReaZzon\Editor\Tools\ImageTool::class => 'image',
+            \ReaZzon\Editor\Tools\AttachesTool::class => 'attaches',
+            \ReaZzon\Editor\Tools\TableTool::class => 'table',
+            \ReaZzon\Editor\Tools\CodeTool::class => 'code',
+            \ReaZzon\Editor\Tools\WarningTool::class => 'warning',
+            \ReaZzon\Editor\Tools\DelimiterTool::class => 'delimiter',
+            \ReaZzon\Editor\Tools\RawTool::class => 'raw',
+            \ReaZzon\Editor\Tools\EmbedTool::class => 'embed',
+            \ReaZzon\Editor\Tools\MarkerTool::class => 'marker',
+            \ReaZzon\Editor\Tools\UnderlineTool::class => 'underline',
+            \ReaZzon\Editor\Tools\InlineCodeTool::class => 'inlineCode',
+        ];
     }
 
     /**
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * registerEditorJsTunes extension tunes for blocks of EditorJs
      */
-    private function registerErrorHandler(): void
+    public function registerEditorJsTunes(): array
     {
-        \App::error(function (PluginErrorException $exception) {
-            return app(ResponseFactory::class)->make(
-                $exception->render(),
-                $exception->getCode()
-            );
-        });
+        return [
+            \ReaZzon\Editor\Tunes\TextVariantTune::class => 'textVariant'
+        ];
+    }
+
+    private function addEventListeners(): void
+    {
+        Event::subscribe(IntegrateEditorInPlugins::class);
     }
 }

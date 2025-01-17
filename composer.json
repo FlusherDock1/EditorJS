@@ -1,17 +1,9 @@
 {
     "name": "reazzon/editor-plugin",
     "type": "october-plugin",
-    "description": "Most powerful, next generation block styled editor with multilingual support.",
+    "description": "No description provided yet...",
     "require": {
-        "ext-json": "*",
         "composer/installers": "~1.0",
-        "codex-team/editor.js": "^2.0"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Nick Khaetsky",
-            "email": "rzzsapb@gmail.com"
-        }
-    ]
+        "codex-team/editor.js": "*"
+    }
 }

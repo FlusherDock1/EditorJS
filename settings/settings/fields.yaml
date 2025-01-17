@@ -1,0 +1,33 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+tabs:
+    fields:
+        _section_integrations:
+            label: Integrations
+            comment: Toggle EditorJS inside some of the most popular plugins
+            tab: Integrations
+            type: section
+            span: full
+
+        integrations[rainlab_blog]:
+            label: RainLab.Blog
+            comment: Replace default article content redactor with EditorJS
+            tab: Integrations
+            type: switch
+            span: full
+
+        integrations[rainlab_static_pages]:
+            label: RainLab.StaticPages
+            comment: Replace default page wysiwyg editor with EditorJS
+            tab: Integrations
+            type: switch
+            span: full
+
+        integrations[lovata_good_news]:
+            label: Lovata.GoodNews
+            comment: Replace default froala wysiwyg editor with EditorJS
+            tab: Integrations
+            type: switch
+            span: full

@@ -1,32 +1,34 @@
-## **Editor for OctoberCMS**
+## **EditorJS for OctoberCMS**
 
-Meet the new Editor. The most advanced "WYSWYG" (if you can say so) editor ever.
+This plugin enables [EditorJS](https://github.com/codex-team/editor.js) to be used as a form widget for your backend panel.
+EditorJS is a versatile and modern content editor that stores content as JSON data, and renders it in any way you want.
 
 ### **Key features**
 
 - It is a block-styled editor
 - It returns clean data output in JSON
 - Designed to be extendable and pluggable with a simple API
-- Native OctoberCMS events support for convenient extending of custom blocks
+- Full compatibility with October CMS forms, use it with Tailor or anywhere else.
+- Flexible extension base, you can create any blocks you need for your content.
 
 **Integrations ready:**
 - RainLab.Blog
-- RainLab.StaticPages
 - Lovata.GoodNews
-- Indikator.News
+- Tailor
 
 **Blocks supported:**
-- Paragraph
+- Text
 - Header
-- List (ul, ol)
-- CheckList
-- Link (Opengraph)
+- List
+- Quote
+- Image
+- Attachment
 - Table
 - Code
-- Raw
-- Embed
+- Warning
 - Delimiter
-- Image (paste url, drag'n'drop, upload)
+- Raw HTML
+- ... and any block that you want to create
 
 ### **What does it mean «block-styled editor»**
 
@@ -42,96 +44,122 @@ Given data can be used as you want: render with HTML for Web clients, render nat
 
 ## **How to install**
 
-Install plugin by OctoberCMS plugin updater.
+You can install this plugin via October packet manager inside backend panel, or run command below:
 
-Go to Settings –> Updates&Plugins find EditorJS in plugin search. Click on icon and install it.
+```bash
+php artisan plugin:install ReaZzon.Editor
+```
 
 ## **Usage**
 
-After installing plugin, you are now able to set in `fields.yaml`  `type:editorjs` to any desirable field. That's all.
+After installing plugin, you are now able to set in `fields.yaml`  `type: editorjs` to any desirable field.
 You are not limited of how many editors can be rendered at one page.
 
 ### How to enable integrations
 
-1. Make sure that the desirable plugin for integration is installed in system (list of supported plugins listed in Key Features section) 
+1. Make sure that the desirable plugin for integration is installed in system (list of supported plugins listed in Key Features section)
 2. Go to Settings
-3. In the sidebar find `Editor Settings` button inside `Editor tab`
+3. Find `Editor` section and clock on `EditorJs Settings` button
 4. Enable desirable integrations
-5. Done.
 
-### How to render HTML from Editor JSON
-To implement Editor to your Model, you must prepare a column in a database that is set to text.
+### How to render HTML from EditorJS JSON
 
-1. Create a column with type `text` at your Model table, or use an already existing one.
-2. Add `'ReaZzon.Editor.Behaviors.ConvertToHtml'` to $implement attribute of your model.
-3. Add **get<YourColumnName>HtmlAttribute()** method and paste line of code as in the example below:
-```
-return $this->convertJsonToHtml($this->YourColumnName);
-```
-4. Render your field `{{ model.YourColumnName_html|raw }}`
-5. Add editor styles to your page by `<link href="/plugins/reazzon/editor/assets/css/editorjs.css" rel="stylesheet">`
+There are two ways of rendering EditorJS:
 
-Example of model:
-```
-// ...
-class Post extends Model
-{
+#### First: TWIG filter `|editorjs`
 
-    // ...
+1. You have model with `type: editorjs` field.
+2. Inside your theme use `|editorjs` filter to convert JSON data to html.
+    ```twig
+   {{ post.content|editorjs }}
+    ```
 
-    public $implement = [
-        'ReaZzon.Editor.Behaviors.ConvertToHtml'
-    ];
+#### Second: Accessor inside your model
 
-    // ...
+For example, you have **content** field, that has editorjs json data.
 
+1. Create accessor in your model. Note that your accessor should have different name.
+
+    ```php
     public function getContentHtmlAttribute()
     {
-        return $this->convertJsonToHtml($this->content);
+        return \ReaZzon\Editor\Classes\JSONConverter::convertAndGetHTML($this->content);
     }
-}
-```
-Example of rendering:
-```
-{{ post.content_html|raw }}
-```
-
-## **Extending**
-
-You can create any new block as you like by reading official documentation that you can find here [Editor.Js docs](https://editorjs.io/api)
-
-After creating new JS scripts with new block type Class, you can go through steps below to extend EditorJS formwidget:
-1. Create new method in your Plugin.php file named `registerEditorBlocks()`, and by example below add blocks array and scripts for them.
     ```
+2. Use new attribute to render html wherever you want.
+    ```twig
+    {{ post.content_html }}
+    ```
+
+## **Create your own block**
+
+Blocks are called Tools in EditorJS ecosystem.
+
+First, you need to follow official documentation of [EditorJs](https://editorjs.io/api) and compile yourself js file with new tool.
+
+After you got yours JS file, you can register it like all other tools registered inside **tools** folder.
+
+1. Create new plugin
+    ```bash
+    php artisan create:plugin Acme.Foo
+    ```
+2. Create new file: /acme/foo/tools/ExampleTool.php
+    ```php
+    <?php namespace Acme\Foo\Tools;
+
+    use ReaZzon\Editor\Classes\Tool;
+
+    class ExampleTool extends Tool
+    {
+        public function registerSettings(): array
+        {
+            return [
+                'class' => 'Example'
+            ];
+        }
+
+        public function registerValidations(): array
+        {
+            return [
+                'value' => [
+                    'type' => 'string'
+                ]
+            ];
+        }
+
+        public function registerScripts(): array
+        {
+            return [
+                '/acme/foo/assets/js/exampleTool.js'
+            ];
+        }
+
+        public function registerView(): ?string
+        {
+            return 'acme.foo::blocks.example';
+        }
+    }
+    ```
+3. Create view file with html of your block: `/acme/foo/views/blocks/example.htm`
+    ```twig
+    <div class="my-example-block">
+        {{ value }} {# any data you have inside your block #}
+    </div>
+    ```
+4. Put your compiled JS file inside `assets/js` folder, and name it accordingly, example `exampleTool.js`
+5. Register your new tool inside Plugin.php of your plugin
+    ```php
     /**
-     * Registers additional blocks for EditorJS
-     * @return array
+     * registerEditorJsBlocks extension blocks for EditorJs
      */
-    public function registerEditorBlocks()
+    public function registerEditorJsTools(): array
     {
         return [
-            'raw' => [
-                'settings' => [
-                    'class' => 'RawTool'
-                ],
-                'validation' => [
-                    'html' => [
-                        'type' => 'string',
-                        'allowedTags' => '*',
-                    ]
-                ],
-                'scripts' => [
-                    '/plugins/reazzon/editor/formwidgets/editorjs/assets/js/tools/raw.js',
-                ],
-                'view' => 'reazzon.editor::blocks.raw'
-            ],
+            \Acme\Foo\Tools\ExampleTool::class => 'example',
         ];
     }
     ```
-2. Done.
-
-Now you can even publish your editorjs extender plugin to marketplace, so everyone can use your block!
-
+6. Done! Your tool added to all editorjs.
 ---
 
 Editor.js developed by CodeX Club of web-development.

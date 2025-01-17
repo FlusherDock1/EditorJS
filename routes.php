@@ -1,11 +1,17 @@
 <?php
-Route::group(['prefix' => 'editorjs'], function () {
-    Route::group([
-        'prefix' => 'plugins',
-        'middleware' => ['web', \ReaZzon\Editor\Classes\Middlewares\PluginGroupMiddleware::class]
-    ], function () {
-        Route::any('linktool', \ReaZzon\Editor\Classes\Plugins\LinkTool\Plugin::class);
-        Route::any('image/{type}', \ReaZzon\Editor\Classes\Plugins\Image\Plugin::class);
-        Route::any('attaches', \ReaZzon\Editor\Classes\Plugins\Attaches\Plugin::class);
+
+use ReaZzon\Editor\Classes\Controllers\ImageToolController;
+use ReaZzon\Editor\Classes\Controllers\AttachesToolController;
+
+Route::group(['prefix' => 'reazzon/editorjs/tools', 'middleware' => ['web']], function () {
+
+    Route::group(['prefix' => 'image', 'controller' => ImageToolController::class], function () {
+        Route::post('uploadFile', 'upload');
+        Route::post('fetchUrl', 'fetch');
     });
+
+    Route::group(['prefix' => 'attaches', 'controller' => AttachesToolController::class], function () {
+        Route::post('', 'upload');
+    });
+
 });
