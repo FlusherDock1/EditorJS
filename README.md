@@ -160,6 +160,7 @@ After you got yours JS file, you can register it like all other tools registered
     }
     ```
 6. Done! Your tool added to all editorjs.
+
 ---
 
 Editor.js developed by CodeX Club of web-development.
