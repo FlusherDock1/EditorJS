@@ -40,4 +40,4 @@ v1.9.2: Removed deprecated config
 v1.9.3: Support of latest October CMS V2, and V3. Small refactor of extender interface.
 v1.9.4: Fix compatibility issues with October CMS v3
 v1.9.5: Vendor update. Plugins update. Improve compatibility with October CMS v3 and new Turbo router.
-v2.0.0: Major update
+v2.0.0: Major update. Complete refactor. New way of building extensions. Full compatibility with modern OCMS features.
