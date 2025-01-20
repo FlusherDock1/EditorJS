@@ -95,7 +95,7 @@ For example, you have **content** field, that has editorjs json data.
 
 Blocks are called Tools in EditorJS ecosystem.
 
-First, you need to follow official documentation of [EditorJs](https://editorjs.io/api) and compile yourself js file with new tool.
+First, you need to follow official documentation of [EditorJs](https://editorjs.io/the-first-plugin/) and compile yourself js file with new tool.
 
 After you got yours JS file, you can register it like all other tools registered inside **tools** folder.
 
